@@ -3,202 +3,373 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#6C63FF">
+<meta name="theme-color" content="#1a1a2e">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="日本語">
 <link rel="manifest" href="manifest.json">
 <title>日本語 Kosakata</title>
 <style>
-:root{--p:#6C63FF;--pl:#EEEDFE;--pd:#4A42CC;--g:#22c55e;--gl:#dcfce7;--r:#ef4444;--rl:#fee2e2;--a:#f59e0b;--al:#fef3c7;--b:#3b82f6;--bl:#dbeafe;--bg:#f8f7ff;--sf:#ffffff;--bd:#e5e7eb;--t1:#111827;--t2:#6b7280;--t3:#9ca3af;--rr:12px;--rs:8px}
+:root{
+  --p:#7C6FF7;--pl:#EEEDFE;--pd:#5B54D4;
+  --g:#22c55e;--gl:#dcfce7;
+  --r:#ef4444;--rl:#fee2e2;
+  --a:#f59e0b;--al:#fef3c7;
+  --b:#3b82f6;--bl:#dbeafe;
+  --bg:#0f0e17;--bg2:#1a1929;--bg3:#242338;
+  --sf:#1e1d2e;--sf2:#252438;
+  --bd:#2e2d45;--bd2:#3d3c58;
+  --t1:#f0efff;--t2:#9d9bbf;--t3:#5e5c7a;
+  --rr:14px;--rs:10px;
+  --sidebar:260px;
+}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;overscroll-behavior:none}
-/* TOPBAR */
-.topbar{background:var(--p);color:#fff;padding:12px 14px 10px;position:sticky;top:0;z-index:200}
-.tb1{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.app-title{font-size:17px;font-weight:700}
-.app-sub{font-size:11px;opacity:.8}
-.stats-pill{background:rgba(255,255,255,.2);border-radius:99px;padding:3px 10px;font-size:12px;font-weight:600}
-.search-wrap{position:relative}
-.search-wrap input{width:100%;padding:8px 34px;border-radius:99px;border:none;font-size:14px;background:rgba(255,255,255,.95);color:var(--t1);outline:none}
-.si{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:14px;opacity:.5}
-.sc{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:var(--t3);color:#fff;border:none;border-radius:99px;width:17px;height:17px;font-size:10px;cursor:pointer;display:none;align-items:center;justify-content:center}
-/* TABS */
-.tabs{display:flex;background:var(--sf);border-bottom:1px solid var(--bd);position:sticky;top:93px;z-index:199;overflow-x:auto;scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tab{flex:none;padding:10px 14px;font-size:12px;font-weight:500;color:var(--t2);border-bottom:2.5px solid transparent;cursor:pointer;white-space:nowrap}
-.tab.active{color:var(--p);border-color:var(--p)}
-/* FILTERS */
-.filters{padding:8px 10px;display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;background:var(--sf);border-bottom:1px solid var(--bd)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;overflow-x:hidden}
+
+/* ── SIDEBAR ── */
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--bd);z-index:300;display:flex;flex-direction:column;transition:transform .3s ease;transform:translateX(-100%)}
+.sidebar.open{transform:translateX(0)}
+.sb-logo{padding:20px 18px 16px;border-bottom:1px solid var(--bd)}
+.sb-logo h1{font-size:20px;font-weight:700;color:var(--t1);letter-spacing:-.3px}
+.sb-logo p{font-size:11px;color:var(--t3);margin-top:2px}
+.sb-scroll{flex:1;overflow-y:auto;padding:8px 0;scrollbar-width:none}
+.sb-scroll::-webkit-scrollbar{display:none}
+.sb-section{padding:8px 14px 4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--t3)}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 14px;cursor:pointer;border-radius:0;color:var(--t2);font-size:13px;font-weight:500;transition:all .15s;position:relative}
+.sb-item:hover{background:var(--bg3);color:var(--t1)}
+.sb-item.active{background:linear-gradient(90deg,rgba(124,111,247,.15),transparent);color:var(--p);border-left:3px solid var(--p);padding-left:11px}
+.sb-item .ico{font-size:16px;width:20px;text-align:center}
+.sb-item .lbl{flex:1}
+.sb-item .cnt{background:var(--p);color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:99px}
+.sb-sub{padding-left:20px}
+.sb-sub .sb-item{font-size:12px;padding:7px 14px}
+.sb-sub .sb-item .ico{font-size:13px}
+.sb-footer{padding:12px 14px;border-top:1px solid var(--bd)}
+.sb-footer p{font-size:11px;color:var(--t3);text-align:center}
+
+/* ── OVERLAY ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:299;display:none;backdrop-filter:blur(2px)}
+.overlay.show{display:block}
+
+/* ── TOPBAR ── */
+.topbar{position:sticky;top:0;z-index:200;background:var(--bg);border-bottom:1px solid var(--bd);padding:10px 14px;display:flex;align-items:center;gap:10px}
+.menu-btn{width:36px;height:36px;border-radius:var(--rs);border:1px solid var(--bd);background:var(--sf);color:var(--t1);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.topbar-title{font-size:15px;font-weight:600;color:var(--t1);flex:1}
+.stats-pill{background:var(--p);color:#fff;border-radius:99px;padding:3px 10px;font-size:11px;font-weight:700;flex-shrink:0}
+.search-wrap{padding:8px 14px;background:var(--bg);border-bottom:1px solid var(--bd)}
+.search-inner{position:relative}
+.search-inner input{width:100%;padding:9px 32px 9px 34px;border-radius:99px;border:1px solid var(--bd);font-size:13px;background:var(--sf);color:var(--t1);outline:none}
+.search-inner input:focus{border-color:var(--p)}
+.search-inner input::placeholder{color:var(--t3)}
+.si{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:14px;opacity:.5}
+.sc{position:absolute;right:9px;top:50%;transform:translateY(-50%);background:var(--t3);color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;display:none;align-items:center;justify-content:center}
+
+/* ── FILTERS ── */
+.filters{padding:8px 12px;display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;background:var(--bg);border-bottom:1px solid var(--bd)}
 .filters::-webkit-scrollbar{display:none}
-.chip{flex:none;padding:4px 11px;border-radius:99px;font-size:11px;font-weight:500;border:1.5px solid var(--bd);background:var(--sf);color:var(--t2);cursor:pointer}
+.chip{flex:none;padding:5px 12px;border-radius:99px;font-size:11px;font-weight:600;border:1px solid var(--bd);background:var(--sf);color:var(--t2);cursor:pointer;transition:all .15s}
 .chip.active{background:var(--p);border-color:var(--p);color:#fff}
-.chip.ck{border-color:var(--b);color:var(--b)}
-.chip.ck.active{background:var(--b);color:#fff}
-.divchip{width:1px;background:var(--bd);flex:none;margin:4px 2px}
-/* LIST */
-.list{padding:8px 10px;display:flex;flex-direction:column;gap:7px}
-/* CARD */
-.card{background:var(--sf);border-radius:var(--rr);border:1.5px solid var(--bd);overflow:hidden}
+.chip.ckw{border-color:#3b82f6;color:#3b82f6}
+.chip.ckw.active{background:#3b82f6;color:#fff}
+.divchip{width:1px;background:var(--bd);flex:none;margin:4px 3px}
+
+/* ── MAIN CONTENT ── */
+.main{min-height:calc(100vh - 56px)}
+.list{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+
+/* ── PAGINATION ── */
+.pagination{display:flex;align-items:center;justify-content:center;gap:6px;padding:16px 12px 24px}
+.pg-btn{width:36px;height:36px;border-radius:var(--rs);border:1px solid var(--bd);background:var(--sf);color:var(--t2);font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.pg-btn:hover{border-color:var(--p);color:var(--p)}
+.pg-btn.active{background:var(--p);border-color:var(--p);color:#fff}
+.pg-btn:disabled{opacity:.3;cursor:not-allowed}
+.pg-info{font-size:12px;color:var(--t3);padding:0 6px}
+
+/* ── CARDS ── */
+.card{background:var(--sf);border-radius:var(--rr);border:1px solid var(--bd);overflow:hidden;transition:border-color .15s}
+.card:hover{border-color:var(--bd2)}
 .card.hd{border-color:var(--g)}
-.card-head{display:flex;align-items:center;gap:9px;padding:11px 12px;cursor:pointer}
-.ck{font-size:26px;font-weight:700;min-width:48px;line-height:1}
+.card.hd .ck{color:var(--g)}
+.card-head{display:flex;align-items:center;gap:9px;padding:12px 14px;cursor:pointer}
+.ck{font-size:26px;font-weight:700;min-width:50px;line-height:1;color:var(--t1)}
 .cm{flex:1;min-width:0}
-.cmn{font-size:14px;font-weight:600}
-.cms{font-size:11px;color:var(--t2);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cmn{font-size:14px;font-weight:600;color:var(--t1)}
+.cms{font-size:11px;color:var(--t2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cbdg{display:flex;gap:3px;align-items:center;flex-shrink:0}
-.bdg{font-size:10px;font-weight:700;padding:2px 6px;border-radius:99px}
-.bn5{background:var(--pl);color:var(--p)}
-.bn4{background:var(--bl);color:var(--b)}
-.bn3{background:var(--al);color:var(--a)}
-.bv{background:#f0fdf4;color:#16a34a}
-.bn{background:#eff6ff;color:#1d4ed8}
-.badj{background:#fdf4ff;color:#9333ea}
-.badv{background:#fff7ed;color:#c2410c}
-.bex{background:#f9fafb;color:#374151}
-.bkw{background:var(--bl);color:var(--b)}
-.hbtn{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--bd);background:var(--sf);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.bdg{font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px}
+.bn5{background:rgba(124,111,247,.2);color:#a99fff}
+.bn4{background:rgba(59,130,246,.2);color:#93c5fd}
+.bn3{background:rgba(245,158,11,.2);color:#fcd34d}
+.bv{background:rgba(34,197,94,.15);color:#86efac}
+.bn{background:rgba(59,130,246,.15);color:#93c5fd}
+.badj{background:rgba(168,85,247,.15);color:#d8b4fe}
+.badv{background:rgba(239,68,68,.15);color:#fca5a5}
+.bex{background:rgba(156,163,175,.15);color:#d1d5db}
+.bkw{background:rgba(59,130,246,.15);color:#93c5fd}
+.bir{background:rgba(16,185,129,.2);color:#6ee7b7}
+.hbtn,.spk-btn{width:28px;height:28px;border-radius:50%;border:1px solid var(--bd);background:var(--sf2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;transition:all .15s}
 .hbtn.on{background:var(--g);border-color:var(--g);color:#fff}
-.spk-btn{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--bd);background:var(--sf);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-.spk-btn:active{background:var(--pl)}
+.spk-btn:active{background:var(--p);border-color:var(--p)}
 .xi{font-size:12px;color:var(--t3);transition:transform .2s;flex-shrink:0}
 .card.open .xi{transform:rotate(180deg)}
 .card-body{display:none;border-top:1px solid var(--bd)}
 .card.open .card-body{display:block}
-.sec{padding:10px 12px;border-bottom:1px solid var(--bd)}
+.sec{padding:12px 14px;border-bottom:1px solid var(--bd)}
 .sec:last-child{border-bottom:none}
-.slbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);margin-bottom:6px}
+.slbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);margin-bottom:7px}
 .sjp{font-size:17px;color:var(--t1);line-height:1.6}
 .sh{font-size:11px;color:var(--t2);margin-top:2px}
-.sr{font-size:11px;color:var(--t3)}
-.si2{font-size:12px;color:var(--t1);margin-top:4px;font-style:italic}
-.kwbox{background:var(--bg);border-radius:var(--rs);padding:9px 10px;display:flex;flex-direction:column;gap:9px}
+.sr2{font-size:11px;color:var(--t3)}
+.sid{font-size:13px;color:var(--t1);margin-top:4px;font-style:italic}
+.kwbox{background:var(--bg3);border-radius:var(--rs);padding:10px 12px;display:flex;flex-direction:column;gap:10px}
 .kwl{}
-.kwsp{font-size:10px;font-weight:700;color:var(--p);margin-bottom:2px}
-.kwjp{font-size:15px;color:var(--t1);line-height:1.5}
+.kwsp{font-size:10px;font-weight:700;color:var(--p);margin-bottom:3px}
+.kwjp{font-size:16px;color:var(--t1);line-height:1.5}
 .kwh{font-size:11px;color:var(--t2)}
 .kwr{font-size:11px;color:var(--t3)}
 .kwid{font-size:12px;color:var(--t1);margin-top:2px;font-style:italic}
-/* FLASHCARD */
-.fc-wrap{padding:12px 10px;display:flex;flex-direction:column;gap:10px;min-height:calc(100vh - 190px)}
-.fc-ctrl{display:flex;gap:8px;align-items:center}
-.fc-ctrl select{flex:1;font-size:13px;height:34px;border:1px solid var(--bd);border-radius:var(--rs);background:var(--sf);color:var(--t1);padding:0 8px}
-.fc-ctrl button{height:34px;padding:0 14px;border-radius:var(--rs);border:1.5px solid var(--bd);background:var(--sf);font-size:13px;font-weight:500;cursor:pointer;color:var(--t2)}
-.fc-prog{background:var(--sf);border-radius:var(--rr);padding:10px 12px;border:1px solid var(--bd)}
+
+/* ── FLASHCARD ── */
+.fc-wrap{padding:12px}
+.fc-ctrl{display:flex;gap:8px;margin-bottom:10px}
+.fc-ctrl select{flex:1;font-size:13px;height:36px;border:1px solid var(--bd);border-radius:var(--rs);background:var(--sf);color:var(--t1);padding:0 10px}
+.fc-ctrl button{height:36px;padding:0 14px;border-radius:var(--rs);border:1px solid var(--bd);background:var(--sf);font-size:13px;font-weight:500;cursor:pointer;color:var(--t2)}
+.fc-prog{background:var(--sf);border-radius:var(--rr);padding:10px 14px;border:1px solid var(--bd);margin-bottom:10px}
 .fc-prog-top{display:flex;justify-content:space-between;font-size:12px;color:var(--t2);margin-bottom:6px}
 .pbg{background:var(--bd);border-radius:99px;height:5px}
 .pf{background:var(--p);border-radius:99px;height:5px;transition:width .3s}
-.fc-scene{perspective:1000px;height:220px;cursor:pointer}
+.fc-scene{perspective:1000px;height:220px;cursor:pointer;margin-bottom:10px}
 .fc-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .4s}
 .fc-scene.flipped .fc-inner{transform:rotateY(180deg)}
-.fc-front,.fc-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:var(--rr);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;border:1.5px solid var(--bd);background:var(--sf)}
-.fc-back{transform:rotateY(180deg);background:var(--pl);border-color:var(--p)}
-.fc-word{font-size:52px;font-weight:700;margin-bottom:6px;line-height:1}
+.fc-front,.fc-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:var(--rr);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;border:1px solid var(--bd)}
+.fc-front{background:var(--sf)}
+.fc-back{transform:rotateY(180deg);background:var(--bg3);border-color:var(--p)}
+.fc-word{font-size:52px;font-weight:700;margin-bottom:6px;line-height:1;color:var(--t1)}
 .fc-hint{font-size:13px;color:var(--t2)}
 .fc-tap{font-size:11px;color:var(--t3);margin-top:10px}
 .fc-ans{font-size:22px;font-weight:600;color:var(--p);margin-bottom:4px}
-.fc-ans2{font-size:14px;color:var(--pd)}
-.fc-ans3{font-size:12px;color:var(--pd);margin-top:2px}
+.fc-ans2{font-size:14px;color:var(--t2)}
+.fc-ans3{font-size:12px;color:var(--t3);margin-top:2px}
 .fc-btns{display:flex;gap:8px}
 .fc-btn{flex:1;padding:12px;border-radius:var(--rs);border:none;font-size:14px;font-weight:600;cursor:pointer}
-.fc-btn.wrong{background:var(--rl);color:#dc2626}
-.fc-btn.correct{background:var(--gl);color:#15803d}
-.fc-done{background:var(--sf);border-radius:var(--rr);border:1.5px solid var(--bd);padding:28px 16px;text-align:center}
-.fc-score{font-size:48px;font-weight:700;color:var(--p)}
-.fc-score-lbl{font-size:14px;color:var(--t2);margin-top:4px;margin-bottom:18px}
-/* QUIZ */
-.qz-wrap{padding:10px 10px;display:flex;flex-direction:column;gap:10px;min-height:calc(100vh - 190px)}
+.fc-btn.wrong{background:rgba(239,68,68,.2);color:#fca5a5}
+.fc-btn.correct{background:rgba(34,197,94,.2);color:#86efac}
+
+/* ── QUIZ ── */
+.qz-wrap{padding:10px 12px;display:flex;flex-direction:column;gap:10px}
 .qz-ctrl{background:var(--sf);border-radius:var(--rr);padding:10px 12px;border:1px solid var(--bd)}
 .qz-type-row{display:flex;gap:6px;margin-bottom:8px}
-.qz-type-btn{flex:1;padding:8px 4px;border-radius:var(--rs);border:1.5px solid var(--bd);background:var(--sf);font-size:11px;font-weight:500;cursor:pointer;color:var(--t2);text-align:center}
-.qz-type-btn.active{background:var(--pl);border-color:var(--p);color:var(--p)}
+.qz-type-btn{flex:1;padding:8px 4px;border-radius:var(--rs);border:1px solid var(--bd);background:var(--sf2);font-size:11px;font-weight:600;cursor:pointer;color:var(--t2);text-align:center}
+.qz-type-btn.active{background:var(--p);border-color:var(--p);color:#fff}
 .qz-prog-top{display:flex;justify-content:space-between;font-size:12px;color:var(--t2);margin-bottom:5px}
-.qz-card{background:var(--sf);border-radius:var(--rr);border:1.5px solid var(--bd);padding:20px 14px;text-align:center}
-.qz-word{font-size:44px;font-weight:700;margin-bottom:4px;line-height:1.2}
-.qz-sub{font-size:12px;color:var(--t2);margin-bottom:16px}
+.qz-card{background:var(--sf);border-radius:var(--rr);border:1px solid var(--bd);padding:20px 14px;text-align:center}
+.qz-word{font-size:44px;font-weight:700;margin-bottom:4px;line-height:1.2;color:var(--t1)}
 .qz-hint{font-size:12px;color:var(--t2);margin-bottom:16px}
 .qz-choices{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.qz-ch{padding:11px 8px;border-radius:var(--rs);border:1.5px solid var(--bd);background:var(--sf);font-size:13px;font-weight:500;cursor:pointer;text-align:center;line-height:1.3}
-.qz-ch:active{transform:scale(.97)}
-.qz-ch.ok{background:var(--gl);border-color:var(--g);color:#15803d}
-.qz-ch.ng{background:var(--rl);border-color:var(--r);color:#dc2626}
+.qz-ch{padding:11px 8px;border-radius:var(--rs);border:1px solid var(--bd);background:var(--sf2);font-size:13px;font-weight:500;cursor:pointer;text-align:center;line-height:1.3;color:var(--t1)}
+.qz-ch.ok{background:rgba(34,197,94,.2);border-color:var(--g);color:#86efac}
+.qz-ch.ng{background:rgba(239,68,68,.2);border-color:var(--r);color:#fca5a5}
 .qz-next{margin-top:10px;width:100%;padding:12px;border-radius:var(--rs);background:var(--p);color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer;display:none}
-/* FILL */
-.fill-card{background:var(--sf);border-radius:var(--rr);border:1.5px solid var(--bd);padding:16px 14px}
-.fill-sent{font-size:18px;line-height:1.8;margin-bottom:10px;color:var(--t1)}
-.fill-blank{display:inline-block;border-bottom:2px solid var(--p);min-width:60px;text-align:center;font-weight:700;color:var(--p);padding:0 4px}
-.fill-opts{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px}
-.fill-opt{padding:7px 14px;border-radius:99px;border:1.5px solid var(--bd);background:var(--sf);font-size:14px;cursor:pointer;font-weight:500}
-.fill-opt:active{transform:scale(.96)}
-.fill-opt.ok{background:var(--gl);border-color:var(--g);color:#15803d}
-.fill-opt.ng{background:var(--rl);border-color:var(--r);color:#dc2626}
-.fill-exp{font-size:12px;color:var(--t2);margin-top:6px;padding:8px;background:var(--bg);border-radius:var(--rs);display:none}
-/* BUILD */
-.build-card{background:var(--sf);border-radius:var(--rr);border:1.5px solid var(--bd);padding:14px}
-.build-target{font-size:14px;color:var(--t2);margin-bottom:10px;font-style:italic}
-.build-answer{min-height:48px;border:2px dashed var(--bd);border-radius:var(--rs);padding:8px 10px;margin-bottom:10px;display:flex;flex-wrap:wrap;gap:5px;align-items:center}
-.build-answer.ok{border-color:var(--g);background:var(--gl)}
-.build-answer.ng{border-color:var(--r);background:var(--rl)}
-.build-word{padding:6px 10px;background:var(--p);color:#fff;border-radius:99px;font-size:14px;cursor:pointer;font-weight:500}
-.build-word.used{background:var(--t3)}
-.build-pool{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
-.pool-word{padding:6px 12px;border:1.5px solid var(--p);color:var(--p);border-radius:99px;font-size:14px;cursor:pointer;font-weight:500;background:var(--pl)}
-.pool-word.used{opacity:.3;pointer-events:none}
-.build-btns{display:flex;gap:7px}
-.build-btn{flex:1;padding:9px;border-radius:var(--rs);border:1.5px solid var(--bd);font-size:13px;font-weight:500;cursor:pointer;background:var(--sf);color:var(--t2)}
-.build-btn.check{background:var(--p);color:#fff;border-color:var(--p)}
-/* RESULT */
-.qz-result{background:var(--sf);border-radius:var(--rr);border:1.5px solid var(--bd);padding:28px 14px;text-align:center}
+.qz-result{background:var(--sf);border-radius:var(--rr);border:1px solid var(--bd);padding:28px 14px;text-align:center}
 .qz-score{font-size:48px;font-weight:700;color:var(--p)}
 .qz-score-lbl{font-size:14px;color:var(--t2);margin:4px 0 18px}
 .restart-btn{padding:11px 28px;border-radius:var(--rs);background:var(--p);color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer}
-/* HAFAL TAB */
-.hafal-list{padding:8px 10px;display:flex;flex-direction:column;gap:7px}
-/* EMPTY */
-.empty{text-align:center;padding:40px 16px;color:var(--t2);font-size:14px}
+
+/* ── PARTICLE ── */
+.fill-card{background:var(--sf);border-radius:var(--rr);border:1px solid var(--bd);padding:16px 14px}
+.fill-sent{font-size:18px;line-height:1.8;margin:10px 0 14px;color:var(--t1)}
+.fill-blank{display:inline-block;border-bottom:2px solid var(--p);min-width:50px;text-align:center;font-weight:700;color:var(--p);padding:0 4px}
+.fill-opts{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px}
+.fill-opt{padding:7px 14px;border-radius:99px;border:1px solid var(--bd);background:var(--sf2);font-size:14px;cursor:pointer;font-weight:500;color:var(--t1)}
+.fill-opt.ok{background:rgba(34,197,94,.2);border-color:var(--g);color:#86efac}
+.fill-opt.ng{background:rgba(239,68,68,.2);border-color:var(--r);color:#fca5a5}
+.fill-exp{font-size:12px;color:var(--t2);margin-top:6px;padding:8px 10px;background:var(--bg3);border-radius:var(--rs);display:none;line-height:1.5}
+
+/* ── BUILD ── */
+.build-card{background:var(--sf);border-radius:var(--rr);border:1px solid var(--bd);padding:14px}
+.build-target{font-size:13px;color:var(--t2);margin-bottom:10px;font-style:italic}
+.build-answer{min-height:48px;border:2px dashed var(--bd);border-radius:var(--rs);padding:8px 10px;margin-bottom:10px;display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.build-answer.ok{border-color:var(--g);background:rgba(34,197,94,.1)}
+.build-answer.ng{border-color:var(--r);background:rgba(239,68,68,.1)}
+.build-word{padding:6px 10px;background:var(--p);color:#fff;border-radius:99px;font-size:14px;cursor:pointer;font-weight:500}
+.build-pool{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.pool-word{padding:6px 12px;border:1px solid var(--p);color:var(--p);border-radius:99px;font-size:14px;cursor:pointer;font-weight:500;background:rgba(124,111,247,.1)}
+.pool-word.used{opacity:.3;pointer-events:none}
+.build-btns{display:flex;gap:7px}
+.build-btn{flex:1;padding:9px;border-radius:var(--rs);border:1px solid var(--bd);font-size:13px;font-weight:500;cursor:pointer;background:var(--sf2);color:var(--t2)}
+.build-btn.check{background:var(--p);color:#fff;border-color:var(--p)}
+
+/* ── AI REVIEW (SPACED REPETITION) ── */
+.review-wrap{padding:12px}
+.review-header{background:var(--sf);border-radius:var(--rr);border:1px solid var(--bd);padding:14px;margin-bottom:10px}
+.review-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+.rv-stat{background:var(--bg3);border-radius:var(--rs);padding:10px;text-align:center}
+.rv-stat-n{font-size:22px;font-weight:700;color:var(--p)}
+.rv-stat-l{font-size:10px;color:var(--t2);margin-top:2px}
+.review-card{background:var(--sf);border-radius:var(--rr);border:1px solid var(--bd);padding:20px 14px;text-align:center;margin-bottom:10px}
+.rv-word{font-size:48px;font-weight:700;color:var(--t1);margin-bottom:8px}
+.rv-hint{font-size:13px;color:var(--t2)}
+.rv-reveal{width:100%;padding:11px;border-radius:var(--rs);background:var(--sf2);border:1px solid var(--bd);color:var(--t1);font-size:14px;font-weight:600;cursor:pointer;margin-top:14px}
+.rv-answer{display:none;margin-top:12px;text-align:left;background:var(--bg3);border-radius:var(--rs);padding:12px}
+.rv-btns{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin-top:12px}
+.rv-btn{padding:10px 4px;border-radius:var(--rs);border:none;font-size:11px;font-weight:700;cursor:pointer;text-align:center;line-height:1.3}
+.rv-btn.e1{background:rgba(239,68,68,.2);color:#fca5a5}
+.rv-btn.e2{background:rgba(245,158,11,.2);color:#fcd34d}
+.rv-btn.e3{background:rgba(59,130,246,.2);color:#93c5fd}
+.rv-btn.e4{background:rgba(34,197,94,.2);color:#86efac}
+.rv-done{background:var(--sf);border-radius:var(--rr);border:1px solid var(--bd);padding:28px 14px;text-align:center}
+.rv-schedule{background:var(--sf);border-radius:var(--rr);border:1px solid var(--bd);padding:12px 14px;margin-top:8px}
+.rv-day{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--bd)}
+.rv-day:last-child{border-bottom:none}
+.rv-day-lbl{font-size:12px;font-weight:600;color:var(--t1)}
+.rv-day-cnt{font-size:12px;color:var(--t2)}
+.rv-day-bar{flex:1;height:5px;background:var(--bd);border-radius:99px;margin:0 10px}
+.rv-day-fill{height:5px;background:var(--p);border-radius:99px}
+
+/* ── IRODORI ── */
+.irodori-wrap{padding:12px}
+.bab-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.bab-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rr);padding:14px 12px;cursor:pointer;transition:all .15s;text-align:center}
+.bab-card:hover{border-color:var(--p);background:var(--bg3)}
+.bab-card.active{border-color:var(--p);background:rgba(124,111,247,.1)}
+.bab-num{font-size:24px;font-weight:700;color:var(--p);margin-bottom:4px}
+.bab-title{font-size:12px;color:var(--t2);line-height:1.4}
+.bab-cnt{font-size:11px;color:var(--t3);margin-top:4px}
+.bab-back{display:flex;align-items:center;gap:8px;padding:10px 0;cursor:pointer;color:var(--t2);font-size:13px;margin-bottom:8px}
+.irodori-placeholder{background:var(--sf);border-radius:var(--rr);border:1px dashed var(--bd2);padding:32px 20px;text-align:center;margin-top:8px}
+.irodori-placeholder h3{font-size:16px;color:var(--t1);margin-bottom:8px}
+.irodori-placeholder p{font-size:13px;color:var(--t2);line-height:1.6}
+.add-btn{display:inline-block;margin-top:14px;padding:9px 20px;background:var(--p);color:#fff;border-radius:var(--rs);font-size:13px;font-weight:600;cursor:pointer;border:none}
+
+/* ── HAFAL ── */
+.hafal-wrap{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.hafal-empty{text-align:center;padding:48px 16px;color:var(--t2);font-size:14px}
+.hafal-empty-icon{font-size:40px;margin-bottom:10px}
+.hafal-summary{background:var(--sf);border-radius:var(--rr);border:1px solid var(--bd);padding:14px;margin-bottom:4px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+
+/* ── EMPTY ── */
+.empty{text-align:center;padding:48px 16px;color:var(--t2);font-size:14px}
 .empty-icon{font-size:36px;margin-bottom:8px}
-/* INSTALL */
-.inst-banner{background:var(--p);color:#fff;padding:10px 12px;display:flex;align-items:center;gap:8px}
+
+/* ── INSTALL ── */
+.inst-banner{background:var(--p);color:#fff;padding:10px 14px;display:flex;align-items:center;gap:8px}
 .inst-banner p{flex:1;font-size:12px;line-height:1.4}
 .inst-btn{background:#fff;color:var(--p);border:none;border-radius:var(--rs);padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0}
-.inst-x{background:none;border:none;color:#fff;font-size:16px;cursor:pointer;opacity:.7;flex-shrink:0}
-/* DARK */
-@media(prefers-color-scheme:dark){
-  :root{--bg:#0f0f17;--sf:#1a1a2e;--bd:#2d2d44;--t1:#f1f0ff;--t2:#9d9cb5;--t3:#6b6a80;--pl:#2d2b5a;--gl:#052e16;--rl:#2d0a0a;--bl:#0c1a3d;--al:#2d1a00}
-  .search-wrap input{background:rgba(255,255,255,.12);color:#fff}
-  .search-wrap input::placeholder{color:rgba(255,255,255,.45)}
-  .fc-back{background:#2d2b5a;border-color:var(--p)}
+.inst-x{background:none;border:none;color:#fff;font-size:18px;cursor:pointer;opacity:.7;flex-shrink:0}
+
+@media(prefers-color-scheme:light){
+  :root{
+    --bg:#f8f7ff;--bg2:#fff;--bg3:#f0efff;
+    --sf:#fff;--sf2:#f8f7ff;
+    --bd:#e5e3ff;--bd2:#ccc9ff;
+    --t1:#1a1830;--t2:#6b68a0;--t3:#a09dc0;
+  }
+  .bn5{background:#ede9fe;color:#6d28d9}
+  .bn4{background:#dbeafe;color:#1d4ed8}
+  .bv{background:#dcfce7;color:#15803d}
+  .bn{background:#dbeafe;color:#1d4ed8}
+  .badj{background:#faf5ff;color:#7e22ce}
+  .badv{background:#fff7ed;color:#c2410c}
+  .bex{background:#f9fafb;color:#374151}
+  .bkw{background:#dbeafe;color:#1e40af}
+  .bir{background:#d1fae5;color:#065f46}
+  .qz-ch{color:var(--t1)}
+  .kwjp,.sjp,.rv-word,.fc-word,.qz-word{color:var(--t1)}
+  .card{box-shadow:0 1px 4px rgba(0,0,0,.06)}
 }
 </style>
 </head>
 <body>
+
 <div id="inst-banner" style="display:none" class="inst-banner">
   <p>📲 Install aplikasi ini di HP untuk akses offline!</p>
   <button class="inst-btn" onclick="installApp()">Install</button>
   <button class="inst-x" onclick="document.getElementById('inst-banner').style.display='none'">✕</button>
 </div>
 
-<div class="topbar">
-  <div class="tb1">
-    <div><div class="app-title">🇯🇵 日本語 Kosakata</div><div class="app-sub">N5 · N4 Lengkap</div></div>
-    <div class="stats-pill" id="stats-pill">0 kata</div>
+<!-- SIDEBAR -->
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+<nav class="sidebar" id="sidebar">
+  <div class="sb-logo">
+    <h1>🇯🇵 日本語</h1>
+    <p>Kosakata N5 · N4 · Irodori</p>
   </div>
-  <div class="search-wrap">
+  <div class="sb-scroll">
+    <div class="sb-section">Belajar</div>
+    <div class="sb-item active" id="nav-browse" onclick="setPage('browse')">
+      <span class="ico">📚</span><span class="lbl">Jelajahi Kosakata</span>
+      <span class="cnt" id="nav-cnt">0</span>
+    </div>
+    <div class="sb-item" id="nav-flash" onclick="setPage('flash')">
+      <span class="ico">🃏</span><span class="lbl">Flashcard</span>
+    </div>
+    <div class="sb-item" id="nav-quiz" onclick="setPage('quiz')">
+      <span class="ico">🧠</span><span class="lbl">Kuis</span>
+    </div>
+    <div class="sb-item" id="nav-particle" onclick="setPage('particle')">
+      <span class="ico">🔡</span><span class="lbl">Latihan Partikel</span>
+    </div>
+    <div class="sb-item" id="nav-build" onclick="setPage('build')">
+      <span class="ico">✍️</span><span class="lbl">Bikin Kalimat</span>
+    </div>
+
+    <div class="sb-section" style="margin-top:4px">AI Review</div>
+    <div class="sb-item" id="nav-review" onclick="setPage('review')">
+      <span class="ico">🔁</span><span class="lbl">Review Harian</span>
+      <span class="cnt" id="review-due-cnt" style="background:#ef4444;display:none">0</span>
+    </div>
+    <div class="sb-item" id="nav-hafal" onclick="setPage('hafal')">
+      <span class="ico">✅</span><span class="lbl">Kata Hafal</span>
+      <span class="cnt" id="nav-hafal-cnt">0</span>
+    </div>
+
+    <div class="sb-section" style="margin-top:4px">Irodori</div>
+    <div class="sb-item" id="nav-nyuumon" onclick="toggleIrodori('nyuumon')">
+      <span class="ico">📖</span><span class="lbl">入門 (Nyuumon)</span>
+      <span style="font-size:11px;color:var(--t3)" id="arr-nyuumon">▶</span>
+    </div>
+    <div class="sb-sub" id="sub-nyuumon" style="display:none">
+      <div class="sb-item" onclick="setPage('irodori','nyuumon','bab1')"><span class="ico">📝</span><span class="lbl">Bab 1</span></div>
+      <div class="sb-item" onclick="setPage('irodori','nyuumon','bab2')"><span class="ico">📝</span><span class="lbl">Bab 2</span></div>
+      <div class="sb-item" onclick="setPage('irodori','nyuumon','bab3')"><span class="ico">📝</span><span class="lbl">Bab 3</span></div>
+      <div class="sb-item" onclick="setPage('irodori','nyuumon','bab4')"><span class="ico">📝</span><span class="lbl">Bab 4</span></div>
+      <div class="sb-item" onclick="setPage('irodori','nyuumon','bab5')"><span class="ico">📝</span><span class="lbl">Bab 5</span></div>
+      <div class="sb-item" onclick="setPage('irodori','nyuumon','bab6')"><span class="ico">📝</span><span class="lbl">Bab 6</span></div>
+    </div>
+    <div class="sb-item" id="nav-shokyu1" onclick="toggleIrodori('shokyu1')">
+      <span class="ico">📗</span><span class="lbl">初級1 (Shokyu 1)</span>
+      <span style="font-size:11px;color:var(--t3)" id="arr-shokyu1">▶</span>
+    </div>
+    <div class="sb-sub" id="sub-shokyu1" style="display:none">
+      <div class="sb-item" onclick="setPage('irodori','shokyu1','bab1')"><span class="ico">📝</span><span class="lbl">Bab 1</span></div>
+      <div class="sb-item" onclick="setPage('irodori','shokyu1','bab2')"><span class="ico">📝</span><span class="lbl">Bab 2</span></div>
+      <div class="sb-item" onclick="setPage('irodori','shokyu1','bab3')"><span class="ico">📝</span><span class="lbl">Bab 3</span></div>
+      <div class="sb-item" onclick="setPage('irodori','shokyu1','bab4')"><span class="ico">📝</span><span class="lbl">Bab 4</span></div>
+      <div class="sb-item" onclick="setPage('irodori','shokyu1','bab5')"><span class="ico">📝</span><span class="lbl">Bab 5</span></div>
+      <div class="sb-item" onclick="setPage('irodori','shokyu1','bab6')"><span class="ico">📝</span><span class="lbl">Bab 6</span></div>
+    </div>
+  </div>
+  <div class="sb-footer">
+    <p>日本語 App v3.0 · PWA</p>
+  </div>
+</nav>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <button class="menu-btn" onclick="openSidebar()">☰</button>
+  <div class="topbar-title" id="page-title">Jelajahi Kosakata</div>
+  <div class="stats-pill" id="stats-pill">0 kata</div>
+</div>
+
+<!-- SEARCH (browse only) -->
+<div class="search-wrap" id="search-wrap">
+  <div class="search-inner">
     <span class="si">🔍</span>
     <input type="text" id="search" placeholder="Cari kanji, romaji, atau Indonesia..." oninput="onSearch()">
     <button class="sc" id="sc" onclick="clearSearch()">✕</button>
   </div>
 </div>
 
-<div class="tabs" id="tabs">
-  <div class="tab active" onclick="setTab('browse')">📚 Jelajahi</div>
-  <div class="tab" onclick="setTab('flash')">🃏 Flashcard</div>
-  <div class="tab" onclick="setTab('quiz')">🧠 Kuis</div>
-  <div class="tab" onclick="setTab('particle')">🔡 Partikel</div>
-  <div class="tab" onclick="setTab('build')">✍️ Kalimat</div>
-  <div class="tab" onclick="setTab('hafal')">✅ Hafal (<span id="hc">0</span>)</div>
-</div>
-
+<!-- FILTERS -->
 <div class="filters" id="filters">
   <div class="chip active" onclick="setF('level','semua')">Semua</div>
   <div class="chip" onclick="setF('level','N5')">N5</div>
@@ -211,44 +382,35 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="chip" onclick="setF('jenis','adv')">Keterangan</div>
   <div class="chip" onclick="setF('jenis','expr')">Ekspresi</div>
   <div class="divchip"></div>
-  <div class="chip ck" onclick="setF('kaiwa','t')">🗣 Kaiwa</div>
+  <div class="chip ckw" onclick="setF('kaiwa','t')">🗣 Kaiwa</div>
 </div>
 
-<div id="browse-tab"><div class="list" id="list"></div></div>
-<div id="flash-tab" style="display:none"></div>
-<div id="quiz-tab" style="display:none"></div>
-<div id="particle-tab" style="display:none"></div>
-<div id="build-tab" style="display:none"></div>
-<div id="hafal-tab" style="display:none"><div class="hafal-list" id="hafal-list"></div></div>
+<!-- PAGES -->
+<div class="main" id="main-content"></div>
 
 <script>
-// ========== VOCAB DATA ==========
+// ===== VOCAB DATA =====
 const V=[
-// ── KATA KERJA N5 ──
 {k:"会う",h:"あう",r:"au",id:"Bertemu",j:"v",lv:"N5",kw:1,s:{jp:"駅で友達に会いました。",h:"えきでともだちにあいました。",r:"Eki de tomodachi ni aimashita.",i:"Saya bertemu teman di stasiun."},d:[{sp:"A",jp:"昨日、田中さんに会いましたか？",h:"きのう、たなかさんにあいましたか？",r:"Kinō, Tanaka-san ni aimashita ka?",i:"Kemarin, kamu bertemu Pak Tanaka?"},{sp:"B",jp:"はい、図書館で会いました。",h:"はい、としょかんであいました。",r:"Hai, toshokan de aimashita.",i:"Iya, kami bertemu di perpustakaan."}]},
-{k:"開く",h:"あく",r:"aku",id:"Terbuka",j:"v",lv:"N5",kw:0,s:{jp:"ドアが自動で開きます。",h:"ドアがじどうであきます。",r:"Doa ga jidō de akimasu.",i:"Pintu terbuka secara otomatis."},d:[{sp:"A",jp:"この窓は開きますか？",h:"このまどはあきますか？",r:"Kono mado wa akimasu ka?",i:"Apakah jendela ini bisa terbuka?"},{sp:"B",jp:"右に引くと開きますよ。",h:"みぎにひくとあきますよ。",r:"Migi ni hiku to akimasu yo.",i:"Tarik ke kanan maka akan terbuka."}]},
 {k:"開ける",h:"あける",r:"akeru",id:"Membuka",j:"v",lv:"N5",kw:1,s:{jp:"毎朝、窓を開けます。",h:"まいあさ、まどをあけます。",r:"Maiasa, mado o akemasu.",i:"Setiap pagi saya membuka jendela."},d:[{sp:"A",jp:"窓を開けてもいいですか？",h:"まどをあけてもいいですか？",r:"Mado o akete mo ii desu ka?",i:"Boleh saya buka jendelanya?"},{sp:"B",jp:"もちろん、開けてください。",h:"もちろん、あけてください。",r:"Mochiron, akete kudasai.",i:"Tentu saja, tolong dibuka."}]},
 {k:"あげる",h:"あげる",r:"ageru",id:"Memberi",j:"v",lv:"N5",kw:1,s:{jp:"誕生日に花をあげました。",h:"たんじょうびにはなをあげました。",r:"Tanjōbi ni hana o agemashita.",i:"Saya memberi bunga di hari ulang tahunnya."},d:[{sp:"A",jp:"山田さんに何をあげますか？",h:"やまださんになにをあげますか？",r:"Yamada-san ni nani o agemasu ka?",i:"Mau memberi apa kepada Yamada-san?"},{sp:"B",jp:"ケーキをあげようと思います。",h:"ケーキをあげようとおもいます。",r:"Kēki o ageyō to omoimasu.",i:"Saya pikir akan memberi kue."}]},
 {k:"遊ぶ",h:"あそぶ",r:"asobu",id:"Bermain",j:"v",lv:"N5",kw:1,s:{jp:"子供たちは公園で遊んでいます。",h:"こどもたちはこうえんであそんでいます。",r:"Kodomotachi wa kōen de asonde imasu.",i:"Anak-anak sedang bermain di taman."},d:[{sp:"A",jp:"週末、一緒に遊びませんか？",h:"しゅうまつ、いっしょにあそびませんか？",r:"Shūmatsu, issho ni asobimasen ka?",i:"Akhir pekan, mau bermain bersama?"},{sp:"B",jp:"いいですね！どこで遊びましょうか？",h:"いいですね！どこであそびましょうか？",r:"Ii desu ne! Doko de asobimashō ka?",i:"Bagus! Kita bermain di mana ya?"}]},
 {k:"洗う",h:"あらう",r:"arau",id:"Mencuci",j:"v",lv:"N5",kw:1,s:{jp:"食事の前に手を洗います。",h:"しょくじのまえにてをあらいます。",r:"Shokuji no mae ni te o araimasu.",i:"Saya mencuci tangan sebelum makan."},d:[{sp:"A",jp:"手を洗いましたか？",h:"てをあらいましたか？",r:"Te o araimashita ka?",i:"Sudah cuci tangan?"},{sp:"B",jp:"はい、今洗いました。",h:"はい、いまあらいました。",r:"Hai, ima araimashita.",i:"Sudah, baru saja cuci."}]},
-{k:"ある",h:"ある",r:"aru",id:"Ada (benda/hal)",j:"v",lv:"N5",kw:1,s:{jp:"机の上に本があります。",h:"つくえのうえにほんがあります。",r:"Tsukue no ue ni hon ga arimasu.",i:"Ada buku di atas meja."},d:[{sp:"A",jp:"近くにコンビニがありますか？",h:"ちかくにコンビニがありますか？",r:"Chikaku ni konbini ga arimasu ka?",i:"Apakah ada konbini di dekat sini?"},{sp:"B",jp:"はい、駅の前にありますよ。",h:"はい、えきのまえにありますよ。",r:"Hai, eki no mae ni arimasu yo.",i:"Iya, ada di depan stasiun."}]},
+{k:"ある",h:"ある",r:"aru",id:"Ada (benda)",j:"v",lv:"N5",kw:1,s:{jp:"机の上に本があります。",h:"つくえのうえにほんがあります。",r:"Tsukue no ue ni hon ga arimasu.",i:"Ada buku di atas meja."},d:[{sp:"A",jp:"近くにコンビニがありますか？",h:"ちかくにコンビニがありますか？",r:"Chikaku ni konbini ga arimasu ka?",i:"Apakah ada konbini di dekat sini?"},{sp:"B",jp:"はい、駅の前にありますよ。",h:"はい、えきのまえにありますよ。",r:"Hai, eki no mae ni arimasu yo.",i:"Iya, ada di depan stasiun."}]},
 {k:"歩く",h:"あるく",r:"aruku",id:"Berjalan",j:"v",lv:"N5",kw:1,s:{jp:"毎日、駅まで歩きます。",h:"まいにち、えきまであるきます。",r:"Mainichi, eki made arukimasu.",i:"Setiap hari saya berjalan ke stasiun."},d:[{sp:"A",jp:"駅まで歩いて何分かかりますか？",h:"えきまであるいてなんぷんかかりますか？",r:"Eki made aruite nanpun kakarimasu ka?",i:"Berapa menit jalan kaki ke stasiun?"},{sp:"B",jp:"だいたい十分かかります。",h:"だいたいじゅっぷんかかります。",r:"Daitai juppun kakarimasu.",i:"Kira-kira 10 menit."}]},
 {k:"言う",h:"いう",r:"iu",id:"Berkata",j:"v",lv:"N5",kw:1,s:{jp:"先生は「よくできました」と言いました。",h:"せんせいは「よくできました」といいました。",r:"Sensei wa 'yoku dekimashita' to iimashita.",i:"Guru berkata 'sudah bagus'."},d:[{sp:"A",jp:"彼は何と言いましたか？",h:"かれはなんといいましたか？",r:"Kare wa nan to iimashita ka?",i:"Dia bilang apa?"},{sp:"B",jp:"「また来ます」と言いました。",h:"「またきます」といいました。",r:"'Mata kimasu' to iimashita.",i:"Dia bilang 'saya akan datang lagi'."}]},
 {k:"行く",h:"いく",r:"iku",id:"Pergi",j:"v",lv:"N5",kw:1,s:{jp:"明日、学校へ行きます。",h:"あした、がっこうへいきます。",r:"Ashita, gakkō e ikimasu.",i:"Besok saya pergi ke sekolah."},d:[{sp:"A",jp:"今日、どこへ行きますか？",h:"きょう、どこへいきますか？",r:"Kyō, doko e ikimasu ka?",i:"Hari ini kamu pergi ke mana?"},{sp:"B",jp:"スーパーへ行きます。",h:"スーパーへいきます。",r:"Sūpā e ikimasu.",i:"Saya pergi ke supermarket."}]},
 {k:"いる",h:"いる",r:"iru",id:"Ada (orang/hewan)",j:"v",lv:"N5",kw:1,s:{jp:"リビングに猫がいます。",h:"リビングにねこがいます。",r:"Ribingu ni neko ga imasu.",i:"Ada kucing di ruang tamu."},d:[{sp:"A",jp:"お母さんは家にいますか？",h:"おかあさんはいえにいますか？",r:"Okāsan wa ie ni imasu ka?",i:"Apakah ibu ada di rumah?"},{sp:"B",jp:"いいえ、今、外にいます。",h:"いいえ、いま、そとにいます。",r:"Iie, ima, soto ni imasu.",i:"Tidak, sekarang beliau di luar."}]},
 {k:"入れる",h:"いれる",r:"ireru",id:"Memasukkan",j:"v",lv:"N5",kw:1,s:{jp:"バッグに財布を入れました。",h:"バッグにさいふをいれました。",r:"Baggu ni saifu o iremashita.",i:"Saya memasukkan dompet ke dalam tas."},d:[{sp:"A",jp:"砂糖をコーヒーに入れますか？",h:"さとうをコーヒーにいれますか？",r:"Satō o kōhī ni iremasu ka?",i:"Masukkan gula ke kopi?"},{sp:"B",jp:"いいえ、砂糖は入れません。",h:"いいえ、さとうはいれません。",r:"Iie, satō wa iremasen.",i:"Tidak, saya tidak masukkan gula."}]},
 {k:"歌う",h:"うたう",r:"utau",id:"Bernyanyi",j:"v",lv:"N5",kw:1,s:{jp:"カラオケで歌を歌いました。",h:"カラオケでうたをうたいました。",r:"Karaoke de uta o utaimashita.",i:"Saya bernyanyi di karaoke."},d:[{sp:"A",jp:"カラオケで何を歌いますか？",h:"カラオケでなにをうたいますか？",r:"Karaoke de nani o utaimasu ka?",i:"Kamu menyanyikan apa di karaoke?"},{sp:"B",jp:"日本語の歌をよく歌います。",h:"にほんごのうたをよくうたいます。",r:"Nihongo no uta o yoku utaimasu.",i:"Saya sering menyanyikan lagu Jepang."}]},
-{k:"売る",h:"うる",r:"uru",id:"Menjual",j:"v",lv:"N5",kw:0,s:{jp:"このお店では野菜を売っています。",h:"このおみせではやさいをうっています。",r:"Kono omise de wa yasai o utte imasu.",i:"Toko ini menjual sayuran."},d:[{sp:"A",jp:"この自転車を売りたいんですが。",h:"このじてんしゃをうりたいんですが。",r:"Kono jitensha o uritain desu ga.",i:"Saya ingin menjual sepeda ini."},{sp:"B",jp:"いくらで売りますか？",h:"いくらでうりますか？",r:"Ikura de urimasu ka?",i:"Kamu jual berapa?"}]},
 {k:"起きる",h:"おきる",r:"okiru",id:"Bangun/Terjadi",j:"v",lv:"N5",kw:1,s:{jp:"毎朝六時に起きます。",h:"まいあさろくじにおきます。",r:"Maiasa rokuji ni okimasu.",i:"Setiap pagi saya bangun pukul enam."},d:[{sp:"A",jp:"何時に起きますか？",h:"なんじにおきますか？",r:"Nanji ni okimasu ka?",i:"Kamu bangun jam berapa?"},{sp:"B",jp:"いつもは七時に起きます。",h:"いつもはしちじにおきます。",r:"Itsumo wa shichiji ni okimasu.",i:"Biasanya bangun jam 7."}]},
 {k:"置く",h:"おく",r:"oku",id:"Meletakkan",j:"v",lv:"N5",kw:1,s:{jp:"鍵をテーブルの上に置きました。",h:"かぎをテーブルのうえにおきました。",r:"Kagi o tēburu no ue ni okimashita.",i:"Saya meletakkan kunci di atas meja."},d:[{sp:"A",jp:"荷物をどこに置けばいいですか？",h:"にもつをどこにおけばいいですか？",r:"Nimotsu o doko ni okeba ii desu ka?",i:"Barang bawaan ditaruh di mana?"},{sp:"B",jp:"ここに置いてください。",h:"ここにおいてください。",r:"Koko ni oite kudasai.",i:"Tolong letakkan di sini."}]},
 {k:"送る",h:"おくる",r:"okuru",id:"Mengirim",j:"v",lv:"N5",kw:1,s:{jp:"友達にメールを送りました。",h:"ともだちにメールをおくりました。",r:"Tomodachi ni mēru o okurimashita.",i:"Saya mengirim email kepada teman."},d:[{sp:"A",jp:"この荷物を東京に送りたいんですが。",h:"このにもつをとうきょうにおくりたいんですが。",r:"Kono nimotsu o Tōkyō ni okuritain desu ga.",i:"Saya ingin kirim paket ini ke Tokyo."},{sp:"B",jp:"明日届くように送ります。",h:"あしたとどくようにおくります。",r:"Ashita todoku yō ni okurimasu.",i:"Akan dikirim agar tiba besok."}]},
 {k:"覚える",h:"おぼえる",r:"oboeru",id:"Menghafal",j:"v",lv:"N5",kw:1,s:{jp:"毎日漢字を十個覚えます。",h:"まいにちかんじをじゅっこおぼえます。",r:"Mainichi kanji o jukko oboemasu.",i:"Setiap hari saya hafal 10 kanji."},d:[{sp:"A",jp:"この単語を覚えましたか？",h:"このたんごをおぼえましたか？",r:"Kono tango o oboemashita ka?",i:"Sudah hafal kata ini?"},{sp:"B",jp:"まだ覚えていません。",h:"まだおぼえていません。",r:"Mada oboete imasen.",i:"Belum hafal."}]},
-{k:"泳ぐ",h:"およぐ",r:"oyogu",id:"Berenang",j:"v",lv:"N5",kw:0,s:{jp:"夏はプールで泳ぎます。",h:"なつはプールでおよぎます。",r:"Natsu wa pūru de oyogimasu.",i:"Di musim panas saya berenang di kolam."},d:[{sp:"A",jp:"泳げますか？",h:"およげますか？",r:"Oyogemasu ka?",i:"Bisa berenang?"},{sp:"B",jp:"はい、でも速くは泳げません。",h:"はい、でもはやくはおよげません。",r:"Hai, demo hayaku wa oyogemasen.",i:"Bisa, tapi tidak bisa cepat."}]},
-{k:"降りる",h:"おりる",r:"oriru",id:"Turun (kendaraan)",j:"v",lv:"N5",kw:1,s:{jp:"次の駅で電車を降ります。",h:"つぎのえきでんしゃをおります。",r:"Tsugi no eki de densha o orimasu.",i:"Saya turun kereta di stasiun berikutnya."},d:[{sp:"A",jp:"どこで降りますか？",h:"どこでおりますか？",r:"Doko de orimasu ka?",i:"Turun di mana?"},{sp:"B",jp:"渋谷で降ります。",h:"しぶやでおります。",r:"Shibuya de orimasu.",i:"Turun di Shibuya."}]},
 {k:"終わる",h:"おわる",r:"owaru",id:"Berakhir",j:"v",lv:"N5",kw:1,s:{jp:"授業は三時に終わります。",h:"じゅぎょうはさんじにおわります。",r:"Jugyō wa sanji ni owarimasu.",i:"Pelajaran berakhir pukul tiga."},d:[{sp:"A",jp:"映画は何時に終わりますか？",h:"えいがはなんじにおわりますか？",r:"Eiga wa nanji ni owarimasu ka?",i:"Film berakhir jam berapa?"},{sp:"B",jp:"九時ごろに終わります。",h:"くじごろにおわります。",r:"Kuji goro ni owarimasu.",i:"Sekitar jam 9 berakhir."}]},
 {k:"買う",h:"かう",r:"kau",id:"Membeli",j:"v",lv:"N5",kw:1,s:{jp:"スーパーで野菜を買いました。",h:"スーパーでやさいをかいました。",r:"Sūpā de yasai o kaimashita.",i:"Saya membeli sayuran di supermarket."},d:[{sp:"A",jp:"新しいスマホを買いたいんですが。",h:"あたらしいスマホをかいたいんですが。",r:"Atarashii sumaho o kaitain desu ga.",i:"Saya ingin membeli smartphone baru."},{sp:"B",jp:"どんなスマホを買うつもりですか？",h:"どんなスマホをかうつもりですか？",r:"Donna sumaho o kau tsumori desu ka?",i:"Smartphone seperti apa yang mau dibeli?"}]},
 {k:"帰る",h:"かえる",r:"kaeru",id:"Pulang",j:"v",lv:"N5",kw:1,s:{jp:"仕事が終わったら家に帰ります。",h:"しごとがおわったらいえにかえります。",r:"Shigoto ga owattara ie ni kaerimasu.",i:"Kalau pekerjaan selesai saya pulang."},d:[{sp:"A",jp:"何時に帰りますか？",h:"なんじにかえりますか？",r:"Nanji ni kaerimasu ka?",i:"Kamu pulang jam berapa?"},{sp:"B",jp:"今日は早く帰れると思います。",h:"きょうははやくかえれるとおもいます。",r:"Kyō wa hayaku kaereru to omoimasu.",i:"Hari ini sepertinya bisa pulang lebih awal."}]},
-{k:"かかる",h:"かかる",r:"kakaru",id:"Membutuhkan (waktu/biaya)",j:"v",lv:"N5",kw:1,s:{jp:"駅まで歩いて十分かかります。",h:"えきまであるいてじゅっぷんかかります。",r:"Eki made aruite juppun kakarimasu.",i:"Butuh 10 menit jalan kaki ke stasiun."},d:[{sp:"A",jp:"この修理にはいくらかかりますか？",h:"このしゅうりにはいくらかかりますか？",r:"Kono shūri ni wa ikura kakarimasu ka?",i:"Berapa biaya perbaikan ini?"},{sp:"B",jp:"だいたい五千円かかります。",h:"だいたいごせんえんかかります。",r:"Daitai gosen-en kakarimasu.",i:"Kira-kira 5000 yen."}]},
+{k:"かかる",h:"かかる",r:"kakaru",id:"Membutuhkan waktu/biaya",j:"v",lv:"N5",kw:1,s:{jp:"駅まで歩いて十分かかります。",h:"えきまであるいてじゅっぷんかかります。",r:"Eki made aruite juppun kakarimasu.",i:"Butuh 10 menit jalan kaki ke stasiun."},d:[{sp:"A",jp:"この修理にはいくらかかりますか？",h:"このしゅうりにはいくらかかりますか？",r:"Kono shūri ni wa ikura kakarimasu ka?",i:"Berapa biaya perbaikan ini?"},{sp:"B",jp:"だいたい五千円かかります。",h:"だいたいごせんえんかかります。",r:"Daitai gosen-en kakarimasu.",i:"Kira-kira 5000 yen."}]},
 {k:"書く",h:"かく",r:"kaku",id:"Menulis",j:"v",lv:"N5",kw:1,s:{jp:"日記を毎日書いています。",h:"にっきをまいにちかいています。",r:"Nikki o mainichi kaite imasu.",i:"Saya menulis buku harian setiap hari."},d:[{sp:"A",jp:"ここに名前を書いてください。",h:"ここになまえをかいてください。",r:"Koko ni namae o kaite kudasai.",i:"Tolong tulis nama Anda di sini."},{sp:"B",jp:"漢字で書いてもいいですか？",h:"かんじでかいてもいいですか？",r:"Kanji de kaite mo ii desu ka?",i:"Boleh saya tulis dengan kanji?"}]},
 {k:"貸す",h:"かす",r:"kasu",id:"Meminjamkan",j:"v",lv:"N5",kw:1,s:{jp:"友達に傘を貸しました。",h:"ともだちにかさをかしました。",r:"Tomodachi ni kasa o kashimashita.",i:"Saya meminjamkan payung kepada teman."},d:[{sp:"A",jp:"消しゴムを貸してもらえますか？",h:"けしゴムをかしてもらえますか？",r:"Keshigomu o kashite moraemasu ka?",i:"Bisa pinjamkan penghapusnya?"},{sp:"B",jp:"もちろん、どうぞ。",h:"もちろん、どうぞ。",r:"Mochiron, dōzo.",i:"Tentu saja, silakan."}]},
 {k:"借りる",h:"かりる",r:"kariru",id:"Meminjam",j:"v",lv:"N5",kw:1,s:{jp:"図書館で本を借りました。",h:"としょかんでほんをかりました。",r:"Toshokan de hon o karimashita.",i:"Saya meminjam buku di perpustakaan."},d:[{sp:"A",jp:"少しお金を借りてもいいですか？",h:"すこしおかねをかりてもいいですか？",r:"Sukoshi okane o karite mo ii desu ka?",i:"Boleh saya pinjam sedikit uang?"},{sp:"B",jp:"いいですよ。いくら借りますか？",h:"いいですよ。いくらかりますか？",r:"Ii desu yo. Ikura karimasu ka?",i:"Boleh. Mau pinjam berapa?"}]},
@@ -258,19 +420,19 @@ const V=[
 {k:"知る",h:"しる",r:"shiru",id:"Tahu/Mengetahui",j:"v",lv:"N5",kw:1,s:{jp:"彼女の住所を知っています。",h:"かのじょのじゅうしょをしっています。",r:"Kanojo no jūsho o shitte imasu.",i:"Saya tahu alamat rumahnya."},d:[{sp:"A",jp:"近くに郵便局があるか知っていますか？",h:"ちかくにゆうびんきょくがあるかしっていますか？",r:"Chikaku ni yūbinkyoku ga aru ka shitte imasu ka?",i:"Apakah kamu tahu ada kantor pos di dekat sini?"},{sp:"B",jp:"すみません、知りません。",h:"すみません、しりません。",r:"Sumimasen, shirimasen.",i:"Maaf, saya tidak tahu."}]},
 {k:"住む",h:"すむ",r:"sumu",id:"Bertempat tinggal",j:"v",lv:"N5",kw:1,s:{jp:"今、東京に住んでいます。",h:"いま、とうきょうにすんでいます。",r:"Ima, Tōkyō ni sunde imasu.",i:"Sekarang saya tinggal di Tokyo."},d:[{sp:"A",jp:"どこに住んでいますか？",h:"どこにすんでいますか？",r:"Doko ni sunde imasu ka?",i:"Kamu tinggal di mana?"},{sp:"B",jp:"ジャカルタに住んでいます。",h:"ジャカルタにすんでいます。",r:"Jakaruta ni sunde imasu.",i:"Saya tinggal di Jakarta."}]},
 {k:"する",h:"する",r:"suru",id:"Melakukan",j:"v",lv:"N5",kw:1,s:{jp:"毎朝、運動をします。",h:"まいあさ、うんどうをします。",r:"Maiasa, undō o shimasu.",i:"Setiap pagi saya berolahraga."},d:[{sp:"A",jp:"週末は何をしますか？",h:"しゅうまつはなにをしますか？",r:"Shūmatsu wa nani o shimasu ka?",i:"Akhir pekan mau ngapain?"},{sp:"B",jp:"買い物をしようと思っています。",h:"かいものをしようとおもっています。",r:"Kaimono o shiyō to omotte imasu.",i:"Saya berencana belanja."}]},
-{k:"食べる",h:"たべる",r:"taberu",id:"Makan",j:"v",lv:"N5",kw:1,s:{jp:"朝ごはんにパンを食べます。",h:"あさごはんにパンをたべます。",r:"Asagohan ni pan o tabemasu.",i:"Saya makan roti untuk sarapan."},d:[{sp:"A",jp:"昼ごはんは何を食べましたか？",h:"ひるごはんはなにをたべましたか？",r:"Hirugohan wa nani o tabemashita ka?",i:"Tadi siang makan apa?"},{sp:"B",jp:"ラーメンを食べました！おいしかったです！",h:"ラーメンをたべました！おいしかったです！",r:"Rāmen o tabemashita! Oishikatta desu!",i:"Makan ramen! Enak sekali!"}]},
+{k:"食べる",h:"たべる",r:"taberu",id:"Makan",j:"v",lv:"N5",kw:1,s:{jp:"朝ごはんにパンを食べます。",h:"あさごはんにパンをたべます。",r:"Asagohan ni pan o tabemasu.",i:"Saya makan roti untuk sarapan."},d:[{sp:"A",jp:"昼ごはんは何を食べましたか？",h:"ひるごはんはなにをたべましたか？",r:"Hirugohan wa nani o tabemashita ka?",i:"Tadi siang makan apa?"},{sp:"B",jp:"ラーメンを食べました。おいしかったです！",h:"ラーメンをたべました。おいしかったです！",r:"Rāmen o tabemashita. Oishikatta desu!",i:"Makan ramen. Enak sekali!"}]},
 {k:"使う",h:"つかう",r:"tsukau",id:"Menggunakan",j:"v",lv:"N5",kw:1,s:{jp:"毎日スマホを使います。",h:"まいにちスマホをつかいます。",r:"Mainichi sumaho o tsukaimasu.",i:"Saya menggunakan smartphone setiap hari."},d:[{sp:"A",jp:"このパソコンを使ってもいいですか？",h:"このパソコンをつかってもいいですか？",r:"Kono pasokon o tsukatte mo ii desu ka?",i:"Boleh saya gunakan komputer ini?"},{sp:"B",jp:"どうぞ、使ってください。",h:"どうぞ、つかってください。",r:"Dōzo, tsukatte kudasai.",i:"Silakan, gunakan saja."}]},
 {k:"作る",h:"つくる",r:"tsukuru",id:"Membuat",j:"v",lv:"N5",kw:1,s:{jp:"母が夕食を作っています。",h:"ははがゆうしょくをつくっています。",r:"Haha ga yūshoku o tsukutte imasu.",i:"Ibu sedang membuat makan malam."},d:[{sp:"A",jp:"料理は自分で作りますか？",h:"りょうりはじぶんでつくりますか？",r:"Ryōri wa jibun de tsukurimasu ka?",i:"Apakah kamu memasak sendiri?"},{sp:"B",jp:"はい、毎日作るようにしています。",h:"はい、まいにちつくるようにしています。",r:"Hai, mainichi tsukuru yō ni shite imasu.",i:"Iya, saya berusaha memasak setiap hari."}]},
 {k:"出来る",h:"できる",r:"dekiru",id:"Bisa",j:"v",lv:"N5",kw:1,s:{jp:"日本語で話すことができます。",h:"にほんごではなすことができます。",r:"Nihongo de hanasu koto ga dekimasu.",i:"Saya bisa berbicara dalam bahasa Jepang."},d:[{sp:"A",jp:"漢字が読めますか？",h:"かんじがよめますか？",r:"Kanji ga yomemasu ka?",i:"Bisa baca kanji?"},{sp:"B",jp:"少しはできますが、まだ難しいです。",h:"すこしはできますが、まだむずかしいです。",r:"Sukoshi wa dekimasu ga, mada muzukashii desu.",i:"Bisa sedikit, tapi masih sulit."}]},
 {k:"出る",h:"でる",r:"deru",id:"Keluar",j:"v",lv:"N5",kw:1,s:{jp:"朝八時に家を出ます。",h:"あさはちじにいえをでます。",r:"Asa hachiji ni ie o demasu.",i:"Saya keluar dari rumah pukul 8 pagi."},d:[{sp:"A",jp:"何時に家を出ますか？",h:"なんじにいえをでますか？",r:"Nanji ni ie o demasu ka?",i:"Kamu keluar rumah jam berapa?"},{sp:"B",jp:"七時半に出るつもりです。",h:"しちじはんにでるつもりです。",r:"Shichiji han ni deru tsumori desu.",i:"Saya berencana keluar jam setengah delapan."}]},
 {k:"止まる",h:"とまる",r:"tomaru",id:"Berhenti",j:"v",lv:"N5",kw:1,s:{jp:"バスは駅の前で止まります。",h:"バスはえきのまえでとまります。",r:"Basu wa eki no mae de tomarimasu.",i:"Bus berhenti di depan stasiun."},d:[{sp:"A",jp:"次のバス停で止まりますか？",h:"つぎのバスていでとまりますか？",r:"Tsugi no basutei de tomarimasu ka?",i:"Apakah berhenti di halte berikutnya?"},{sp:"B",jp:"はい、あそこで止まりますよ。",h:"はい、あそこでとまりますよ。",r:"Hai, asoko de tomarimasu yo.",i:"Iya, berhenti di sana."}]},
 {k:"取る",h:"とる",r:"toru",id:"Mengambil",j:"v",lv:"N5",kw:1,s:{jp:"棚から本を取りました。",h:"たなからほんをとりました。",r:"Tana kara hon o torimashita.",i:"Saya mengambil buku dari rak."},d:[{sp:"A",jp:"塩を取ってもらえますか？",h:"しおをとってもらえますか？",r:"Shio o totte moraemasu ka?",i:"Bisa tolong ambilkan garamnya?"},{sp:"B",jp:"はい、どうぞ。",h:"はい、どうぞ。",r:"Hai, dōzo.",i:"Ini, silakan."}]},
-{k:"なる",h:"なる",r:"naru",id:"Menjadi",j:"v",lv:"N5",kw:1,s:{jp:"将来、医者になりたいです。",h:"しょうらい、いしゃになりたいです。",r:"Shōrai, isha ni naritai desu.",i:"Di masa depan saya ingin menjadi dokter."},d:[{sp:"A",jp:"大きくなったら何になりたいですか？",h:"おおきくなったらなになりたいですか？",r:"Ōkiku nattara nani ni naritai desu ka?",i:"Kalau sudah besar mau jadi apa?"},{sp:"B",jp:"エンジニアになりたいと思っています。",h:"エンジニアになりたいとおもっています。",r:"Enjinia ni naritai to omotte imasu.",i:"Saya berpikir ingin menjadi insinyur."}]},
+{k:"なる",h:"なる",r:"naru",id:"Menjadi",j:"v",lv:"N5",kw:1,s:{jp:"将来、医者になりたいです。",h:"しょうらい、いしゃになりたいです。",r:"Shōrai, isha ni naritai desu.",i:"Di masa depan saya ingin menjadi dokter."},d:[{sp:"A",jp:"大きくなったら何になりたいですか？",h:"おおきくなったらなになりたいですか？",r:"Ōkiku nattara nani ni naritai desu ka?",i:"Kalau sudah besar mau jadi apa?"},{sp:"B",jp:"エンジニアになりたいと思っています。",h:"エンジニアになりたいとおもっています。",r:"Enjinia ni naritai to omoimasu.",i:"Saya berpikir ingin menjadi insinyur."}]},
 {k:"寝る",h:"ねる",r:"neru",id:"Tidur",j:"v",lv:"N5",kw:1,s:{jp:"毎晩十一時に寝ます。",h:"まいばんじゅういちじにねます。",r:"Maiban jūichiji ni nemasu.",i:"Setiap malam saya tidur pukul sebelas."},d:[{sp:"A",jp:"昨日何時に寝ましたか？",h:"きのうなんじにねましたか？",r:"Kinō nanji ni nemashita ka?",i:"Kemarin kamu tidur jam berapa?"},{sp:"B",jp:"遅くて、一時ごろ寝ました。",h:"おそくて、いちじごろねました。",r:"Osokute, ichiji goro nemashita.",i:"Kemalaman, tidur sekitar jam 1."}]},
 {k:"飲む",h:"のむ",r:"nomu",id:"Minum",j:"v",lv:"N5",kw:1,s:{jp:"毎朝、コーヒーを飲みます。",h:"まいあさ、コーヒーをのみます。",r:"Maiasa, kōhī o nomimasu.",i:"Setiap pagi saya minum kopi."},d:[{sp:"A",jp:"何か飲みますか？",h:"なにかのみますか？",r:"Nanika nomimasu ka?",i:"Mau minum sesuatu?"},{sp:"B",jp:"お茶をいただけますか？",h:"おちゃをいただけますか？",r:"Ocha o itadakemasu ka?",i:"Boleh saya minta teh?"}]},
 {k:"乗る",h:"のる",r:"noru",id:"Naik (kendaraan)",j:"v",lv:"N5",kw:1,s:{jp:"毎日電車に乗って学校へ行きます。",h:"まいにちでんしゃにのってがっこうへいきます。",r:"Mainichi densha ni notte gakkō e ikimasu.",i:"Setiap hari saya naik kereta ke sekolah."},d:[{sp:"A",jp:"どうやって来ましたか？",h:"どうやってきましたか？",r:"Dō yatte kimashita ka?",i:"Bagaimana kamu ke sini?"},{sp:"B",jp:"バスに乗って来ました。",h:"バスにのってきました。",r:"Basu ni notte kimashita.",i:"Saya naik bus ke sini."}]},
 {k:"入る",h:"はいる",r:"hairu",id:"Masuk",j:"v",lv:"N5",kw:1,s:{jp:"部屋に入る前にノックしてください。",h:"へやにはいるまえにノックしてください。",r:"Heya ni hairu mae ni nokku shite kudasai.",i:"Tolong ketuk pintu sebelum masuk kamar."},d:[{sp:"A",jp:"入ってもいいですか？",h:"はいってもいいですか？",r:"Haitte mo ii desu ka?",i:"Boleh masuk?"},{sp:"B",jp:"どうぞ、入ってください。",h:"どうぞ、はいってください。",r:"Dōzo, haitte kudasai.",i:"Silakan masuk."}]},
-{k:"始まる",h:"はじまる",r:"hajimaru",id:"Mulai (sendiri)",j:"v",lv:"N5",kw:1,s:{jp:"授業は九時に始まります。",h:"じゅぎょうはくじにはじまります。",r:"Jugyō wa kuji ni hajimarimasu.",i:"Pelajaran mulai pukul sembilan."},d:[{sp:"A",jp:"映画は何時に始まりますか？",h:"えいがはなんじにはじまりますか？",r:"Eiga wa nanji ni hajimarimasu ka?",i:"Film mulai jam berapa?"},{sp:"B",jp:"七時に始まります。急ぎましょう。",h:"しちじにはじまります。いそぎましょう。",r:"Shichiji ni hajimarimasu. Isogimashō.",i:"Mulai jam 7. Ayo cepat."}]},
+{k:"始まる",h:"はじまる",r:"hajimaru",id:"Mulai",j:"v",lv:"N5",kw:1,s:{jp:"授業は九時に始まります。",h:"じゅぎょうはくじにはじまります。",r:"Jugyō wa kuji ni hajimarimasu.",i:"Pelajaran mulai pukul sembilan."},d:[{sp:"A",jp:"映画は何時に始まりますか？",h:"えいがはなんじにはじまりますか？",r:"Eiga wa nanji ni hajimarimasu ka?",i:"Film mulai jam berapa?"},{sp:"B",jp:"七時に始まります。急ぎましょう。",h:"しちじにはじまります。いそぎましょう。",r:"Shichiji ni hajimarimasu. Isogimashō.",i:"Mulai jam 7. Ayo cepat."}]},
 {k:"走る",h:"はしる",r:"hashiru",id:"Berlari",j:"v",lv:"N5",kw:1,s:{jp:"毎朝、公園で走ります。",h:"まいあさ、こうえんではしります。",r:"Maiasa, kōen de hashirimasu.",i:"Setiap pagi saya berlari di taman."},d:[{sp:"A",jp:"遅刻しそう！走りましょう！",h:"ちこくしそう！はしりましょう！",r:"Chikoku shisō! Hashirimashō!",i:"Sepertinya akan terlambat! Ayo lari!"},{sp:"B",jp:"わかった！一緒に走ろう！",h:"わかった！いっしょにはしろう！",r:"Wakatta! Issho ni hashirō!",i:"Oke! Ayo lari bersama!"}]},
 {k:"働く",h:"はたらく",r:"hataraku",id:"Bekerja",j:"v",lv:"N5",kw:1,s:{jp:"父は毎日一生懸命働いています。",h:"ちちはまいにちいっしょうけんめいはたらいています。",r:"Chichi wa mainichi isshōkenmei hataraite imasu.",i:"Ayah bekerja keras setiap hari."},d:[{sp:"A",jp:"どんな仕事をしていますか？",h:"どんなしごとをしていますか？",r:"Donna shigoto o shite imasu ka?",i:"Kamu kerja di bidang apa?"},{sp:"B",jp:"学校で働いています。教師です。",h:"がっこうではたらいています。きょうしです。",r:"Gakkō de hataraite imasu. Kyōshi desu.",i:"Saya bekerja di sekolah. Saya guru."}]},
 {k:"話す",h:"はなす",r:"hanasu",id:"Berbicara",j:"v",lv:"N5",kw:1,s:{jp:"日本語で話せるようになりました。",h:"にほんごではなせるようになりました。",r:"Nihongo de hanaseru yō ni narimashita.",i:"Saya sudah bisa berbicara dalam bahasa Jepang."},d:[{sp:"A",jp:"日本語で話せますか？",h:"にほんごではなせますか？",r:"Nihongo de hanasemasu ka?",i:"Bisa berbicara dalam bahasa Jepang?"},{sp:"B",jp:"少し話せます。まだ練習中です。",h:"すこしはなせます。まだれんしゅうちゅうです。",r:"Sukoshi hanasemasu. Mada renshū-chū desu.",i:"Bisa sedikit. Masih dalam latihan."}]},
@@ -278,135 +440,124 @@ const V=[
 {k:"見る",h:"みる",r:"miru",id:"Melihat",j:"v",lv:"N5",kw:1,s:{jp:"テレビを見ながら食事をします。",h:"テレビをみながらしょくじをします。",r:"Terebi o minagara shokuji o shimasu.",i:"Saya makan sambil menonton TV."},d:[{sp:"A",jp:"昨日、映画を見ましたか？",h:"きのう、えいがをみましたか？",r:"Kinō, eiga o mimashita ka?",i:"Kemarin kamu nonton film?"},{sp:"B",jp:"はい、面白い映画を見ました。",h:"はい、おもしろいえいがをみました。",r:"Hai, omoshiroi eiga o mimashita.",i:"Iya, saya nonton film yang menarik."}]},
 {k:"持つ",h:"もつ",r:"motsu",id:"Membawa/Memegang",j:"v",lv:"N5",kw:1,s:{jp:"重い荷物を持っています。",h:"おもいにもつをもっています。",r:"Omoi nimotsu o motte imasu.",i:"Saya membawa barang bawaan yang berat."},d:[{sp:"A",jp:"荷物を持ってあげましょうか？",h:"にもつをもってあげましょうか？",r:"Nimotsu o motte agemashō ka?",i:"Mau saya bantu bawakan barangnya?"},{sp:"B",jp:"ありがとうございます。お願いします。",h:"ありがとうございます。おねがいします。",r:"Arigatō gozaimasu. Onegai shimasu.",i:"Terima kasih. Mohon bantuannya."}]},
 {k:"休む",h:"やすむ",r:"yasumu",id:"Beristirahat",j:"v",lv:"N5",kw:1,s:{jp:"疲れたので少し休みます。",h:"つかれたのですこしやすみます。",r:"Tsukareta node sukoshi yasumimasu.",i:"Karena lelah, saya beristirahat sebentar."},d:[{sp:"A",jp:"今日は学校を休んでもいいですか？",h:"きょうはがっこうをやすんでもいいですか？",r:"Kyō wa gakkō o yasunde mo ii desu ka?",i:"Boleh saya tidak masuk sekolah hari ini?"},{sp:"B",jp:"具合が悪いですか？",h:"ぐあいがわるいですか？",r:"Guai ga warui desu ka?",i:"Apakah kamu tidak enak badan?"}]},
-{k:"読む",h:"よむ",r:"yomu",id:"Membaca",j:"v",lv:"N5",kw:1,s:{jp:"毎日新聞を読みます。",h:"まいにちしんぶんをよみます。",r:"Mainichi shinbun o yomimasu.",i:"Saya membaca koran setiap hari."},d:[{sp:"A",jp:"この本を読んだことがありますか？",h:"このほんをよんだことがありますか？",r:"Kono hon o yonda koto ga arimasu ka?",i:"Pernahkah kamu membaca buku ini?"},{sp:"B",jp:"はい、去年読みました。面白かったです。",h:"はい、きょねんよみました。おもしろかったです。",r:"Hai, kyonen yomimashita. Omoshirokatta desu.",i:"Pernah, saya baca tahun lalu. Menarik."}]},
+{k:"読む",h:"よむ",r:"yomu",id:"Membaca",j:"v",lv:"N5",kw:1,s:{jp:"毎日新聞を読みます。",h:"まいにちしんぶんをよみます。",r:"Mainichi shinbun o yomimasu.",i:"Saya membaca koran setiap hari."},d:[{sp:"A",jp:"この本を読んだことがありますか？",h:"このほんをよんだことがありますか？",r:"Kono hon o yonda koto ga arimasu ka?",i:"Pernahkah kamu membaca buku ini?"},{sp:"B",jp:"はい、去年読みました。面白かったです。",h:"はい、きょねんよみました。おもしろかったです。",r:"Hai, kyonen yomimashita. Omoshirokatta desu.",i:"Pernah, tahun lalu. Menarik."}]},
 {k:"分かる",h:"わかる",r:"wakaru",id:"Mengerti",j:"v",lv:"N5",kw:1,s:{jp:"先生の説明がよく分かりました。",h:"せんせいのせつめいがよくわかりました。",r:"Sensei no setsumei ga yoku wakarimashita.",i:"Penjelasan guru sangat bisa saya mengerti."},d:[{sp:"A",jp:"分かりましたか？",h:"わかりましたか？",r:"Wakarimashita ka?",i:"Apakah kamu mengerti?"},{sp:"B",jp:"はい、よく分かりました。",h:"はい、よくわかりました。",r:"Hai, yoku wakarimashita.",i:"Iya, mengerti dengan baik."}]},
 {k:"忘れる",h:"わすれる",r:"wasureru",id:"Lupa",j:"v",lv:"N5",kw:1,s:{jp:"宿題を家に忘れてしまいました。",h:"しゅくだいをいえにわすれてしまいました。",r:"Shukudai o ie ni wasurete shimaimashita.",i:"Saya lupa meninggalkan PR di rumah."},d:[{sp:"A",jp:"名前を忘れてしまいました。すみません。",h:"なまえをわすれてしまいました。すみません。",r:"Namae o wasurete shimaimashita. Sumimasen.",i:"Saya lupa namanya. Maaf."},{sp:"B",jp:"大丈夫ですよ。もう一度言いますね。",h:"だいじょうぶですよ。もういちどいいますね。",r:"Daijōbu desu yo. Mō ichido iimasu ne.",i:"Tidak apa-apa. Saya ulangi sekali lagi ya."}]},
-
-// ── KATA KERJA N4 (dari PDF) ──
-{k:"合う",h:"あう",r:"au",id:"Cocok/Pas",j:"v",lv:"N4",kw:0,s:{jp:"このサイズはよく合います。",h:"このサイズはよくあいます。",r:"Kono saizu wa yoku aimasu.",i:"Ukuran ini sangat cocok."},d:[{sp:"A",jp:"この色は私に合いますか？",h:"このいろはわたしにあいますか？",r:"Kono iro wa watashi ni aimasu ka?",i:"Apakah warna ini cocok untuk saya?"},{sp:"B",jp:"はい、とても似合っていますよ。",h:"はい、とてもにあっていますよ。",r:"Hai, totemo niatte imasu yo.",i:"Iya, sangat cocok untuk kamu."}]},
+{k:"渡す",h:"わたす",r:"watasu",id:"Menyerahkan",j:"v",lv:"N5",kw:1,s:{jp:"書類を先生に渡しました。",h:"しょるいをせんせいにわたしました。",r:"Shorui o sensei ni watashimashita.",i:"Saya menyerahkan dokumen kepada guru."},d:[{sp:"A",jp:"このレポートをいつ渡せばいいですか？",h:"このレポートをいつわたせばいいですか？",r:"Kono repōto o itsu wataseba ii desu ka?",i:"Kapan sebaiknya saya serahkan laporan ini?"},{sp:"B",jp:"できれば今日中に渡してください。",h:"できればきょうじゅうにわたしてください。",r:"Dekireba kyōjū ni watashite kudasai.",i:"Kalau bisa serahkan hari ini juga."}]},
+// N4 KATA KERJA
 {k:"上がる",h:"あがる",r:"agaru",id:"Naik/Meningkat",j:"v",lv:"N4",kw:1,s:{jp:"気温が上がっています。",h:"きおんがあがっています。",r:"Kion ga agatte imasu.",i:"Suhu udara sedang naik."},d:[{sp:"A",jp:"最近、物価が上がりましたね。",h:"さいきん、ぶっかがあがりましたね。",r:"Saikin, bukka ga agarimashita ne.",i:"Belakangan ini harga-harga naik ya."},{sp:"B",jp:"そうですね。生活費が大変です。",h:"そうですね。せいかつひがたいへんです。",r:"Sō desu ne. Seikatsuhi ga taihen desu.",i:"Iya betul. Biaya hidup jadi berat."}]},
-{k:"運ぶ",h:"はこぶ",r:"hakobu",id:"Mengangkut/Membawa",j:"v",lv:"N4",kw:1,s:{jp:"荷物を部屋まで運びました。",h:"にもつをへやまではこびました。",r:"Nimotsu o heya made hakobimashita.",i:"Saya mengangkut barang sampai ke kamar."},d:[{sp:"A",jp:"重い荷物を一人で運べますか？",h:"おもいにもつをひとりではこべますか？",r:"Omoi nimotsu o hitori de hakobemasu ka?",i:"Bisa mengangkut barang berat sendirian?"},{sp:"B",jp:"少し手伝ってもらえますか？",h:"すこしてつだってもらえますか？",r:"Sukoshi tetsudatte moraemasu ka?",i:"Bisa tolong bantu sedikit?"}]},
-{k:"壊れる",h:"こわれる",r:"kowareru",id:"Rusak (sendiri)",j:"v",lv:"N4",kw:1,s:{jp:"パソコンが壊れてしまいました。",h:"パソコンがこわれてしまいました。",r:"Pasokon ga kowarete shimaimashita.",i:"Komputernya rusak."},d:[{sp:"A",jp:"エアコンが壊れました。どうしましょう。",h:"エアコンがこわれました。どうしましょう。",r:"Eakon ga kowaremashita. Dō shimashō.",i:"AC-nya rusak. Bagaimana ini."},{sp:"B",jp:"修理に出しましょうか？",h:"しゅうりにだしましょうか？",r:"Shūri ni dashimashō ka?",i:"Mau kita bawa ke tempat reparasi?"}]},
-{k:"壊す",h:"こわす",r:"kowasu",id:"Merusak",j:"v",lv:"N4",kw:0,s:{jp:"うっかり皿を壊してしまいました。",h:"うっかりさらをこわしてしまいました。",r:"Ukkari sara o kowashite shimaimashita.",i:"Tanpa sengaja saya merusak/memecahkan piring."},d:[{sp:"A",jp:"どうして壊したんですか？",h:"どうしてこわしたんですか？",r:"Dōshite kowashita n desu ka?",i:"Kenapa kamu merusaknya?"},{sp:"B",jp:"事故です。本当に申し訳ありません。",h:"じこです。ほんとうにもうしわけありません。",r:"Jiko desu. Hontō ni mōshiwake arimasen.",i:"Kecelakaan. Saya benar-benar minta maaf."}]},
-{k:"下がる",h:"さがる",r:"sagaru",id:"Turun/Menurun",j:"v",lv:"N4",kw:1,s:{jp:"熱が下がってよかったです。",h:"ねつがさがってよかったです。",r:"Netsu ga sagatte yokatta desu.",i:"Syukurlah demamnya turun."},d:[{sp:"A",jp:"最近、成績が下がってしまいました。",h:"さいきん、せいせきがさがってしまいました。",r:"Saikin, seiseki ga sagatte shimaimashita.",i:"Belakangan ini nilainya menurun."},{sp:"B",jp:"もっと勉強しなければなりませんね。",h:"もっとべんきょうしなければなりませんね。",r:"Motto benkyō shinakereba narimasen ne.",i:"Harus lebih giat belajar ya."}]},
+{k:"壊れる",h:"こわれる",r:"kowareru",id:"Rusak",j:"v",lv:"N4",kw:1,s:{jp:"パソコンが壊れてしまいました。",h:"パソコンがこわれてしまいました。",r:"Pasokon ga kowarete shimaimashita.",i:"Komputernya rusak."},d:[{sp:"A",jp:"エアコンが壊れました。どうしましょう。",h:"エアコンがこわれました。どうしましょう。",r:"Eakon ga kowaremashita. Dō shimashō.",i:"AC-nya rusak. Bagaimana ini."},{sp:"B",jp:"修理に出しましょうか？",h:"しゅうりにだしましょうか？",r:"Shūri ni dashimashō ka?",i:"Mau kita bawa ke tempat reparasi?"}]},
 {k:"楽しむ",h:"たのしむ",r:"tanoshimu",id:"Menikmati",j:"v",lv:"N4",kw:1,s:{jp:"音楽を楽しんでいます。",h:"おんがくをたのしんでいます。",r:"Ongaku o tanoshinde imasu.",i:"Saya sedang menikmati musik."},d:[{sp:"A",jp:"旅行を楽しんでいますか？",h:"りょこうをたのしんでいますか？",r:"Ryokō o tanoshinde imasu ka?",i:"Apakah kamu menikmati perjalanannya?"},{sp:"B",jp:"はい、とても楽しんでいます！",h:"はい、とてもたのしんでいます！",r:"Hai, totemo tanoshinde imasu!",i:"Iya, sangat menikmati!"}]},
-{k:"触る",h:"さわる",r:"sawaru",id:"Menyentuh",j:"v",lv:"N4",kw:1,s:{jp:"展示品に触らないでください。",h:"てんじひんにさわらないでください。",r:"Tenji-hin ni sawaranaide kudasai.",i:"Tolong jangan menyentuh barang pameran."},d:[{sp:"A",jp:"この機械に触ってもいいですか？",h:"このきかいにさわってもいいですか？",r:"Kono kikai ni sawatte mo ii desu ka?",i:"Boleh saya menyentuh mesin ini?"},{sp:"B",jp:"すみません、触らないでください。",h:"すみません、さわらないでください。",r:"Sumimasen, sawaranaide kudasai.",i:"Maaf, tolong jangan disentuh."}]},
-{k:"比べる",h:"くらべる",r:"kuraberu",id:"Membandingkan",j:"v",lv:"N4",kw:1,s:{jp:"二つの商品を比べてみました。",h:"ふたつのしょうひんをくらべてみました。",r:"Futatsu no shōhin o kurabete mimashita.",i:"Saya mencoba membandingkan dua produk."},d:[{sp:"A",jp:"AとBを比べると、どちらがいいですか？",h:"AとBをくらべると、どちらがいいですか？",r:"A to B o kuraberu to, dochira ga ii desu ka?",i:"Kalau membandingkan A dan B, mana yang lebih baik?"},{sp:"B",jp:"値段を比べると、Aのほうが安いです。",h:"ねだんをくらべると、Aのほうがやすいです。",r:"Nedan o kuraberu to, A no hō ga yasui desu.",i:"Kalau membandingkan harga, A lebih murah."}]},
-{k:"決める",h:"きめる",r:"kimeru",id:"Memutuskan",j:"v",lv:"N4",kw:1,s:{jp:"旅行の日程を決めました。",h:"りょこうのにってをきめました。",r:"Ryokō no nittei o kimemashita.",i:"Saya sudah memutuskan jadwal perjalanan."},d:[{sp:"A",jp:"もう決めましたか？",h:"もうきめましたか？",r:"Mō kimemashita ka?",i:"Sudah memutuskan?"},{sp:"B",jp:"まだです。もう少し考えてから決めます。",h:"まだです。もうすこしかんがえてからきめます。",r:"Mada desu. Mō sukoshi kangaete kara kimemasu.",i:"Belum. Saya akan memutuskan setelah berpikir sedikit lagi."}]},
-{k:"調べる",h:"しらべる",r:"shiraberu",id:"Menyelidiki/Mencari tahu",j:"v",lv:"N4",kw:1,s:{jp:"インターネットで調べました。",h:"インターネットでしらべました。",r:"Intānetto de shirabemashita.",i:"Saya mencari tahu di internet."},d:[{sp:"A",jp:"この言葉の意味を調べてもらえますか？",h:"このことばのいみをしらべてもらえますか？",r:"Kono kotoba no imi o shirabete moraemasu ka?",i:"Bisa tolong cari tahu arti kata ini?"},{sp:"B",jp:"はい、今すぐ調べます。",h:"はい、いますぐしらべます。",r:"Hai, ima sugu shirabemasu.",i:"Baik, sekarang saya cari."}]},
+{k:"調べる",h:"しらべる",r:"shiraberu",id:"Mencari tahu",j:"v",lv:"N4",kw:1,s:{jp:"インターネットで調べました。",h:"インターネットでしらべました。",r:"Intānetto de shirabemashita.",i:"Saya mencari tahu di internet."},d:[{sp:"A",jp:"この言葉の意味を調べてもらえますか？",h:"このことばのいみをしらべてもらえますか？",r:"Kono kotoba no imi o shirabete moraemasu ka?",i:"Bisa tolong cari tahu arti kata ini?"},{sp:"B",jp:"はい、今すぐ調べます。",h:"はい、いますぐしらべます。",r:"Hai, ima sugu shirabemasu.",i:"Baik, sekarang saya cari."}]},
 {k:"伝える",h:"つたえる",r:"tsutaeru",id:"Menyampaikan",j:"v",lv:"N4",kw:1,s:{jp:"大切なことを彼女に伝えました。",h:"たいせつなことをかのじょにつたえました。",r:"Taisetsuna koto o kanojo ni tsutaemashita.",i:"Saya menyampaikan hal penting kepadanya."},d:[{sp:"A",jp:"田中さんにこのメッセージを伝えてもらえますか？",h:"たなかさんにこのメッセージをつたえてもらえますか？",r:"Tanaka-san ni kono messēji o tsutaete moraemasu ka?",i:"Bisa tolong sampaikan pesan ini ke Tanaka-san?"},{sp:"B",jp:"はい、必ず伝えます。",h:"はい、かならずつたえます。",r:"Hai, kanarazu tsutaemasu.",i:"Baik, pasti akan saya sampaikan."}]},
 {k:"手伝う",h:"てつだう",r:"tetsudau",id:"Membantu",j:"v",lv:"N4",kw:1,s:{jp:"引っ越しを手伝ってあげました。",h:"ひっこしをてつだってあげました。",r:"Hikkoshi o tetsudatte agemashita.",i:"Saya membantu pindahan rumah."},d:[{sp:"A",jp:"ちょっと手伝ってもらえますか？",h:"ちょっとてつだってもらえますか？",r:"Chotto tetsudatte moraemasu ka?",i:"Bisa tolong bantu sebentar?"},{sp:"B",jp:"もちろん！何を手伝えばいいですか？",h:"もちろん！なにをてつだえばいいですか？",r:"Mochiron! Nani o tetsudaeba ii desu ka?",i:"Tentu saja! Mau dibantu apa?"}]},
-{k:"治る",h:"なおる",r:"naoru",id:"Sembuh",j:"v",lv:"N4",kw:1,s:{jp:"風邪が治りました。",h:"かぜがなおりました。",r:"Kaze ga naorimashita.",i:"Flu saya sudah sembuh."},d:[{sp:"A",jp:"具合はどうですか？もう治りましたか？",h:"ぐあいはどうですか？もうなおりましたか？",r:"Guai wa dō desu ka? Mō naorimashita ka?",i:"Bagaimana kondisinya? Sudah sembuh?"},{sp:"B",jp:"はい、おかげさまで治りました。",h:"はい、おかげさまでなおりました。",r:"Hai, okagesama de naorimashita.",i:"Sudah sembuh, terima kasih."}]},
 {k:"払う",h:"はらう",r:"harau",id:"Membayar",j:"v",lv:"N4",kw:1,s:{jp:"レストランで食事代を払いました。",h:"レストランでしょくじだいをはらいました。",r:"Resutoran de shokuji-dai o haraimashita.",i:"Saya membayar biaya makan di restoran."},d:[{sp:"A",jp:"料金はどこで払えばいいですか？",h:"りょうきんはどこではらえばいいですか？",r:"Ryōkin wa doko de haraeba ii desu ka?",i:"Di mana saya harus membayar biayanya?"},{sp:"B",jp:"あちらのレジで払ってください。",h:"あちらのレジではらってください。",r:"Achira no reji de haratte kudasai.",i:"Tolong bayar di kasir sana."}]},
-{k:"引っ越す",h:"ひっこす",r:"hikkosu",id:"Pindah rumah",j:"v",lv:"N4",kw:1,s:{jp:"来月、新しいアパートに引っ越します。",h:"らいげつ、あたらしいアパートにひっこします。",r:"Raigetsu, atarashii apāto ni hikkoshimasu.",i:"Bulan depan saya pindah ke apartemen baru."},d:[{sp:"A",jp:"もう引っ越しましたか？",h:"もうひっこしましたか？",r:"Mō hikkoshimashita ka?",i:"Sudah pindah?"},{sp:"B",jp:"はい、先週引っ越しました。",h:"はい、せんしゅうひっこしました。",r:"Hai, senshū hikkoshimashita.",i:"Sudah, pindah minggu lalu."}]},
-{k:"増える",h:"ふえる",r:"fueru",id:"Bertambah",j:"v",lv:"N4",kw:0,s:{jp:"観光客が増えています。",h:"かんこうきゃくがふえています。",r:"Kankōkyaku ga fuete imasu.",i:"Jumlah wisatawan sedang bertambah."},d:[{sp:"A",jp:"最近、仕事が増えましたか？",h:"さいきん、しごとがふえましたか？",r:"Saikin, shigoto ga fuemashita ka?",i:"Belakangan ini pekerjaan bertambah?"},{sp:"B",jp:"はい、とても忙しいです。",h:"はい、とてもいそがしいです。",r:"Hai, totemo isogashii desu.",i:"Iya, sangat sibuk."}]},
-{k:"間に合う",h:"まにあう",r:"maniau",id:"Tepat waktu",j:"v",lv:"N4",kw:1,s:{jp:"電車に間に合いました。",h:"でんしゃにまにあいました。",r:"Densha ni maniaimashita.",i:"Saya tepat waktu naik kereta."},d:[{sp:"A",jp:"急がないと間に合いませんよ！",h:"いそがないとまにあいませんよ！",r:"Isoganai to maniaimasen yo!",i:"Kalau tidak cepat tidak akan tepat waktu!"},{sp:"B",jp:"わかった！今すぐ行きます！",h:"わかった！いますぐいきます！",r:"Wakatta! Ima sugu ikimasu!",i:"Oke! Saya pergi sekarang!"}]},
-{k:"見つける",h:"みつける",r:"mitsukeru",id:"Menemukan",j:"v",lv:"N4",kw:1,s:{jp:"なくした財布を見つけました。",h:"なくしたさいふをみつけました。",r:"Nakushita saifu o mitsukemashita.",i:"Saya menemukan dompet yang hilang."},d:[{sp:"A",jp:"鍵を見つけられましたか？",h:"かぎをみつけられましたか？",r:"Kagi o mitsukeraremashita ka?",i:"Apakah kamu sudah menemukan kuncinya?"},{sp:"B",jp:"はい！ソファの下で見つけました。",h:"はい！ソファのしたでみつけました。",r:"Hai! Sofa no shita de mitsukemashita.",i:"Sudah! Saya menemukannya di bawah sofa."}]},
 {k:"戻る",h:"もどる",r:"modoru",id:"Kembali",j:"v",lv:"N4",kw:1,s:{jp:"忘れ物をしたので、家に戻りました。",h:"わすれものをしたので、いえにもどりました。",r:"Wasuremono o shita node, ie ni modorimashita.",i:"Karena ada yang terlupa, saya kembali ke rumah."},d:[{sp:"A",jp:"いつ戻りますか？",h:"いつもどりますか？",r:"Itsu modorimasu ka?",i:"Kapan kamu kembali?"},{sp:"B",jp:"三時ごろ戻る予定です。",h:"さんじごろもどるよていです。",r:"Sanji goro modoru yotei desu.",i:"Rencana kembali sekitar jam 3."}]},
 {k:"遅れる",h:"おくれる",r:"okureru",id:"Terlambat",j:"v",lv:"N4",kw:1,s:{jp:"渋滞で会議に遅れてしまいました。",h:"じゅうたいでかいぎにおくれてしまいました。",r:"Jūtai de kaigi ni okurete shimaimashita.",i:"Saya terlambat ke rapat karena macet."},d:[{sp:"A",jp:"すみません、少し遅れます。",h:"すみません、すこしおくれます。",r:"Sumimasen, sukoshi okuremasu.",i:"Maaf, saya akan sedikit terlambat."},{sp:"B",jp:"大丈夫ですよ。気をつけて来てください。",h:"だいじょうぶですよ。きをつけてきてください。",r:"Daijōbu desu yo. Ki o tsukete kite kudasai.",i:"Tidak apa-apa. Hati-hati di jalan ya."}]},
-{k:"参加する",h:"さんかする",r:"sanka suru",id:"Ikut serta/Berpartisipasi",j:"v",lv:"N4",kw:1,s:{jp:"来週のイベントに参加します。",h:"らいしゅうのイベントにさんかします。",r:"Raishū no ibento ni sanka shimasu.",i:"Saya akan berpartisipasi dalam acara minggu depan."},d:[{sp:"A",jp:"このプロジェクトに参加しませんか？",h:"このプロジェクトにさんかしませんか？",r:"Kono purojekuto ni sanka shimasen ka?",i:"Mau ikut serta dalam proyek ini?"},{sp:"B",jp:"ぜひ参加したいです！",h:"ぜひさんかしたいです！",r:"Zehi sanka shitai desu!",i:"Saya sangat ingin ikut serta!"}]},
-{k:"申し込む",h:"もうしこむ",r:"moushikomu",id:"Mendaftar",j:"v",lv:"N4",kw:1,s:{jp:"日本語のコースに申し込みました。",h:"にほんごのコースにもうしこみました。",r:"Nihongo no kōsu ni mōshikomimashita.",i:"Saya mendaftar kursus bahasa Jepang."},d:[{sp:"A",jp:"どうやって申し込めばいいですか？",h:"どうやってもうしこめばいいですか？",r:"Dō yatte mōshikomeba ii desu ka?",i:"Bagaimana cara mendaftarnya?"},{sp:"B",jp:"ウェブサイトから申し込んでください。",h:"ウェブサイトからもうしこんでください。",r:"Webusaito kara mōshikonde kudasai.",i:"Tolong daftar melalui website."}]},
-{k:"合格する",h:"ごうかくする",r:"goukaku suru",id:"Lulus (ujian)",j:"v",lv:"N4",kw:1,s:{jp:"N4の試験に合格しました！",h:"N4のしけんにごうかくしました！",r:"N4 no shiken ni gōkaku shimashita!",i:"Saya lulus ujian N4!"},d:[{sp:"A",jp:"試験の結果はどうでしたか？",h:"しけんのけっかはどうでしたか？",r:"Shiken no kekka wa dō deshita ka?",i:"Bagaimana hasil ujiannya?"},{sp:"B",jp:"合格しました！とても嬉しいです！",h:"ごうかくしました！とてもうれしいです！",r:"Gōkaku shimashita! Totemo ureshii desu!",i:"Lulus! Sangat senang!"}]},
-{k:"相談する",h:"そうだんする",r:"soudan suru",id:"Berunding/Konsultasi",j:"v",lv:"N4",kw:1,s:{jp:"先生に相談してみました。",h:"せんせいにそうだんしてみました。",r:"Sensei ni sōdan shite mimashita.",i:"Saya mencoba berkonsultasi dengan guru."},d:[{sp:"A",jp:"困ったことがあれば、相談してください。",h:"こまったことがあれば、そうだんしてください。",r:"Komatta koto ga areba, sōdan shite kudasai.",i:"Kalau ada masalah, tolong konsultasikan."},{sp:"B",jp:"ありがとうございます。少し相談があります。",h:"ありがとうございます。すこしそうだんがあります。",r:"Arigatō gozaimasu. Sukoshi sōdan ga arimasu.",i:"Terima kasih. Ada sedikit yang ingin saya konsultasikan."}]},
-
-// ── KATA SIFAT N5 ──
+{k:"合格する",h:"ごうかくする",r:"goukaku suru",id:"Lulus ujian",j:"v",lv:"N4",kw:1,s:{jp:"N4の試験に合格しました！",h:"N4のしけんにごうかくしました！",r:"N4 no shiken ni gōkaku shimashita!",i:"Saya lulus ujian N4!"},d:[{sp:"A",jp:"試験の結果はどうでしたか？",h:"しけんのけっかはどうでしたか？",r:"Shiken no kekka wa dō deshita ka?",i:"Bagaimana hasil ujiannya?"},{sp:"B",jp:"合格しました！とても嬉しいです！",h:"ごうかくしました！とてもうれしいです！",r:"Gōkaku shimashita! Totemo ureshii desu!",i:"Lulus! Sangat senang!"}]},
+// KATA SIFAT N5
 {k:"大きい",h:"おおきい",r:"ookii",id:"Besar",j:"adj",lv:"N5",kw:1,s:{jp:"あの建物はとても大きいです。",h:"あのたてものはとてもおおきいです。",r:"Ano tatemono wa totemo ōkii desu.",i:"Gedung itu sangat besar."},d:[{sp:"A",jp:"どちらのほうが大きいですか？",h:"どちらのほうがおおきいですか？",r:"Dochira no hō ga ōkii desu ka?",i:"Yang mana yang lebih besar?"},{sp:"B",jp:"右のほうが大きいと思います。",h:"みぎのほうがおおきいとおもいます。",r:"Migi no hō ga ōkii to omoimasu.",i:"Saya rasa yang kanan lebih besar."}]},
 {k:"小さい",h:"ちいさい",r:"chiisai",id:"Kecil",j:"adj",lv:"N5",kw:1,s:{jp:"この部屋は少し小さいです。",h:"このへやはすこしちいさいです。",r:"Kono heya wa sukoshi chiisai desu.",i:"Kamar ini agak kecil."},d:[{sp:"A",jp:"このサイズは小さすぎますか？",h:"このサイズはちいさすぎますか？",r:"Kono saizu wa chiisa-sugimasu ka?",i:"Apakah ukuran ini terlalu kecil?"},{sp:"B",jp:"少し小さいですが、大丈夫です。",h:"すこしちいさいですが、だいじょうぶです。",r:"Sukoshi chiisai desu ga, daijōbu desu.",i:"Agak kecil, tapi tidak apa-apa."}]},
 {k:"おいしい",h:"おいしい",r:"oishii",id:"Enak/Lezat",j:"adj",lv:"N5",kw:1,s:{jp:"この料理はとてもおいしいです！",h:"このりょうりはとてもおいしいです！",r:"Kono ryōri wa totemo oishii desu!",i:"Masakan ini sangat enak!"},d:[{sp:"A",jp:"この料理はどうですか？",h:"このりょうりはどうですか？",r:"Kono ryōri wa dō desu ka?",i:"Bagaimana masakan ini?"},{sp:"B",jp:"とてもおいしいです！何が入っていますか？",h:"とてもおいしいです！なにがはいっていますか？",r:"Totemo oishii desu! Nani ga haitte imasu ka?",i:"Sangat enak! Bahan apa saja yang dipakai?"}]},
 {k:"難しい",h:"むずかしい",r:"muzukashii",id:"Sulit",j:"adj",lv:"N5",kw:1,s:{jp:"漢字はとても難しいですが、面白いです。",h:"かんじはとてもむずかしいですが、おもしろいです。",r:"Kanji wa totemo muzukashii desu ga, omoshiroi desu.",i:"Kanji sangat sulit, tetapi menarik."},d:[{sp:"A",jp:"日本語は難しいですか？",h:"にほんごはむずかしいですか？",r:"Nihongo wa muzukashii desu ka?",i:"Apakah bahasa Jepang sulit?"},{sp:"B",jp:"少し難しいですが、毎日練習しています。",h:"すこしむずかしいですが、まいにちれんしゅうしています。",r:"Sukoshi muzukashii desu ga, mainichi renshū shite imasu.",i:"Agak sulit, tapi saya berlatih setiap hari."}]},
 {k:"暑い",h:"あつい",r:"atsui",id:"Panas (udara)",j:"adj",lv:"N5",kw:1,s:{jp:"今日はとても暑いですね。",h:"きょうはとてもあついですね。",r:"Kyō wa totemo atsui desu ne.",i:"Hari ini sangat panas ya."},d:[{sp:"A",jp:"暑いですね。エアコンをつけましょうか？",h:"あついですね。エアコンをつけましょうか？",r:"Atsui desu ne. Eakon o tsukemashō ka?",i:"Panas ya. Mau saya nyalakan AC?"},{sp:"B",jp:"はい、お願いします。",h:"はい、おねがいします。",r:"Hai, onegai shimasu.",i:"Iya, tolong."}]},
-{k:"寒い",h:"さむい",r:"samui",id:"Dingin (udara)",j:"adj",lv:"N5",kw:1,s:{jp:"冬は寒いので、コートを着ます。",h:"ふゆはさむいので、コートをきます。",r:"Fuyu wa samui node, kōto o kimasu.",i:"Karena musim dingin dingin, saya memakai mantel."},d:[{sp:"A",jp:"今日は寒いですね。",h:"きょうはさむいですね。",r:"Kyō wa samui desu ne.",i:"Hari ini dingin ya."},{sp:"B",jp:"そうですね。コートを着てきてよかったです。",h:"そうですね。コートをきてきてよかったです。",r:"Sō desu ne. Kōto o kite kite yokatta desu.",i:"Iya betul. Syukurlah saya memakai mantel."}]},
 {k:"好き",h:"すき",r:"suki",id:"Suka",j:"adj",lv:"N5",kw:1,s:{jp:"私は音楽が好きです。",h:"わたしはおんがくがすきです。",r:"Watashi wa ongaku ga suki desu.",i:"Saya suka musik."},d:[{sp:"A",jp:"どんな音楽が好きですか？",h:"どんなおんがくがすきですか？",r:"Donna ongaku ga suki desu ka?",i:"Kamu suka musik apa?"},{sp:"B",jp:"JPOPが好きです。",h:"JPOPがすきです。",r:"JPOP ga suki desu.",i:"Saya suka JPOP."}]},
-{k:"嫌い",h:"きらい",r:"kirai",id:"Tidak suka",j:"adj",lv:"N5",kw:1,s:{jp:"私はゴキブリが嫌いです。",h:"わたしはゴキブリがきらいです。",r:"Watashi wa gokiburi ga kirai desu.",i:"Saya tidak suka kecoa."},d:[{sp:"A",jp:"苦手な食べ物がありますか？",h:"にがてなたべものがありますか？",r:"Nigate na tabemono ga arimasu ka?",i:"Apakah ada makanan yang tidak kamu suka?"},{sp:"B",jp:"納豆が少し嫌いです。",h:"なっとうがすこしきらいです。",r:"Nattō ga sukoshi kirai desu.",i:"Saya agak tidak suka natto."}]},
 {k:"上手",h:"じょうず",r:"jouzu",id:"Mahir/Pandai",j:"adj",lv:"N5",kw:1,s:{jp:"田中さんは料理が上手です。",h:"たなかさんはりょうりがじょうずです。",r:"Tanaka-san wa ryōri ga jōzu desu.",i:"Tanaka-san mahir memasak."},d:[{sp:"A",jp:"日本語が上手ですね！",h:"にほんごがじょうずですね！",r:"Nihongo ga jōzu desu ne!",i:"Bahasa Jepangmu mahir ya!"},{sp:"B",jp:"いいえ、まだまだです。もっと練習が必要です。",h:"いいえ、まだまだです。もっとれんしゅうがひつようです。",r:"Iie, madamada desu. Motto renshū ga hitsuyō desu.",i:"Tidak, masih jauh. Saya masih perlu banyak latihan."}]},
 {k:"きれい",h:"きれい",r:"kirei",id:"Cantik/Bersih",j:"adj",lv:"N5",kw:1,s:{jp:"この花はとてもきれいです。",h:"このはなはとてもきれいです。",r:"Kono hana wa totemo kirei desu.",i:"Bunga ini sangat cantik."},d:[{sp:"A",jp:"この部屋はきれいですね。",h:"このへやはきれいですね。",r:"Kono heya wa kirei desu ne.",i:"Kamar ini bersih ya."},{sp:"B",jp:"ありがとうございます。毎日掃除しています。",h:"ありがとうございます。まいにちそうじしています。",r:"Arigatō gozaimasu. Mainichi sōji shite imasu.",i:"Terima kasih. Saya bersih-bersih setiap hari."}]},
-{k:"便利",h:"べんり",r:"benri",id:"Praktis/Nyaman",j:"adj",lv:"N5",kw:1,s:{jp:"スマートフォンはとても便利です。",h:"スマートフォンはとてもべんりです。",r:"Sumātofon wa totemo benri desu.",i:"Smartphone sangat praktis."},d:[{sp:"A",jp:"この近くに住んでいると便利ですか？",h:"このちかくにすんでいるとべんりですか？",r:"Kono chikaku ni sunde iru to benri desu ka?",i:"Apakah tinggal di dekat sini praktis?"},{sp:"B",jp:"はい、駅も近いのでとても便利です。",h:"はい、えきもちかいのでとてもべんりです。",r:"Hai, eki mo chikai no de totemo benri desu.",i:"Iya, stasiun juga dekat jadi sangat praktis."}]},
-// ── KATA SIFAT N4 ──
-{k:"珍しい",h:"めずらしい",r:"mezurashii",id:"Jarang/Langka",j:"adj",lv:"N4",kw:1,s:{jp:"この植物は珍しいですね。",h:"このしょくぶつはめずらしいですね。",r:"Kono shokubutsu wa mezurashii desu ne.",i:"Tanaman ini langka ya."},d:[{sp:"A",jp:"この食べ物は日本では珍しいですか？",h:"このたべものはにほんではめずらしいですか？",r:"Kono tabemono wa Nihon de wa mezurashii desu ka?",i:"Apakah makanan ini langka di Jepang?"},{sp:"B",jp:"はい、あまり見かけません。",h:"はい、あまりみかけません。",r:"Hai, amari mikakemasen.",i:"Iya, jarang sekali ditemukan."}]},
-{k:"優しい",h:"やさしい",r:"yasashii",id:"Lemah lembut/Baik hati",j:"adj",lv:"N4",kw:1,s:{jp:"田中先生はとても優しいです。",h:"たなかせんせいはとてもやさしいです。",r:"Tanaka-sensei wa totemo yasashii desu.",i:"Guru Tanaka sangat baik hati."},d:[{sp:"A",jp:"あの人は優しいですか？",h:"あのひとはやさしいですか？",r:"Ano hito wa yasashii desu ka?",i:"Apakah orang itu baik hati?"},{sp:"B",jp:"はい、とても優しくていつも助けてくれます。",h:"はい、とてもやさしくていつもたすけてくれます。",r:"Hai, totemo yasashikute itsumo tasukete kuremasu.",i:"Iya, sangat baik hati dan selalu membantu."}]},
-{k:"怖い",h:"こわい",r:"kowai",id:"Takut/Menakutkan",j:"adj",lv:"N4",kw:1,s:{jp:"その映画はとても怖かったです。",h:"そのえいがはとてもこわかったです。",r:"Sono eiga wa totemo kowakatta desu.",i:"Film itu sangat menakutkan."},d:[{sp:"A",jp:"お化け屋敷は怖いですか？",h:"おばけやしきはこわいですか？",r:"Obake-yashiki wa kowai desu ka?",i:"Apakah rumah hantu itu menakutkan?"},{sp:"B",jp:"はい、とても怖くて途中で出てしまいました。",h:"はい、とてもこわくてとちゅうででてしまいました。",r:"Hai, totemo kowakute tochū de dete shimaimashita.",i:"Iya, sangat menakutkan sampai saya keluar di tengah jalan."}]},
+// KATA SIFAT N4
+{k:"優しい",h:"やさしい",r:"yasashii",id:"Lemah lembut",j:"adj",lv:"N4",kw:1,s:{jp:"田中先生はとても優しいです。",h:"たなかせんせいはとてもやさしいです。",r:"Tanaka-sensei wa totemo yasashii desu.",i:"Guru Tanaka sangat baik hati."},d:[{sp:"A",jp:"あの人は優しいですか？",h:"あのひとはやさしいですか？",r:"Ano hito wa yasashii desu ka?",i:"Apakah orang itu baik hati?"},{sp:"B",jp:"はい、とても優しくていつも助けてくれます。",h:"はい、とてもやさしくていつもたすけてくれます。",r:"Hai, totemo yasashikute itsumo tasukete kuremasu.",i:"Iya, sangat baik hati dan selalu membantu."}]},
 {k:"嬉しい",h:"うれしい",r:"ureshii",id:"Senang/Gembira",j:"adj",lv:"N4",kw:1,s:{jp:"プレゼントをもらってとても嬉しいです。",h:"プレゼントをもらってとてもうれしいです。",r:"Purezento o moratte totemo ureshii desu.",i:"Saya sangat senang mendapat hadiah."},d:[{sp:"A",jp:"合格おめでとうございます！",h:"ごうかくおめでとうございます！",r:"Gōkaku omedetō gozaimasu!",i:"Selamat lulus ujian!"},{sp:"B",jp:"ありがとうございます！とても嬉しいです！",h:"ありがとうございます！とてもうれしいです！",r:"Arigatō gozaimasu! Totemo ureshii desu!",i:"Terima kasih! Saya sangat senang!"}]},
-{k:"悲しい",h:"かなしい",r:"kanashii",id:"Sedih",j:"adj",lv:"N4",kw:1,s:{jp:"その知らせを聞いてとても悲しいです。",h:"そのしらせをきいてとてもかなしいです。",r:"Sono shirase o kiite totemo kanashii desu.",i:"Saya sangat sedih mendengar kabar itu."},d:[{sp:"A",jp:"どうして悲しそうな顔をしているんですか？",h:"どうしてかなしそうなかおをしているんですか？",r:"Dōshite kanashisō na kao o shite iru n desu ka?",i:"Kenapa mukamu terlihat sedih?"},{sp:"B",jp:"友達と別れたので、少し悲しいです。",h:"ともだちとわかれたので、すこしかなしいです。",r:"Tomodachi to wakareta node, sukoshi kanashii desu.",i:"Berpisah dengan teman, jadi sedikit sedih."}]},
-{k:"不安",h:"ふあん",r:"fuan",id:"Gelisah/Khawatir",j:"adj",lv:"N4",kw:1,s:{jp:"試験の前はいつも不安です。",h:"しけんのまえはいつもふあんです。",r:"Shiken no mae wa itsumo fuan desu.",i:"Sebelum ujian saya selalu gelisah."},d:[{sp:"A",jp:"大丈夫ですか？不安そうですね。",h:"だいじょうぶですか？ふあんそうですね。",r:"Daijōbu desu ka? Fuansō desu ne.",i:"Apakah kamu baik-baik saja? Terlihat khawatir ya."},{sp:"B",jp:"明日の発表があって少し不安です。",h:"あしたのはっぴょうがあってすこしふあんです。",r:"Ashita no happyō ga atte sukoshi fuan desu.",i:"Ada presentasi besok dan saya sedikit khawatir."}]},
 {k:"幸せ",h:"しあわせ",r:"shiawase",id:"Bahagia",j:"adj",lv:"N4",kw:1,s:{jp:"家族と一緒にいると幸せです。",h:"かぞくといっしょにいるとしあわせです。",r:"Kazoku to issho ni iru to shiawase desu.",i:"Saya bahagia kalau bersama keluarga."},d:[{sp:"A",jp:"今、幸せですか？",h:"いま、しあわせですか？",r:"Ima, shiawase desu ka?",i:"Apakah kamu bahagia sekarang?"},{sp:"B",jp:"はい、とても幸せです。",h:"はい、とてもしあわせです。",r:"Hai, totemo shiawase desu.",i:"Iya, sangat bahagia."}]},
-
-// ── KATA BENDA N5 ──
+// KATA BENDA N5
 {k:"学校",h:"がっこう",r:"gakkou",id:"Sekolah",j:"n",lv:"N5",kw:1,s:{jp:"毎日学校へ行きます。",h:"まいにちがっこうへいきます。",r:"Mainichi gakkō e ikimasu.",i:"Saya pergi ke sekolah setiap hari."},d:[{sp:"A",jp:"学校は楽しいですか？",h:"がっこうはたのしいですか？",r:"Gakkō wa tanoshii desu ka?",i:"Apakah sekolah menyenangkan?"},{sp:"B",jp:"はい、友達がたくさんいて楽しいです。",h:"はい、ともだちがたくさんいてたのしいです。",r:"Hai, tomodachi ga takusan ite tanoshii desu.",i:"Iya, karena banyak teman jadi menyenangkan."}]},
-{k:"先生",h:"せんせい",r:"sensei",id:"Guru/Dokter",j:"n",lv:"N5",kw:1,s:{jp:"田中先生は数学を教えています。",h:"たなかせんせいはすうがくをおしえています。",r:"Tanaka-sensei wa sūgaku o oshiete imasu.",i:"Guru Tanaka mengajar matematika."},d:[{sp:"A",jp:"先生、質問があります。",h:"せんせい、しつもんがあります。",r:"Sensei, shitsumon ga arimasu.",i:"Guru, saya punya pertanyaan."},{sp:"B",jp:"はい、どうぞ聞いてください。",h:"はい、どうぞきいてください。",r:"Hai, dōzo kiite kudasai.",i:"Silakan, tanyakan saja."}]},
 {k:"友達",h:"ともだち",r:"tomodachi",id:"Teman",j:"n",lv:"N5",kw:1,s:{jp:"友達と映画を見に行きました。",h:"ともだちとえいがをみにいきました。",r:"Tomodachi to eiga o mi ni ikimashita.",i:"Saya pergi nonton film bersama teman."},d:[{sp:"A",jp:"あの人は友達ですか？",h:"あのひとはともだちですか？",r:"Ano hito wa tomodachi desu ka?",i:"Apakah orang itu teman kamu?"},{sp:"B",jp:"はい、高校からの友達です。",h:"はい、こうこうからのともだちです。",r:"Hai, kōkō kara no tomodachi desu.",i:"Iya, teman sejak SMA."}]},
-{k:"電車",h:"でんしゃ",r:"densha",id:"Kereta listrik",j:"n",lv:"N5",kw:1,s:{jp:"電車で会社に通っています。",h:"でんしゃでかいしゃにかよっています。",r:"Densha de kaisha ni kayotte imasu.",i:"Saya commute ke kantor naik kereta."},d:[{sp:"A",jp:"ここから電車で何分かかりますか？",h:"ここからでんしゃでなんぷんかかりますか？",r:"Koko kara densha de nanpun kakarimasu ka?",i:"Dari sini naik kereta berapa menit?"},{sp:"B",jp:"だいたい三十分かかります。",h:"だいたいさんじゅっぷんかかります。",r:"Daitai sanjuppun kakarimasu.",i:"Kira-kira 30 menit."}]},
 {k:"時間",h:"じかん",r:"jikan",id:"Waktu/Jam",j:"n",lv:"N5",kw:1,s:{jp:"時間がありません。急ぎましょう。",h:"じかんがありません。いそぎましょう。",r:"Jikan ga arimasen. Isogimashō.",i:"Tidak ada waktu. Ayo cepat."},d:[{sp:"A",jp:"今、時間がありますか？",h:"いま、じかんがありますか？",r:"Ima, jikan ga arimasu ka?",i:"Sekarang, apakah kamu punya waktu?"},{sp:"B",jp:"少しなら大丈夫です。",h:"すこしならだいじょうぶです。",r:"Sukoshi nara daijōbu desu.",i:"Kalau sebentar, tidak apa-apa."}]},
-
-// ── KATA BENDA N4 ──
+{k:"電車",h:"でんしゃ",r:"densha",id:"Kereta listrik",j:"n",lv:"N5",kw:1,s:{jp:"電車で会社に通っています。",h:"でんしゃでかいしゃにかよっています。",r:"Densha de kaisha ni kayotte imasu.",i:"Saya commute ke kantor naik kereta."},d:[{sp:"A",jp:"ここから電車で何分かかりますか？",h:"ここからでんしゃでなんぷんかかりますか？",r:"Koko kara densha de nanpun kakarimasu ka?",i:"Dari sini naik kereta berapa menit?"},{sp:"B",jp:"だいたい三十分かかります。",h:"だいたいさんじゅっぷんかかります。",r:"Daitai sanjuppun kakarimasu.",i:"Kira-kira 30 menit."}]},
+// KATA BENDA N4
 {k:"気持ち",h:"きもち",r:"kimochi",id:"Perasaan",j:"n",lv:"N4",kw:1,s:{jp:"今日はとても気持ちがいいです。",h:"きょうはとてもきもちがいいです。",r:"Kyō wa totemo kimochi ga ii desu.",i:"Hari ini perasaan saya sangat baik."},d:[{sp:"A",jp:"今の気持ちを教えてください。",h:"いまのきもちをおしえてください。",r:"Ima no kimochi o oshiete kudasai.",i:"Tolong ceritakan perasaan kamu sekarang."},{sp:"B",jp:"合格できて、とても嬉しい気持ちです。",h:"ごうかくできて、とてもうれしいきもちです。",r:"Gōkaku dekite, totemo ureshii kimochi desu.",i:"Bisa lulus, perasaannya sangat senang."}]},
-{k:"準備",h:"じゅんび",r:"junbi",id:"Persiapan",j:"n",lv:"N4",kw:1,s:{jp:"旅行の準備をしています。",h:"りょこうのじゅんびをしています。",r:"Ryokō no junbi o shite imasu.",i:"Saya sedang mempersiapkan perjalanan."},d:[{sp:"A",jp:"準備はできましたか？",h:"じゅんびはできましたか？",r:"Junbi wa dekimashita ka?",i:"Persiapannya sudah selesai?"},{sp:"B",jp:"はい、準備万端です！",h:"はい、じゅんびばんたんです！",r:"Hai, junbi bantan desu!",i:"Sudah, persiapan sudah sempurna!"}]},
-{k:"経験",h:"けいけん",r:"keiken",id:"Pengalaman",j:"n",lv:"N4",kw:1,s:{jp:"海外旅行の経験がありますか？",h:"かいがいりょこうのけいけんがありますか？",r:"Kaigai ryokō no keiken ga arimasu ka?",i:"Apakah kamu punya pengalaman perjalanan ke luar negeri?"},d:[{sp:"A",jp:"日本語を教えた経験がありますか？",h:"にほんごをおしえたけいけんがありますか？",r:"Nihongo o oshieta keiken ga arimasu ka?",i:"Apakah kamu punya pengalaman mengajar bahasa Jepang?"},{sp:"B",jp:"いいえ、ありませんが、ぜひやってみたいです。",h:"いいえ、ありませんが、ぜひやってみたいです。",r:"Iie, arimasen ga, zehi yatte mitai desu.",i:"Tidak ada, tapi saya sangat ingin mencobanya."}]},
 {k:"約束",h:"やくそく",r:"yakusoku",id:"Janji",j:"n",lv:"N4",kw:1,s:{jp:"友達との約束を守りました。",h:"ともだちとのやくそくをまもりました。",r:"Tomodachi to no yakusoku o mamorimashita.",i:"Saya menepati janji dengan teman."},d:[{sp:"A",jp:"今日、約束がありますか？",h:"きょう、やくそくがありますか？",r:"Kyō, yakusoku ga arimasu ka?",i:"Hari ini apakah ada janji?"},{sp:"B",jp:"はい、三時に友達と約束があります。",h:"はい、さんじにともだちとやくそくがあります。",r:"Hai, sanji ni tomodachi to yakusoku ga arimasu.",i:"Iya, ada janji dengan teman pukul 3."}]},
-{k:"理由",h:"りゆう",r:"riyuu",id:"Alasan",j:"n",lv:"N4",kw:1,s:{jp:"遅刻した理由を説明しました。",h:"ちこくしたりゆうをせつめいしました。",r:"Chikoku shita riyū o setsumei shimashita.",i:"Saya menjelaskan alasan terlambat."},d:[{sp:"A",jp:"なぜ日本語を勉強しているんですか？",h:"なぜにほんごをべんきょうしているんですか？",r:"Naze nihongo o benkyō shite iru n desu ka?",i:"Mengapa kamu belajar bahasa Jepang?"},{sp:"B",jp:"日本のアニメが好きというのが理由の一つです。",h:"にほんのアニメがすきというのがりゆうのひとつです。",r:"Nihon no anime ga suki to iu no ga riyū no hitotsu desu.",i:"Salah satu alasannya adalah saya suka anime Jepang."}]},
-
-// ── KETERANGAN N5 ──
+// KETERANGAN
 {k:"とても",h:"とても",r:"totemo",id:"Sangat",j:"adv",lv:"N5",kw:1,s:{jp:"この映画はとても面白かったです。",h:"このえいがはとてもおもしろかったです。",r:"Kono eiga wa totemo omoshirokatta desu.",i:"Film ini sangat menarik."},d:[{sp:"A",jp:"旅行はどうでしたか？",h:"りょこうはどうでしたか？",r:"Ryokō wa dō deshita ka?",i:"Bagaimana perjalanannya?"},{sp:"B",jp:"とても楽しかったです！",h:"とてもたのしかったです！",r:"Totemo tanoshikatta desu!",i:"Sangat menyenangkan!"}]},
-{k:"もう",h:"もう",r:"mou",id:"Sudah/Lagi",j:"adv",lv:"N5",kw:1,s:{jp:"もう宿題が終わりました。",h:"もうしゅくだいがおわりました。",r:"Mō shukudai ga owarimashita.",i:"PR sudah selesai."},d:[{sp:"A",jp:"もう食べましたか？",h:"もうたべましたか？",r:"Mō tabemashita ka?",i:"Sudah makan?"},{sp:"B",jp:"はい、もう食べました。",h:"はい、もうたべました。",r:"Hai, mō tabemashita.",i:"Sudah, sudah makan."}]},
 {k:"まだ",h:"まだ",r:"mada",id:"Masih/Belum",j:"adv",lv:"N5",kw:1,s:{jp:"まだ日本語を勉強しています。",h:"まだにほんごをべんきょうしています。",r:"Mada nihongo o benkyō shite imasu.",i:"Saya masih belajar bahasa Jepang."},d:[{sp:"A",jp:"宿題は終わりましたか？",h:"しゅくだいはおわりましたか？",r:"Shukudai wa owarimashita ka?",i:"PR sudah selesai?"},{sp:"B",jp:"いいえ、まだです。",h:"いいえ、まだです。",r:"Iie, mada desu.",i:"Belum, masih belum."}]},
-{k:"少し",h:"すこし",r:"sukoshi",id:"Sedikit",j:"adv",lv:"N5",kw:1,s:{jp:"日本語が少し話せます。",h:"にほんごがすこしはなせます。",r:"Nihongo ga sukoshi hanasemasu.",i:"Saya bisa berbicara bahasa Jepang sedikit."},d:[{sp:"A",jp:"日本語が分かりますか？",h:"にほんごがわかりますか？",r:"Nihongo ga wakarimasu ka?",i:"Apakah kamu mengerti bahasa Jepang?"},{sp:"B",jp:"少しだけ分かります。",h:"すこしだけわかります。",r:"Sukoshi dake wakarimasu.",i:"Saya hanya mengerti sedikit."}]},
 {k:"たくさん",h:"たくさん",r:"takusan",id:"Banyak",j:"adv",lv:"N5",kw:1,s:{jp:"昨日、たくさん食べました。",h:"きのう、たくさんたべました。",r:"Kinō, takusan tabemashita.",i:"Kemarin saya makan banyak."},d:[{sp:"A",jp:"野菜をたくさん食べますか？",h:"やさいをたくさんたべますか？",r:"Yasai o takusan tabemasu ka?",i:"Apakah kamu makan banyak sayuran?"},{sp:"B",jp:"はい、健康のためにたくさん食べます。",h:"はい、けんこうのためにたくさんたべます。",r:"Hai, kenkō no tame ni takusan tabemasu.",i:"Iya, untuk kesehatan saya makan banyak."}]},
-
-// ── EKSPRESI N5 ──
+// EKSPRESI
 {k:"すみません",h:"すみません",r:"sumimasen",id:"Permisi/Maaf",j:"expr",lv:"N5",kw:1,s:{jp:"すみません、駅はどこですか？",h:"すみません、えきはどこですか？",r:"Sumimasen, eki wa doko desu ka?",i:"Permisi, di mana stasiunnya?"},d:[{sp:"A",jp:"すみません、少し聞いてもいいですか？",h:"すみません、すこしきいてもいいですか？",r:"Sumimasen, sukoshi kiite mo ii desu ka?",i:"Permisi, boleh saya tanya sebentar?"},{sp:"B",jp:"はい、どうぞ。",h:"はい、どうぞ。",r:"Hai, dōzo.",i:"Iya, silakan."}]},
 {k:"ありがとうございます",h:"ありがとうございます",r:"arigatou gozaimasu",id:"Terima kasih",j:"expr",lv:"N5",kw:1,s:{jp:"手伝ってくれてありがとうございます。",h:"てつだってくれてありがとうございます。",r:"Tetsudatte kurete arigatō gozaimasu.",i:"Terima kasih sudah membantu."},d:[{sp:"A",jp:"どうぞ、お先に。",h:"どうぞ、おさきに。",r:"Dōzo, osaki ni.",i:"Silakan, duluan saja."},{sp:"B",jp:"ありがとうございます。助かります。",h:"ありがとうございます。たすかります。",r:"Arigatō gozaimasu. Tasukarimasu.",i:"Terima kasih. Sangat membantu."}]},
 {k:"大丈夫",h:"だいじょうぶ",r:"daijoubu",id:"Tidak apa-apa/Oke",j:"expr",lv:"N5",kw:1,s:{jp:"少し遅れますが、大丈夫ですか？",h:"すこしおくれますが、だいじょうぶですか？",r:"Sukoshi okuremasu ga, daijōbu desu ka?",i:"Saya akan sedikit terlambat, apakah tidak apa-apa?"},d:[{sp:"A",jp:"大丈夫ですか？",h:"だいじょうぶですか？",r:"Daijōbu desu ka?",i:"Apakah kamu baik-baik saja?"},{sp:"B",jp:"大丈夫です。少し疲れているだけです。",h:"だいじょうぶです。すこしつかれているだけです。",r:"Daijōbu desu. Sukoshi tsukarete iru dake desu.",i:"Tidak apa-apa. Hanya sedikit lelah saja."}]},
 {k:"よろしくお願いします",h:"よろしくおねがいします",r:"yoroshiku onegai shimasu",id:"Mohon bantuannya",j:"expr",lv:"N5",kw:1,s:{jp:"はじめまして。よろしくお願いします。",h:"はじめまして。よろしくおねがいします。",r:"Hajimemashite. Yoroshiku onegai shimasu.",i:"Salam kenal. Mohon bantuannya."},d:[{sp:"A",jp:"はじめまして！アリです。よろしくお願いします。",h:"はじめまして！アリです。よろしくおねがいします。",r:"Hajimemashite! Ari desu. Yoroshiku onegai shimasu.",i:"Salam kenal! Saya Ali. Mohon bantuannya."},{sp:"B",jp:"こちらこそ、よろしくお願いします！",h:"こちらこそ、よろしくおねがいします！",r:"Kochira koso, yoroshiku onegai shimasu!",i:"Sama-sama, mohon bantuannya juga!"}]},
 ];
 
-// ========== PARTICLE QUIZ DATA ==========
+// ===== IRODORI DATA (placeholder, isi nanti) =====
+const IRODORI={
+  nyuumon:{
+    bab1:{title:"Bab 1 — Perkenalan",words:[]},
+    bab2:{title:"Bab 2 — Angka & Waktu",words:[]},
+    bab3:{title:"Bab 3 — Kegiatan Sehari-hari",words:[]},
+    bab4:{title:"Bab 4 — Makanan & Minuman",words:[]},
+    bab5:{title:"Bab 5 — Tempat & Arah",words:[]},
+    bab6:{title:"Bab 6 — Hobi & Kegiatan",words:[]}
+  },
+  shokyu1:{
+    bab1:{title:"Bab 1 — Kehidupan di Jepang",words:[]},
+    bab2:{title:"Bab 2 — Berbelanja",words:[]},
+    bab3:{title:"Bab 3 — Transportasi",words:[]},
+    bab4:{title:"Bab 4 — Kesehatan",words:[]},
+    bab5:{title:"Bab 5 — Pekerjaan",words:[]},
+    bab6:{title:"Bab 6 — Perjalanan",words:[]}
+  }
+};
+
+// ===== PARTIKEL & BUILD DATA =====
 const PARTICLE_Q=[
-{s:"私は学校__行きます。",blank:"へ/に",opts:["へ","で","が","を"],ans:"へ",exp:"「へ」は方向を表します。学校へ行く = pergi ke sekolah (arah)"},
-{s:"机の上__本があります。",blank:"に",opts:["に","で","を","が"],ans:"に",exp:"「に」は場所の存在を表します。〜にあります/います"},
-{s:"友達__映画を見ました。",blank:"と",opts:["と","に","で","が"],ans:"と",exp:"「と」は「bersama」を表します。友達と = bersama teman"},
-{s:"バス__学校に行きます。",blank:"で",opts:["で","に","を","と"],ans:"で",exp:"「で」は手段・方法を表します。バスで = naik bus"},
-{s:"私__日本語を勉強しています。",blank:"は",opts:["は","が","を","に"],ans:"は",exp:"「は」は主題を表します。私は = topik kalimat: saya"},
-{s:"りんご__食べました。",blank:"を",opts:["を","は","が","に"],ans:"を",exp:"「を」は動作の対象を表します。りんごを食べる = makan apel"},
-{s:"図書館__本を読みます。",blank:"で",opts:["で","に","を","が"],ans:"で",exp:"「で」は動作の場所を表します。図書館で = di perpustakaan"},
-{s:"東京__大阪__行きます。",blank:"から〜へ",opts:["から","まで","より","ほど"],ans:"から",exp:"「から」は出発点を表します。東京から = dari Tokyo"},
-{s:"六時__起きます。",blank:"に",opts:["に","で","を","は"],ans:"に",exp:"「に」は時間の基準点を表します。六時に = pada pukul 6"},
-{s:"田中さん__プレゼントをあげました。",blank:"に",opts:["に","へ","と","が"],ans:"に",exp:"「に」は授受の相手を表します。〜にあげる = memberi kepada ~"},
-{s:"日本語__勉強しています。",blank:"を",opts:["を","が","は","で"],ans:"を",exp:"「を」は動作の対象。日本語を勉強する = belajar bahasa Jepang"},
-{s:"コーヒー__砂糖を入れません。",blank:"に",opts:["に","で","を","へ"],ans:"に",exp:"「に」は対象・方向。コーヒーに入れる = memasukkan ke dalam kopi"},
-{s:"友達__手紙を書きました。",blank:"に",opts:["に","へ","と","で"],ans:"に",exp:"「に」は手紙・メールなどの宛先。〜に書く = menulis kepada ~"},
-{s:"電車__乗って来ました。",blank:"に",opts:["に","で","を","へ"],ans:"に",exp:"「に」は乗り物の乗車。電車に乗る = naik kereta"},
-{s:"何時__帰りますか？",blank:"に",opts:["に","で","は","が"],ans:"に",exp:"「に」は時間の基準点。何時に = jam berapa"},
+{s:"私は学校__行きます。",opts:["へ","で","が","を"],ans:"へ",exp:"「へ」は方向を表します。学校へ行く = pergi ke sekolah (arah tujuan)"},
+{s:"机の上__本があります。",opts:["に","で","を","が"],ans:"に",exp:"「に」は場所の存在を表します。〜にあります/います"},
+{s:"友達__映画を見ました。",opts:["と","に","で","が"],ans:"と",exp:"「と」は「bersama」を表します。友達と = bersama teman"},
+{s:"バス__学校に行きます。",opts:["で","に","を","と"],ans:"で",exp:"「で」は手段・方法を表します。バスで = naik bus"},
+{s:"りんご__食べました。",opts:["を","は","が","に"],ans:"を",exp:"「を」は動作の対象を表します。りんごを食べる = makan apel"},
+{s:"図書館__本を読みます。",opts:["で","に","を","が"],ans:"で",exp:"「で」は動作の場所を表します。図書館で = di perpustakaan"},
+{s:"六時__起きます。",opts:["に","で","を","は"],ans:"に",exp:"「に」は時間の基準点を表します。六時に = pada pukul 6"},
+{s:"田中さん__プレゼントをあげました。",opts:["に","へ","と","が"],ans:"に",exp:"「に」は授受の相手を表します。〜にあげる = memberi kepada ~"},
+{s:"日本語__勉強しています。",opts:["を","が","は","で"],ans:"を",exp:"「を」は動作の対象。日本語を勉強する = belajar bahasa Jepang"},
+{s:"電車__乗って来ました。",opts:["に","で","を","へ"],ans:"に",exp:"「に」は乗り物の乗車。電車に乗る = naik kereta"},
+{s:"何時__帰りますか？",opts:["に","で","は","が"],ans:"に",exp:"「に」は時間の基準点。何時に = jam berapa"},
+{s:"友達__手紙を書きました。",opts:["に","へ","と","で"],ans:"に",exp:"「に」は手紙などの宛先。〜に書く = menulis kepada ~"},
+{s:"コーヒー__砂糖を入れません。",opts:["に","で","を","へ"],ans:"に",exp:"「に」は対象・方向。コーヒーに入れる = memasukkan ke dalam kopi"},
+{s:"東京__大阪__新幹線で行きます。",opts:["から","まで","より","ほど"],ans:"から",exp:"「から」は出発点を表します。東京から = dari Tokyo"},
+{s:"私__日本語を勉強しています。",opts:["は","が","を","に"],ans:"は",exp:"「は」は主題を表します。私は = topik kalimat: saya"},
 ];
 
-// ========== BUILD SENTENCE DATA ==========
 const BUILD_Q=[
 {target:"Saya pergi ke sekolah setiap hari.",words:["毎日","学校へ","行きます","私は","。"],correct:["私は","毎日","学校へ","行きます","。"]},
 {target:"Ada buku di atas meja.",words:["あります","本が","机の上に","。"],correct:["机の上に","本が","あります","。"]},
 {target:"Saya minum kopi setiap pagi.",words:["コーヒーを","毎朝","飲みます","私は","。"],correct:["私は","毎朝","コーヒーを","飲みます","。"]},
 {target:"Tolong tunggu sebentar.",words:["ください","少し","待って","。"],correct:["少し","待って","ください","。"]},
-{target:"Saya tidak mengerti bahasa Jepang.",words:["分かりません","日本語が","私は","。"],correct:["私は","日本語が","分かりません","。"]},
 {target:"Saya membeli sayuran di supermarket.",words:["野菜を","スーパーで","買いました","私は","。"],correct:["私は","スーパーで","野菜を","買いました","。"]},
 {target:"Dia tinggal di Tokyo.",words:["住んでいます","東京に","彼は","。"],correct:["彼は","東京に","住んでいます","。"]},
 {target:"Boleh saya masuk?",words:["ですか","もいい","入って","。"],correct:["入って","もいい","ですか","。"]},
 {target:"Kapan film dimulai?",words:["始まりますか","映画は","何時に","？"],correct:["映画は","何時に","始まりますか","？"]},
 {target:"Saya lupa PR di rumah.",words:["忘れてしまいました","宿題を","家に","私は","。"],correct:["私は","家に","宿題を","忘れてしまいました","。"]},
+{target:"Tolong matikan lampunya.",words:["ください","電気を","消して","。"],correct:["電気を","消して","ください","。"]},
 ];
 
-// ========== STATE ==========
-let hafalSet=new Set(JSON.parse(localStorage.getItem('hfl')||'[]'));
-let filt={level:'semua',jenis:'semua',kaiwa:false};
-let curTab='browse';
-let openCards=new Set();
-let deferredPrompt=null;
-// quiz state
+// ===== STATE =====
+const PER_PAGE = 15;
+let hafalSet = new Set(JSON.parse(localStorage.getItem('hfl3')||'[]'));
+let filt = {level:'semua', jenis:'semua', kaiwa:false};
+let curPage = 'browse';
+let curBrowsePage = 1;
+let openCards = new Set();
+let deferredPrompt = null;
+// SRS data: {key: {interval, due, ease, reps}}
+let srsData = JSON.parse(localStorage.getItem('srs3')||'{}');
+// quiz states
 let qzState={q:[],cur:0,correct:0,answered:false,type:'jp-id'};
-// flashcard state
-let fcState={deck:[],cur:0,correct:0,answered:false,type:'jp-id'};
-// particle state
+let fcState={deck:[],cur:0,correct:0,type:'jp-id'};
 let ptState={q:[],cur:0,correct:0,answered:false};
-// build state
 let bdState={q:[],cur:0,correct:0,answer:[],pool:[]};
+let rvState={deck:[],cur:0,revealed:false};
+let irodoriCtx={module:null,bab:null};
 
-// ========== PWA ==========
+// ===== PWA =====
 window.addEventListener('beforeinstallprompt',e=>{
   e.preventDefault();deferredPrompt=e;
   document.getElementById('inst-banner').style.display='flex';
@@ -415,7 +566,24 @@ function installApp(){
   if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>{deferredPrompt=null;document.getElementById('inst-banner').style.display='none';});}
 }
 
-// ========== TTS ==========
+// ===== SIDEBAR =====
+function openSidebar(){
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('overlay').classList.add('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+function toggleIrodori(mod){
+  const sub=document.getElementById('sub-'+mod);
+  const arr=document.getElementById('arr-'+mod);
+  const open=sub.style.display==='none';
+  sub.style.display=open?'block':'none';
+  arr.textContent=open?'▼':'▶';
+}
+
+// ===== TTS =====
 function speak(text){
   if(!window.speechSynthesis)return;
   const u=new SpeechSynthesisUtterance(text);
@@ -423,25 +591,21 @@ function speak(text){
   speechSynthesis.cancel();speechSynthesis.speak(u);
 }
 
-// ========== FILTER ==========
+// ===== FILTER =====
 function getFiltered(){
   const q=document.getElementById('search').value.toLowerCase();
   return V.filter(d=>{
     if(filt.level!=='semua'&&d.lv!==filt.level)return false;
     if(filt.jenis!=='semua'&&d.j!==filt.jenis)return false;
     if(filt.kaiwa&&!d.kw)return false;
-    if(curTab==='hafal'&&!hafalSet.has(d.k))return false;
     if(!q)return true;
     return d.k.includes(q)||d.h.includes(q)||d.r.toLowerCase().includes(q)||d.id.toLowerCase().includes(q);
   });
 }
-
 function setF(type,val){
-  if(type==='kaiwa'){filt.kaiwa=!filt.kaiwa;}
-  else{filt[type]=val;}
-  updChips();renderList();
+  if(type==='kaiwa'){filt.kaiwa=!filt.kaiwa;}else{filt[type]=val;}
+  curBrowsePage=1;updChips();renderBrowse();
 }
-
 function updChips(){
   document.querySelectorAll('.chip').forEach(c=>{
     const oc=c.getAttribute('onclick')||'';
@@ -450,159 +614,362 @@ function updChips(){
     else if(oc.includes("'kaiwa'")){c.classList.toggle('active',filt.kaiwa);}
   });
 }
-
 function onSearch(){
   const v=document.getElementById('search').value;
   document.getElementById('sc').style.display=v?'flex':'none';
-  renderList();
+  curBrowsePage=1;renderBrowse();
 }
-function clearSearch(){document.getElementById('search').value='';document.getElementById('sc').style.display='none';renderList();}
+function clearSearch(){document.getElementById('search').value='';document.getElementById('sc').style.display='none';curBrowsePage=1;renderBrowse();}
 
-// ========== TABS ==========
-function setTab(tab){
-  curTab=tab;
-  const names=['browse','flash','quiz','particle','build','hafal'];
-  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',names[i]===tab));
-  names.forEach(n=>document.getElementById(n+'-tab').style.display=n===tab?'':'none');
-  document.getElementById('filters').style.display=(tab==='quiz'||tab==='particle'||tab==='build')?'none':'';
-  if(tab==='browse')renderList();
-  if(tab==='flash')renderFlash();
-  if(tab==='quiz')startQuiz();
-  if(tab==='particle')startParticle();
-  if(tab==='build')startBuild();
-  if(tab==='hafal')renderHafal();
+// ===== PAGE ROUTING =====
+function setPage(page, irodoriMod, irodoriBab){
+  curPage=page;
+  closeSidebar();
+  // update nav active
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  const navId='nav-'+(page==='irodori'?irodoriMod:page);
+  const navEl=document.getElementById(navId);
+  if(navEl)navEl.classList.add('active');
+  // show/hide search and filters
+  const showSearch = page==='browse';
+  document.getElementById('search-wrap').style.display = showSearch?'':'none';
+  document.getElementById('filters').style.display = (page==='browse'||page==='hafal')?'':'none';
+  if(page==='browse'){document.getElementById('filters').style.display='';}
+  else{document.getElementById('filters').style.display='none';}
+  // titles
+  const titles={browse:'Jelajahi Kosakata',flash:'Flashcard',quiz:'Kuis',particle:'Latihan Partikel',build:'Bikin Kalimat',review:'Review Harian (SRS)',hafal:'Kata yang Hafal'};
+  if(page==='irodori'){
+    irodoriCtx={module:irodoriMod,bab:irodoriBab};
+    const modName=irodoriMod==='nyuumon'?'入門 Nyuumon':'初級1 Shokyu 1';
+    document.getElementById('page-title').textContent='Irodori · '+modName;
+    renderIrodori(irodoriMod,irodoriBab);
+  } else {
+    document.getElementById('page-title').textContent=titles[page]||page;
+    render[page]&&render[page]();
+  }
 }
 
-// ========== BADGE HELPERS ==========
+// ===== BADGES =====
 function bjenis(j){
   const m={v:'Kata Kerja',n:'Kata Benda',adj:'Kata Sifat',adv:'Keterangan',expr:'Ekspresi'};
   const c={v:'bv',n:'bn',adj:'badj',adv:'badv',expr:'bex'};
-  return`<span class="bdg ${c[j]}">${m[j]||j}</span>`;
+  return`<span class="bdg ${c[j]||'bex'}">${m[j]||j}</span>`;
 }
 function blv(l){return`<span class="bdg b${l.toLowerCase()}">${l}</span>`;}
 
-// ========== RENDER LIST ==========
-function renderList(){
-  const list=getFiltered();
-  document.getElementById('stats-pill').textContent=list.length+' kata';
-  const el=document.getElementById('list');
-  if(!list.length){el.innerHTML='<div class="empty"><div class="empty-icon">🔍</div>Tidak ada hasil.</div>';return;}
-  el.innerHTML=list.map(d=>{
-    const idx=V.indexOf(d);const isOpen=openCards.has(idx);const isH=hafalSet.has(d.k);
-    return`<div class="card${isOpen?' open':''}${isH?' hd':''}" id="vc${idx}">
-      <div class="card-head" onclick="togCard(${idx})">
-        <div class="ck">${d.k}</div>
-        <div class="cm"><div class="cmn">${d.id}</div><div class="cms">${d.h} · ${d.r}</div></div>
-        <div class="cbdg">${blv(d.lv)}${bjenis(d.j)}${d.kw?'<span class="bdg bkw">🗣</span>':''}</div>
-        <button class="spk-btn" onclick="event.stopPropagation();speak('${d.k.replace(/'/g,"\\'")}')">🔊</button>
-        <button class="hbtn${isH?' on':''}" onclick="togH(event,'${d.k.replace(/'/g,"\\'")}')">
-          ${isH?'✓':'○'}
-        </button>
-        <span class="xi">▾</span>
+// ===== CARD BUILDER =====
+function buildCard(d, idx, prefix='vc'){
+  const isH=hafalSet.has(d.k);
+  const isOpen=openCards.has(idx);
+  return`<div class="card${isOpen?' open':''}${isH?' hd':''}" id="${prefix}${idx}">
+    <div class="card-head" onclick="togCard(${idx},'${prefix}')">
+      <div class="ck">${d.k}</div>
+      <div class="cm">
+        <div class="cmn">${d.id}</div>
+        <div class="cms">${d.h} · ${d.r}</div>
       </div>
-      <div class="card-body">
-        <div class="sec">
-          <div class="slbl">Kalimat contoh</div>
-          <div style="display:flex;align-items:flex-start;gap:8px">
-            <div style="flex:1">
-              <div class="sjp">${d.s.jp}</div>
-              <div class="sh">${d.s.h}</div><div class="sr">${d.s.r}</div>
-              <div class="si2">${d.s.i}</div>
-            </div>
-            <button class="spk-btn" style="flex-shrink:0;margin-top:2px" onclick="speak('${d.s.jp.replace(/'/g,"\\'")}')">🔊</button>
+      <div class="cbdg">
+        ${d.lv?blv(d.lv):''}
+        ${bjenis(d.j)}
+        ${d.kw?'<span class="bdg bkw">🗣</span>':''}
+        ${d.src==='irodori'?'<span class="bdg bir">IR</span>':''}
+      </div>
+      <button class="spk-btn" onclick="event.stopPropagation();speak('${d.k.replace(/'/g,"\\'")}')" title="Dengar">🔊</button>
+      <button class="hbtn${isH?' on':''}" onclick="event.stopPropagation();togH('${d.k.replace(/'/g,"\\'")}')">
+        ${isH?'✓':'○'}
+      </button>
+      <span class="xi">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="sec">
+        <div class="slbl">Kalimat contoh</div>
+        <div style="display:flex;gap:8px;align-items:flex-start">
+          <div style="flex:1">
+            <div class="sjp">${d.s.jp}</div>
+            <div class="sh">${d.s.h}</div>
+            <div class="sr2">${d.s.r}</div>
+            <div class="sid">${d.s.i}</div>
           </div>
+          <button class="spk-btn" style="flex-shrink:0;margin-top:2px" onclick="speak('${d.s.jp.replace(/'/g,"\\'")}')" >🔊</button>
         </div>
-        <div class="sec">
-          <div class="slbl">Kaiwa (会話)</div>
-          <div class="kwbox">${d.d.map(k=>`<div class="kwl">
+      </div>
+      ${d.d&&d.d.length?`<div class="sec">
+        <div class="slbl">Kaiwa (会話)</div>
+        <div class="kwbox">
+          ${d.d.map(k=>`<div class="kwl">
             <div class="kwsp">${k.sp}</div>
-            <div style="display:flex;align-items:flex-start;gap:6px">
-              <div style="flex:1"><div class="kwjp">${k.jp}</div><div class="kwh">${k.h}</div><div class="kwr">${k.r}</div><div class="kwid">${k.i}</div></div>
+            <div style="display:flex;gap:6px;align-items:flex-start">
+              <div style="flex:1">
+                <div class="kwjp">${k.jp}</div>
+                <div class="kwh">${k.h}</div>
+                <div class="kwr">${k.r}</div>
+                <div class="kwid">${k.i}</div>
+              </div>
               <button class="spk-btn" onclick="speak('${k.jp.replace(/'/g,"\\'")}')">🔊</button>
             </div>
-          </div>`).join('')}</div>
+          </div>`).join('')}
         </div>
-      </div>
-    </div>`;
-  }).join('');
-  updHC();
+      </div>`:''}
+    </div>
+  </div>`;
 }
 
-function togCard(idx){
+function togCard(idx,prefix='vc'){
   if(openCards.has(idx))openCards.delete(idx);else openCards.add(idx);
-  const c=document.getElementById('vc'+idx);if(c)c.classList.toggle('open');
+  const c=document.getElementById((prefix||'vc')+idx);
+  if(c)c.classList.toggle('open');
 }
-function togH(e,key){
-  e.stopPropagation();
+function togH(key){
   if(hafalSet.has(key))hafalSet.delete(key);else hafalSet.add(key);
-  localStorage.setItem('hfl',JSON.stringify([...hafalSet]));
-  updHC();renderList();
+  localStorage.setItem('hfl3',JSON.stringify([...hafalSet]));
+  updNavCnts();
+  renderBrowse();
 }
-function updHC(){document.getElementById('hc').textContent=hafalSet.size;}
+function updNavCnts(){
+  document.getElementById('nav-cnt').textContent=getFiltered().length;
+  document.getElementById('nav-hafal-cnt').textContent=hafalSet.size;
+  const due=getDueCards().length;
+  const badge=document.getElementById('review-due-cnt');
+  badge.textContent=due;
+  badge.style.display=due>0?'':'none';
+}
 
-// ========== RENDER HAFAL ==========
+// ===== BROWSE + PAGINATION =====
+function renderBrowse(){
+  const all=getFiltered();
+  const total=all.length;
+  const totalPages=Math.max(1,Math.ceil(total/PER_PAGE));
+  if(curBrowsePage>totalPages)curBrowsePage=totalPages;
+  const start=(curBrowsePage-1)*PER_PAGE;
+  const page=all.slice(start,start+PER_PAGE);
+  document.getElementById('stats-pill').textContent=total+' kata';
+  document.getElementById('nav-cnt').textContent=total;
+  let html='<div class="list">';
+  if(!page.length){html+='<div class="empty"><div class="empty-icon">🔍</div>Tidak ada hasil ditemukan.</div>';}
+  else{page.forEach((d,i)=>{html+=buildCard(d,V.indexOf(d));});}
+  html+='</div>';
+  // pagination
+  if(totalPages>1){
+    html+='<div class="pagination">';
+    html+=`<button class="pg-btn" onclick="goPage(${curBrowsePage-1})" ${curBrowsePage===1?'disabled':''}>‹</button>`;
+    let pages=[];
+    if(totalPages<=7){for(let i=1;i<=totalPages;i++)pages.push(i);}
+    else{
+      pages=[1];
+      if(curBrowsePage>3)pages.push('...');
+      for(let i=Math.max(2,curBrowsePage-1);i<=Math.min(totalPages-1,curBrowsePage+1);i++)pages.push(i);
+      if(curBrowsePage<totalPages-2)pages.push('...');
+      pages.push(totalPages);
+    }
+    pages.forEach(p=>{
+      if(p==='...')html+=`<span class="pg-info">…</span>`;
+      else html+=`<button class="pg-btn${p===curBrowsePage?' active':''}" onclick="goPage(${p})">${p}</button>`;
+    });
+    html+=`<button class="pg-btn" onclick="goPage(${curBrowsePage+1})" ${curBrowsePage===totalPages?'disabled':''}>›</button>`;
+    html+='</div>';
+  }
+  document.getElementById('main-content').innerHTML=html;
+}
+function goPage(p){
+  curBrowsePage=p;
+  renderBrowse();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ===== HAFAL =====
 function renderHafal(){
   const list=V.filter(d=>hafalSet.has(d.k));
-  const el=document.getElementById('hafal-list');
   document.getElementById('stats-pill').textContent=list.length+' hafal';
-  if(!list.length){el.innerHTML='<div class="empty"><div class="empty-icon">✅</div>Belum ada kata yang ditandai hafal.<br>Tekan ○ pada kartu untuk menandai hafal.</div>';return;}
-  el.innerHTML=list.map(d=>`<div class="card hd">
-    <div class="card-head">
-      <div class="ck">${d.k}</div>
-      <div class="cm"><div class="cmn">${d.id}</div><div class="cms">${d.h} · ${d.r}</div></div>
-      <div class="cbdg">${blv(d.lv)}${bjenis(d.j)}</div>
-      <button class="spk-btn" onclick="speak('${d.k.replace(/'/g,"\\'")}')">🔊</button>
-      <button class="hbtn on" onclick="togH(event,'${d.k.replace(/'/g,"\\'")}');renderHafal()">✓</button>
+  if(!list.length){
+    document.getElementById('main-content').innerHTML='<div class="hafal-empty"><div class="hafal-empty-icon">✅</div>Belum ada kata yang ditandai hafal.<br><br>Tekan tombol ○ pada kartu untuk menandai hafal.</div>';
+    return;
+  }
+  const byLevel={N5:0,N4:0,IR:0};
+  list.forEach(d=>{if(d.src==='irodori')byLevel.IR++;else byLevel[d.lv]=(byLevel[d.lv]||0)+1;});
+  let html=`<div style="padding:10px 12px 4px">
+    <div class="hafal-summary">
+      <div class="rv-stat"><div class="rv-stat-n">${list.length}</div><div class="rv-stat-l">Total Hafal</div></div>
+      <div class="rv-stat"><div class="rv-stat-n">${byLevel.N5||0}</div><div class="rv-stat-l">N5</div></div>
+      <div class="rv-stat"><div class="rv-stat-n">${byLevel.N4||0}</div><div class="rv-stat-l">N4</div></div>
     </div>
-  </div>`).join('');
+  </div><div class="hafal-wrap">`;
+  list.forEach(d=>{html+=buildCard(d,V.indexOf(d),'hc');});
+  html+='</div>';
+  document.getElementById('main-content').innerHTML=html;
 }
 
-// ========== FLASHCARD ==========
-function renderFlash(){
-  const pool=getFiltered().length>3?getFiltered():V;
-  fcState.deck=[...pool].sort(()=>Math.random()-.5).slice(0,20);
-  fcState.cur=0;fcState.correct=0;fcState.answered=false;
-  const el=document.getElementById('flash-tab');
-  const typeOpts=['jp-id','id-jp','romaji'];
-  const typeLbl=['JP → ID','ID → JP','Romaji?'];
-  el.innerHTML=`<div class="fc-wrap">
-    <div class="fc-ctrl">
-      <select onchange="setFCType(this.value)">${typeOpts.map((t,i)=>`<option value="${t}">${typeLbl[i]}</option>`).join('')}</select>
-      <button onclick="renderFlash()">🔀 Acak</button>
+// ===== SRS (SPACED REPETITION) =====
+function getSRSCard(key){
+  return srsData[key]||{interval:1,due:0,ease:2.5,reps:0};
+}
+function saveSRS(){localStorage.setItem('srs3',JSON.stringify(srsData));}
+function getDueCards(){
+  const now=Date.now();
+  return [...hafalSet].filter(key=>{
+    const c=getSRSCard(key);
+    return c.due<=now;
+  });
+}
+// SM-2 algo
+function rateSRS(key,q){
+  // q: 0=blackout, 1=hard, 2=ok, 3=easy
+  const c=getSRSCard(key);
+  let{interval,ease,reps}=c;
+  if(q<2){reps=0;interval=1;}
+  else{
+    if(reps===0)interval=1;
+    else if(reps===1)interval=6;
+    else interval=Math.round(interval*ease);
+    reps++;
+  }
+  ease=Math.max(1.3,ease+(0.1-(3-q)*(0.08+(3-q)*0.02)));
+  const due=Date.now()+interval*24*60*60*1000;
+  srsData[key]={interval,due,ease,reps};
+  saveSRS();
+}
+function renderReview(){
+  const due=getDueCards();
+  const now=new Date();
+  // schedule for next 7 days
+  const schedule=[];
+  for(let i=0;i<7;i++){
+    const day=new Date(now);day.setDate(day.getDate()+i);
+    const dayStart=day.setHours(0,0,0,0);
+    const dayEnd=new Date(dayStart).setHours(23,59,59,999);
+    const cnt=[...hafalSet].filter(k=>{
+      const c=getSRSCard(k);
+      return c.due>=dayStart&&c.due<=dayEnd;
+    }).length;
+    const lbl=i===0?'Hari ini':i===1?'Besok':['Min','Sen','Sel','Rab','Kam','Jum','Sab'][day.getDay?new Date(dayStart).getDay():0];
+    schedule.push({lbl:i===0?'Hari ini':i===1?'Besok':new Date(dayStart).toLocaleDateString('id',{weekday:'short'}),cnt});
+  }
+  const maxCnt=Math.max(1,...schedule.map(s=>s.cnt));
+  document.getElementById('stats-pill').textContent=due.length+' review';
+  let html=`<div class="review-wrap">
+    <div class="review-header">
+      <div style="font-size:14px;font-weight:600;color:var(--t1)">Review Harian — Spaced Repetition</div>
+      <div style="font-size:12px;color:var(--t2);margin-top:4px">Kata yang sudah kamu hafal akan dijadwalkan review otomatis. Semakin sering benar, semakin jarang muncul.</div>
+      <div class="review-stats">
+        <div class="rv-stat"><div class="rv-stat-n">${hafalSet.size}</div><div class="rv-stat-l">Total Hafal</div></div>
+        <div class="rv-stat"><div class="rv-stat-n" style="color:#ef4444">${due.length}</div><div class="rv-stat-l">Perlu Review</div></div>
+        <div class="rv-stat"><div class="rv-stat-n" style="color:#22c55e">${hafalSet.size-due.length}</div><div class="rv-stat-l">Sudah OK</div></div>
+      </div>
     </div>
-    <div class="fc-prog">
-      <div class="fc-prog-top"><span id="fc-prog-txt">0 / ${fcState.deck.length}</span><span id="fc-score-txt">✅ 0</span></div>
-      <div class="pbg"><div class="pf" id="fc-bar" style="width:0%"></div></div>
-    </div>
-    <div id="fc-main"></div>
-  </div>`;
-  renderFCCard();
+    <div class="rv-schedule">
+      <div style="font-size:12px;font-weight:600;color:var(--t1);margin-bottom:8px">Jadwal 7 Hari ke Depan</div>
+      ${schedule.map(s=>`<div class="rv-day">
+        <div class="rv-day-lbl" style="min-width:60px">${s.lbl}</div>
+        <div class="rv-day-bar"><div class="rv-day-fill" style="width:${Math.round(s.cnt/maxCnt*100)}%"></div></div>
+        <div class="rv-day-cnt">${s.cnt} kata</div>
+      </div>`).join('')}
+    </div>`;
+  if(due.length===0){
+    html+=`<div class="rv-done" style="margin-top:10px">
+      <div style="font-size:36px;margin-bottom:8px">🎉</div>
+      <div style="font-size:16px;font-weight:600;color:var(--t1);margin-bottom:6px">Semua sudah direview!</div>
+      <div style="font-size:13px;color:var(--t2)">Kembali nanti ketika ada kata yang perlu direview lagi.</div>
+    </div>`;
+  } else {
+    html+=`<button style="width:100%;padding:13px;background:var(--p);color:#fff;border:none;border-radius:var(--rr);font-size:15px;font-weight:700;cursor:pointer;margin-top:10px" onclick="startReview()">Mulai Review (${due.length} kata) →</button>`;
+  }
+  html+='</div>';
+  document.getElementById('main-content').innerHTML=html;
 }
 
-function setFCType(t){fcState.type=t;fcState.cur=0;fcState.correct=0;fcState.answered=false;renderFCCard();}
-
-function renderFCCard(){
-  const {deck,cur,correct,type}=fcState;
-  const el=document.getElementById('fc-main');
-  if(!el)return;
-  document.getElementById('fc-prog-txt').textContent=`${cur} / ${deck.length}`;
-  document.getElementById('fc-score-txt').textContent=`✅ ${correct}`;
-  document.getElementById('fc-bar').style.width=Math.round(cur/deck.length*100)+'%';
+function startReview(){
+  const due=getDueCards();
+  if(!due.length){renderReview();return;}
+  rvState.deck=due.sort(()=>Math.random()-.5).map(key=>V.find(d=>d.k===key)).filter(Boolean);
+  rvState.cur=0;rvState.revealed=false;
+  renderReviewCard();
+}
+function renderReviewCard(){
+  const {deck,cur}=rvState;
   if(cur>=deck.length){
-    el.innerHTML=`<div class="fc-done"><div class="fc-score">${correct}/${deck.length}</div><div class="fc-score-lbl">${correct>=deck.length*.8?'🎉 Hebat!':correct>=deck.length*.5?'👍 Bagus!':'💪 Terus berlatih!'} (${Math.round(correct/deck.length*100)}%)</div><button class="restart-btn" onclick="renderFlash()">Mulai Lagi</button></div>`;
+    document.getElementById('main-content').innerHTML=`<div class="review-wrap"><div class="rv-done">
+      <div style="font-size:36px;margin-bottom:8px">✅</div>
+      <div style="font-size:18px;font-weight:700;color:var(--t1);margin-bottom:6px">Review selesai!</div>
+      <div style="font-size:13px;color:var(--t2);margin-bottom:18px">Kamu telah mereview ${deck.length} kata hari ini.</div>
+      <button class="restart-btn" onclick="renderReview()">Kembali ke Jadwal</button>
+    </div></div>`;
     return;
   }
   const d=deck[cur];
-  let front,back1,back2,back3;
-  if(type==='jp-id'){front=d.k;back1=d.id;back2=d.h;back3=d.r;}
-  else if(type==='id-jp'){front=d.id;back1=d.k;back2=d.h;back3=d.r;}
-  else{front=d.k;back1=d.r;back2=d.h;back3=d.id;}
-  el.innerHTML=`
-    <div class="fc-scene" id="fc-scene" onclick="flipFC()">
+  const srs=getSRSCard(d.k);
+  document.getElementById('stats-pill').textContent=`${cur+1}/${deck.length}`;
+  document.getElementById('main-content').innerHTML=`<div class="review-wrap">
+    <div class="fc-prog">
+      <div class="fc-prog-top"><span>${cur+1} dari ${deck.length}</span><span style="color:var(--t3)">Interval: ${srs.interval}h</span></div>
+      <div class="pbg"><div class="pf" style="width:${Math.round(cur/deck.length*100)}%"></div></div>
+    </div>
+    <div class="review-card">
+      <div class="rv-word">${d.k}</div>
+      <div style="display:flex;justify-content:center;gap:8px;margin-bottom:4px">
+        <button class="spk-btn" onclick="speak('${d.k.replace(/'/g,"\\'")}')" style="width:32px;height:32px">🔊</button>
+      </div>
+      <div class="rv-hint">${blv(d.lv)} ${bjenis(d.j)}</div>
+      <button class="rv-reveal" id="rv-reveal-btn" onclick="revealAnswer('${d.k.replace(/'/g,"\\'")}')">Lihat Jawaban</button>
+      <div class="rv-answer" id="rv-answer">
+        <div style="font-size:18px;font-weight:600;color:var(--p);margin-bottom:4px">${d.id}</div>
+        <div style="font-size:13px;color:var(--t2)">${d.h} · ${d.r}</div>
+        <div style="font-size:13px;color:var(--t1);margin-top:6px;font-style:italic">${d.s.i}</div>
+      </div>
+      <div class="rv-btns" id="rv-btns" style="display:none">
+        <button class="rv-btn e1" onclick="rateCard('${d.k.replace(/'/g,"\\'")}',0)">✗<br>Lupa</button>
+        <button class="rv-btn e2" onclick="rateCard('${d.k.replace(/'/g,"\\'")}',1)">△<br>Susah</button>
+        <button class="rv-btn e3" onclick="rateCard('${d.k.replace(/'/g,"\\'")}',2)">○<br>Ingat</button>
+        <button class="rv-btn e4" onclick="rateCard('${d.k.replace(/'/g,"\\'")}',3)">◎<br>Mudah</button>
+      </div>
+    </div>
+  </div>`;
+}
+function revealAnswer(key){
+  document.getElementById('rv-answer').style.display='block';
+  document.getElementById('rv-reveal-btn').style.display='none';
+  document.getElementById('rv-btns').style.display='grid';
+}
+function rateCard(key,q){
+  rateSRS(key,q);
+  rvState.cur++;
+  renderReviewCard();
+}
+
+// ===== FLASHCARD =====
+function renderFlash(){
+  const pool=getFiltered().length>3?getFiltered():V;
+  fcState.deck=[...pool].sort(()=>Math.random()-.5).slice(0,20);
+  fcState.cur=0;fcState.correct=0;
+  document.getElementById('stats-pill').textContent='Flashcard';
+  renderFCCard();
+}
+function setFCType(t){fcState.type=t;fcState.cur=0;fcState.correct=0;renderFCCard();}
+function renderFCCard(){
+  const {deck,cur,correct,type}=fcState;
+  const bar=Math.round(cur/deck.length*100);
+  let typeOpts=['jp-id','id-jp','romaji'];
+  let typeLbl=['JP→ID','ID→JP','Romaji?'];
+  let html=`<div class="fc-wrap">
+    <div class="fc-ctrl">
+      <select onchange="setFCType(this.value)">${typeOpts.map((t,i)=>`<option value="${t}"${t===type?' selected':''}>${typeLbl[i]}</option>`).join('')}</select>
+      <button onclick="renderFlash()">🔀 Acak</button>
+    </div>
+    <div class="fc-prog">
+      <div class="fc-prog-top"><span id="fc-prog-t">${cur}/${deck.length}</span><span style="color:#22c55e">✅ ${correct}</span></div>
+      <div class="pbg"><div class="pf" style="width:${bar}%"></div></div>
+    </div>`;
+  if(cur>=deck.length){
+    html+=`<div class="qz-result"><div class="qz-score">${correct}/${deck.length}</div><div class="qz-score-lbl">${correct>=deck.length*.8?'🎉 Hebat!':correct>=deck.length*.5?'👍 Bagus!':'💪 Terus berlatih!'} (${Math.round(correct/deck.length*100)}%)</div><button class="restart-btn" onclick="renderFlash()">Mulai Lagi</button></div>`;
+  } else {
+    const d=deck[cur];
+    let front,back1,back2,back3;
+    if(type==='jp-id'){front=d.k;back1=d.id;back2=d.h;back3=d.r;}
+    else if(type==='id-jp'){front=d.id;back1=d.k;back2=d.h;back3=d.r;}
+    else{front=d.k;back1=d.r;back2=d.h;back3=d.id;}
+    html+=`<div class="fc-scene" id="fc-scene" onclick="flipFC()">
       <div class="fc-inner">
         <div class="fc-front">
           <div class="fc-word">${front}</div>
-          <div class="fc-hint">${type==='jp-id'?d.lv+' · '+{v:'Kata Kerja',n:'Kata Benda',adj:'Kata Sifat',adv:'Keterangan',expr:'Ekspresi'}[d.j]:''}</div>
+          <div class="fc-hint">${d.lv?d.lv+' · ':''}{v:'Kata Kerja',n:'Kata Benda',adj:'Kata Sifat',adv:'Keterangan',expr:'Ekspresi'}['${d.j}']||'${d.j}'}</div>
           <div class="fc-tap">Tap untuk lihat jawaban 👆</div>
         </div>
         <div class="fc-back">
@@ -617,18 +984,18 @@ function renderFCCard(){
       <button class="fc-btn wrong" onclick="fcAnswer(false)">✗ Belum hafal</button>
       <button class="fc-btn correct" onclick="fcAnswer(true)">✓ Hafal!</button>
     </div>`;
+  }
+  html+='</div>';
+  document.getElementById('main-content').innerHTML=html;
 }
-
 function flipFC(){
   const s=document.getElementById('fc-scene');
   if(s){s.classList.toggle('flipped');document.getElementById('fc-btns').style.display='flex';}
 }
-function fcAnswer(ok){
-  if(ok)fcState.correct++;fcState.cur++;fcState.answered=false;renderFCCard();
-}
+function fcAnswer(ok){if(ok)fcState.correct++;fcState.cur++;renderFCCard();}
 
-// ========== QUIZ ==========
-function startQuiz(){
+// ===== QUIZ =====
+function renderQuiz(){
   const pool=getFiltered().length>4?getFiltered():V;
   qzState.q=[...pool].sort(()=>Math.random()-.5).slice(0,20);
   qzState.cur=0;qzState.correct=0;qzState.answered=false;
@@ -637,47 +1004,44 @@ function startQuiz(){
 function setQZType(t){
   qzState.type=t;
   document.querySelectorAll('.qz-type-btn').forEach((b,i)=>b.classList.toggle('active',['jp-id','id-jp','romaji'][i]===t));
-  startQuiz();
+  renderQuiz();
 }
 function renderQuizQ(){
   const {q,cur,correct,type}=qzState;
-  const el=document.getElementById('quiz-tab');
   const bar=Math.round(cur/q.length*100);
-  let head=`<div class="qz-wrap"><div class="qz-ctrl">
+  let html=`<div class="qz-wrap"><div class="qz-ctrl">
     <div class="qz-type-row">
       ${['jp-id','id-jp','romaji'].map((t,i)=>`<button class="qz-type-btn${t===type?' active':''}" onclick="setQZType('${t}')">${['JP→ID','ID→JP','Romaji?'][i]}</button>`).join('')}
     </div>
-    <div class="qz-prog-top"><span>Soal ${cur+1}/${q.length}</span><span>✅ ${correct}</span></div>
+    <div class="qz-prog-top"><span>Soal ${cur+1}/${q.length}</span><span style="color:#22c55e">✅ ${correct}</span></div>
     <div class="pbg"><div class="pf" style="width:${bar}%"></div></div>
   </div>`;
   if(cur>=q.length){
-    el.innerHTML=head+`<div class="qz-result"><div class="qz-score">${correct}/${q.length}</div><div class="qz-score-lbl">${correct>=q.length*.8?'🎉 Hebat!':correct>=q.length*.5?'👍 Bagus!':'💪 Terus berlatih!'}</div><p style="font-size:13px;color:var(--t2);margin-bottom:16px">Skor: ${Math.round(correct/q.length*100)}%</p><button class="restart-btn" onclick="startQuiz()">Mulai Lagi</button></div></div>`;
-    return;
+    html+=`<div class="qz-result"><div class="qz-score">${correct}/${q.length}</div><div class="qz-score-lbl">${correct>=q.length*.8?'🎉 Hebat!':correct>=q.length*.5?'👍 Bagus!':'💪 Terus berlatih!'}</div><p style="font-size:13px;color:var(--t2);margin-bottom:16px">Skor: ${Math.round(correct/q.length*100)}%</p><button class="restart-btn" onclick="renderQuiz()">Mulai Lagi</button></div>`;
+  } else {
+    const d=q[cur];
+    const wrong=V.filter(w=>w.k!==d.k).sort(()=>Math.random()-.5).slice(0,3);
+    const choices=[...wrong,d].sort(()=>Math.random()-.5);
+    let getAns=type==='jp-id'?c=>c.id:type==='id-jp'?c=>c.k:c=>c.r;
+    let question=type==='id-jp'?d.id:d.k;
+    html+=`<div class="qz-card">
+      <div class="qz-word">${question}</div>
+      <div style="display:flex;justify-content:center;margin-bottom:6px"><button style="background:none;border:none;font-size:22px;cursor:pointer" onclick="speak('${d.k.replace(/'/g,"\\'")}')">🔊</button></div>
+      <div class="qz-hint">${type==='jp-id'?'Apa artinya?':type==='id-jp'?'Kanji mana yang benar?':'Apa romanjinya?'}</div>
+      <div class="qz-choices">${choices.map(c=>`<button class="qz-ch" onclick="ansQuiz(this,'${c.k.replace(/'/g,"\\'")}','${d.k.replace(/'/g,"\\'")}')">${getAns(c)}</button>`).join('')}</div>
+      <button class="qz-next" id="qz-next" onclick="nextQ()">Lanjut →</button>
+    </div>`;
   }
-  const d=q[cur];
-  const wrong=V.filter(w=>w.k!==d.k).sort(()=>Math.random()-.5).slice(0,3);
-  const choices=[...wrong,d].sort(()=>Math.random()-.5);
-  let question,getAns;
-  if(type==='jp-id'){question=d.k;getAns=c=>c.id;}
-  else if(type==='id-jp'){question=d.id;getAns=c=>c.k;}
-  else{question=d.k;getAns=c=>c.r;}
-  el.innerHTML=head+`<div class="qz-card">
-    <div class="qz-word">${question}</div>
-    <div style="display:flex;justify-content:center;margin-bottom:4px"><button style="background:none;border:none;font-size:22px;cursor:pointer" onclick="speak('${d.k.replace(/'/g,"\\'")}')">🔊</button></div>
-    <div class="qz-hint">${type==='jp-id'?'Apa artinya?':type==='id-jp'?'Kanji mana yang benar?':'Apa romanjinya?'}</div>
-    <div class="qz-choices">${choices.map(c=>`<button class="qz-ch" onclick="ansQuiz(this,'${c.k.replace(/'/g,"\\'")}','${d.k.replace(/'/g,"\\'")}',${JSON.stringify(getAns(c)).replace(/'/g,"\\'")})">${getAns(c)}</button>`).join('')}</div>
-    <button class="qz-next" id="qz-next" onclick="nextQ()">Lanjut →</button>
-  </div></div>`;
+  html+='</div>';
+  document.getElementById('main-content').innerHTML=html;
 }
-function ansQuiz(btn,chosen,correct,chosenLabel){
+function ansQuiz(btn,chosen,correct){
   if(qzState.answered)return;qzState.answered=true;
-  const isOk=chosen===correct;
-  if(isOk)qzState.correct++;
+  const isOk=chosen===correct;if(isOk)qzState.correct++;
+  const type=qzState.type;const d=qzState.q[qzState.cur];
+  let correctLabel=type==='jp-id'?d.id:type==='id-jp'?d.k:d.r;
   document.querySelectorAll('.qz-ch').forEach(b=>{
     b.disabled=true;
-    const d=qzState.q[qzState.cur];
-    const type=qzState.type;
-    let correctLabel=type==='jp-id'?d.id:type==='id-jp'?d.k:d.r;
     if(b===btn)b.classList.add(isOk?'ok':'ng');
     if(b.textContent.trim()===correctLabel&&!isOk)b.classList.add('ok');
   });
@@ -685,38 +1049,38 @@ function ansQuiz(btn,chosen,correct,chosenLabel){
 }
 function nextQ(){qzState.cur++;qzState.answered=false;renderQuizQ();}
 
-// ========== PARTICLE ==========
-function startParticle(){
+// ===== PARTICLE =====
+function renderParticle(){
   ptState.q=[...PARTICLE_Q].sort(()=>Math.random()-.5);
   ptState.cur=0;ptState.correct=0;ptState.answered=false;
-  renderParticle();
+  renderPTQ();
 }
-function renderParticle(){
+function renderPTQ(){
   const {q,cur,correct}=ptState;
-  const el=document.getElementById('particle-tab');
   const bar=Math.round(cur/q.length*100);
-  let head=`<div class="qz-wrap"><div class="qz-ctrl">
-    <div class="qz-prog-top"><span>Soal ${cur+1}/${q.length}</span><span>✅ ${correct}</span></div>
+  let html=`<div class="qz-wrap"><div class="qz-ctrl">
+    <div class="qz-prog-top"><span>Soal ${cur+1}/${q.length}</span><span style="color:#22c55e">✅ ${correct}</span></div>
     <div class="pbg"><div class="pf" style="width:${bar}%"></div></div>
   </div>`;
   if(cur>=q.length){
-    el.innerHTML=head+`<div class="qz-result"><div class="qz-score">${correct}/${q.length}</div><div class="qz-score-lbl">${correct>=q.length*.8?'🎉 Kamu menguasai partikel!':correct>=q.length*.5?'👍 Terus berlatih!':'💪 Pelajari partikel lebih lanjut!'}</div><p style="font-size:13px;color:var(--t2);margin-bottom:16px">Skor: ${Math.round(correct/q.length*100)}%</p><button class="restart-btn" onclick="startParticle()">Mulai Lagi</button></div></div>`;
-    return;
+    html+=`<div class="qz-result"><div class="qz-score">${correct}/${q.length}</div><div class="qz-score-lbl">${correct>=q.length*.8?'🎉 Kamu menguasai partikel!':correct>=q.length*.5?'👍 Terus berlatih!':'💪 Pelajari partikel lebih lanjut!'}</div><p style="font-size:13px;color:var(--t2);margin-bottom:16px">Skor: ${Math.round(correct/q.length*100)}%</p><button class="restart-btn" onclick="renderParticle()">Mulai Lagi</button></div>`;
+  } else {
+    const qq=q[cur];
+    const sent=qq.s.replace('__',`<span class="fill-blank">＿＿</span>`);
+    html+=`<div class="fill-card">
+      <div class="slbl">Pilih partikel yang benar</div>
+      <div class="fill-sent" style="margin:10px 0 14px">${sent}</div>
+      <div class="fill-opts">${qq.opts.map(o=>`<button class="fill-opt" onclick="ansPT(this,'${o}','${qq.ans}')">${o}</button>`).join('')}</div>
+      <div class="fill-exp" id="pt-exp">${qq.exp}</div>
+      <button class="qz-next" id="pt-next" onclick="nextPT()">Lanjut →</button>
+    </div>`;
   }
-  const qq=q[cur];
-  const sent=qq.s.replace('__',`<span class="fill-blank">＿＿</span>`);
-  el.innerHTML=head+`<div class="fill-card">
-    <div class="slbl">Pilih partikel yang benar</div>
-    <div class="fill-sent" style="margin:10px 0 14px">${sent}</div>
-    <div class="fill-opts">${qq.opts.map(o=>`<button class="fill-opt" onclick="ansPT(this,'${o}','${qq.ans}')">${o}</button>`).join('')}</div>
-    <div class="fill-exp" id="pt-exp">${qq.exp}</div>
-    <button class="qz-next" id="pt-next" onclick="nextPT()">Lanjut →</button>
-  </div></div>`;
+  html+='</div>';
+  document.getElementById('main-content').innerHTML=html;
 }
 function ansPT(btn,chosen,ans){
   if(ptState.answered)return;ptState.answered=true;
-  const isOk=chosen===ans;
-  if(isOk)ptState.correct++;
+  const isOk=chosen===ans;if(isOk)ptState.correct++;
   document.querySelectorAll('.fill-opt').forEach(b=>{
     b.disabled=true;
     if(b===btn)b.classList.add(isOk?'ok':'ng');
@@ -725,51 +1089,51 @@ function ansPT(btn,chosen,ans){
   document.getElementById('pt-exp').style.display='block';
   document.getElementById('pt-next').style.display='block';
 }
-function nextPT(){ptState.cur++;ptState.answered=false;renderParticle();}
+function nextPT(){ptState.cur++;ptState.answered=false;renderPTQ();}
 
-// ========== BUILD SENTENCE ==========
-function startBuild(){
+// ===== BUILD =====
+function renderBuild(){
   bdState.q=[...BUILD_Q].sort(()=>Math.random()-.5);
   bdState.cur=0;bdState.correct=0;
-  renderBuild();
+  renderBuildQ();
 }
-function renderBuild(){
+function renderBuildQ(){
   const {q,cur,correct}=bdState;
-  const el=document.getElementById('build-tab');
   const bar=Math.round(cur/q.length*100);
-  let head=`<div class="qz-wrap"><div class="qz-ctrl">
-    <div class="qz-prog-top"><span>Soal ${cur+1}/${q.length}</span><span>✅ ${correct}</span></div>
+  let html=`<div class="qz-wrap"><div class="qz-ctrl">
+    <div class="qz-prog-top"><span>Soal ${cur+1}/${q.length}</span><span style="color:#22c55e">✅ ${correct}</span></div>
     <div class="pbg"><div class="pf" style="width:${bar}%"></div></div>
   </div>`;
   if(cur>=q.length){
-    el.innerHTML=head+`<div class="qz-result"><div class="qz-score">${correct}/${q.length}</div><div class="qz-score-lbl">${correct>=q.length*.8?'🎉 Hebat sekali!':correct>=q.length*.5?'👍 Lumayan bagus!':'💪 Terus latihan!'}</div><p style="font-size:13px;color:var(--t2);margin-bottom:16px">Skor: ${Math.round(correct/q.length*100)}%</p><button class="restart-btn" onclick="startBuild()">Mulai Lagi</button></div></div>`;
-    return;
+    html+=`<div class="qz-result"><div class="qz-score">${correct}/${q.length}</div><div class="qz-score-lbl">${correct>=q.length*.8?'🎉 Hebat sekali!':correct>=q.length*.5?'👍 Lumayan bagus!':'💪 Terus latihan!'}</div><p style="font-size:13px;color:var(--t2);margin-bottom:16px">Skor: ${Math.round(correct/q.length*100)}%</p><button class="restart-btn" onclick="renderBuild()">Mulai Lagi</button></div>`;
+  } else {
+    const qq=q[cur];
+    bdState.answer=[];
+    bdState.pool=[...qq.words].sort(()=>Math.random()-.5);
+    html+=`<div class="build-card">
+      <div class="slbl">Susun kata menjadi kalimat</div>
+      <div class="build-target">"${qq.target}"</div>
+      <div class="build-answer" id="bd-ans"></div>
+      <div class="build-pool" id="bd-pool">${bdState.pool.map((w,i)=>`<button class="pool-word" id="pw${i}" onclick="pickWord(${i},'${w.replace(/'/g,"\\'")}')">${w}</button>`).join('')}</div>
+      <div class="build-btns">
+        <button class="build-btn" onclick="resetBuild()">↺ Reset</button>
+        <button class="build-btn check" onclick="checkBuild()">✓ Cek</button>
+      </div>
+      <div id="bd-exp" class="fill-exp" style="margin-top:8px"></div>
+      <button class="qz-next" id="bd-next" onclick="nextBuild()">Lanjut →</button>
+    </div>`;
   }
-  const qq=q[cur];
-  bdState.answer=[];
-  bdState.pool=[...qq.words].sort(()=>Math.random()-.5);
-  el.innerHTML=head+`<div class="build-card">
-    <div class="slbl">Susun kata menjadi kalimat</div>
-    <div class="build-target">"${qq.target}"</div>
-    <div class="build-answer" id="bd-ans"></div>
-    <div class="build-pool" id="bd-pool">${bdState.pool.map((w,i)=>`<button class="pool-word" id="pw${i}" onclick="pickWord(${i},'${w.replace(/'/g,"\\'")}','pw${i}')">${w}</button>`).join('')}</div>
-    <div class="build-btns">
-      <button class="build-btn" onclick="resetBuild()">↺ Reset</button>
-      <button class="build-btn check" onclick="checkBuild()">✓ Cek</button>
-    </div>
-    <div id="bd-exp" class="fill-exp" style="margin-top:8px"></div>
-    <button class="qz-next" id="bd-next" onclick="nextBuild()">Lanjut →</button>
-  </div></div>`;
+  html+='</div>';
+  document.getElementById('main-content').innerHTML=html;
 }
-
-function pickWord(idx,word,btnId){
-  const btn=document.getElementById(btnId);
+function pickWord(idx,word){
+  const btn=document.getElementById('pw'+idx);
   if(!btn||btn.classList.contains('used'))return;
   btn.classList.add('used');
-  bdState.answer.push({idx,word,btnId});
-  updBuildAns();
+  bdState.answer.push({idx,word,btnId:'pw'+idx});
+  updBdAns();
 }
-function updBuildAns(){
+function updBdAns(){
   const el=document.getElementById('bd-ans');
   if(!el)return;
   el.innerHTML=bdState.answer.map((item,i)=>`<span class="build-word" onclick="removeWord(${i})">${item.word}</span>`).join(' ');
@@ -778,29 +1142,89 @@ function removeWord(i){
   const item=bdState.answer[i];
   const btn=document.getElementById(item.btnId);
   if(btn)btn.classList.remove('used');
-  bdState.answer.splice(i,1);updBuildAns();
+  bdState.answer.splice(i,1);updBdAns();
 }
 function resetBuild(){
   bdState.answer=[];
   document.querySelectorAll('.pool-word').forEach(b=>b.classList.remove('used'));
-  updBuildAns();
+  updBdAns();
 }
 function checkBuild(){
   const qq=BUILD_Q[bdState.cur>=BUILD_Q.length?0:bdState.cur];
-  const userAns=bdState.answer.map(a=>a.word);
-  const isOk=JSON.stringify(userAns)===JSON.stringify(qq.correct);
+  const isOk=JSON.stringify(bdState.answer.map(a=>a.word))===JSON.stringify(qq.correct);
   if(isOk)bdState.correct++;
   const ansEl=document.getElementById('bd-ans');
-  if(ansEl){ansEl.classList.add(isOk?'ok':'ng');}
+  if(ansEl)ansEl.classList.add(isOk?'ok':'ng');
   const exp=document.getElementById('bd-exp');
   if(exp){exp.style.display='block';exp.textContent=isOk?'✅ Benar!':'❌ Salah. Jawaban benar: '+qq.correct.join(' ');}
   document.getElementById('bd-next').style.display='block';
   document.querySelectorAll('.pool-word').forEach(b=>b.style.pointerEvents='none');
 }
-function nextBuild(){bdState.cur++;renderBuild();}
+function nextBuild(){bdState.cur++;renderBuildQ();}
 
-// ========== INIT ==========
-renderList();updHC();
+// ===== IRODORI =====
+function renderIrodori(mod, bab){
+  const modData=IRODORI[mod];
+  if(!bab){
+    // show bab list
+    const modName=mod==='nyuumon'?'入門 (Nyuumon)':'初級1 (Shokyu 1)';
+    let html=`<div class="irodori-wrap">
+      <div style="font-size:14px;font-weight:600;color:var(--t1);margin-bottom:12px">📖 Irodori · ${modName}</div>
+      <div class="bab-grid">`;
+    Object.entries(modData).forEach(([babKey,babData],i)=>{
+      html+=`<div class="bab-card" onclick="setPage('irodori','${mod}','${babKey}')">
+        <div class="bab-num">${i+1}</div>
+        <div class="bab-title">${babData.title}</div>
+        <div class="bab-cnt">${babData.words.length} kata</div>
+      </div>`;
+    });
+    html+=`</div>
+      <div class="irodori-placeholder">
+        <h3>📥 Tambah Kosakata Irodori</h3>
+        <p>Kosakata untuk modul ini belum diisi.<br>Upload PDF Irodori di sesi chat baru untuk menambahkan kosakata per bab.</p>
+        <div style="font-size:12px;color:var(--t3);margin-top:10px">Format yang diterima: PDF · Foto tabel kosakata</div>
+      </div>
+    </div>`;
+    document.getElementById('main-content').innerHTML=html;
+    document.getElementById('stats-pill').textContent='Irodori';
+  } else {
+    const babData=modData[bab];
+    const words=babData.words;
+    const modName=mod==='nyuumon'?'入門':'初級1';
+    let html=`<div class="irodori-wrap">
+      <div class="bab-back" onclick="setPage('irodori','${mod}',null)">← Kembali ke daftar bab</div>
+      <div style="font-size:15px;font-weight:700;color:var(--t1);margin-bottom:4px">${babData.title}</div>
+      <div style="font-size:12px;color:var(--t2);margin-bottom:12px">Irodori ${modName} · ${words.length} kata</div>`;
+    if(words.length===0){
+      html+=`<div class="irodori-placeholder">
+        <h3>📥 Belum ada kosakata</h3>
+        <p>Bab ini belum memiliki kosakata.<br>Upload PDF Irodori di sesi chat baru untuk mengisi kosakata di bab ini.</p>
+      </div>`;
+    } else {
+      html+='<div class="list">';
+      words.forEach((d,i)=>{html+=buildCard(d,i,'ir');});
+      html+='</div>';
+    }
+    html+='</div>';
+    document.getElementById('main-content').innerHTML=html;
+    document.getElementById('stats-pill').textContent=words.length+' kata';
+  }
+}
+
+// ===== RENDER MAP =====
+const render={
+  browse:renderBrowse,
+  flash:renderFlash,
+  quiz:renderQuiz,
+  particle:renderParticle,
+  build:renderBuild,
+  review:renderReview,
+  hafal:renderHafal,
+};
+
+// ===== INIT =====
+updNavCnts();
+renderBrowse();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
 </script>
 </body>
