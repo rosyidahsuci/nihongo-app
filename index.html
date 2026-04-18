@@ -2,697 +2,806 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#6C63FF">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="日本語 N5">
+<meta name="apple-mobile-web-app-title" content="日本語">
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.svg">
-<title>日本語 Kosakata N5</title>
+<title>日本語 Kosakata</title>
 <style>
-:root {
-  --primary: #6C63FF;
-  --primary-light: #EEEDfe;
-  --primary-dark: #4A42CC;
-  --green: #22c55e;
-  --green-light: #dcfce7;
-  --red: #ef4444;
-  --red-light: #fee2e2;
-  --amber: #f59e0b;
-  --amber-light: #fef3c7;
-  --blue: #3b82f6;
-  --blue-light: #dbeafe;
-  --gray: #6b7280;
-  --bg: #f8f7ff;
-  --surface: #ffffff;
-  --border: #e5e7eb;
-  --text: #111827;
-  --text2: #6b7280;
-  --text3: #9ca3af;
-  --radius: 12px;
-  --radius-sm: 8px;
-  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
-  --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
-}
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-
-/* TOP BAR */
-.topbar { background: var(--primary); color: white; padding: 14px 16px 12px; position: sticky; top: 0; z-index: 100; }
-.topbar-row1 { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-.app-title { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
-.app-sub { font-size: 12px; opacity: 0.8; }
-.stats-pill { background: rgba(255,255,255,0.2); border-radius: 99px; padding: 4px 10px; font-size: 12px; font-weight: 600; }
-
-/* SEARCH */
-.search-wrap { position: relative; }
-.search-wrap input { width: 100%; padding: 9px 36px 9px 36px; border-radius: 99px; border: none; font-size: 14px; background: rgba(255,255,255,0.95); color: var(--text); outline: none; }
-.search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); font-size: 15px; opacity: 0.5; }
-.search-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: var(--text3); color: white; border: none; border-radius: 99px; width: 18px; height: 18px; font-size: 11px; cursor: pointer; display: none; align-items: center; justify-content: center; }
-
+:root{--p:#6C63FF;--pl:#EEEDFE;--pd:#4A42CC;--g:#22c55e;--gl:#dcfce7;--r:#ef4444;--rl:#fee2e2;--a:#f59e0b;--al:#fef3c7;--b:#3b82f6;--bl:#dbeafe;--bg:#f8f7ff;--sf:#ffffff;--bd:#e5e7eb;--t1:#111827;--t2:#6b7280;--t3:#9ca3af;--rr:12px;--rs:8px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;overscroll-behavior:none}
+/* TOPBAR */
+.topbar{background:var(--p);color:#fff;padding:12px 14px 10px;position:sticky;top:0;z-index:200}
+.tb1{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.app-title{font-size:17px;font-weight:700}
+.app-sub{font-size:11px;opacity:.8}
+.stats-pill{background:rgba(255,255,255,.2);border-radius:99px;padding:3px 10px;font-size:12px;font-weight:600}
+.search-wrap{position:relative}
+.search-wrap input{width:100%;padding:8px 34px;border-radius:99px;border:none;font-size:14px;background:rgba(255,255,255,.95);color:var(--t1);outline:none}
+.si{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:14px;opacity:.5}
+.sc{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:var(--t3);color:#fff;border:none;border-radius:99px;width:17px;height:17px;font-size:10px;cursor:pointer;display:none;align-items:center;justify-content:center}
 /* TABS */
-.tabs { display: flex; background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 97px; z-index: 99; overflow-x: auto; scrollbar-width: none; }
-.tabs::-webkit-scrollbar { display: none; }
-.tab { flex: none; padding: 11px 16px; font-size: 13px; font-weight: 500; color: var(--text2); border-bottom: 2.5px solid transparent; cursor: pointer; white-space: nowrap; transition: all .15s; }
-.tab.active { color: var(--primary); border-color: var(--primary); }
-
+.tabs{display:flex;background:var(--sf);border-bottom:1px solid var(--bd);position:sticky;top:93px;z-index:199;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;padding:10px 14px;font-size:12px;font-weight:500;color:var(--t2);border-bottom:2.5px solid transparent;cursor:pointer;white-space:nowrap}
+.tab.active{color:var(--p);border-color:var(--p)}
 /* FILTERS */
-.filters { padding: 10px 12px; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; background: var(--surface); border-bottom: 1px solid var(--border); }
-.filters::-webkit-scrollbar { display: none; }
-.chip { flex: none; padding: 5px 12px; border-radius: 99px; font-size: 12px; font-weight: 500; border: 1.5px solid var(--border); background: var(--surface); color: var(--text2); cursor: pointer; transition: all .15s; }
-.chip.active { background: var(--primary); border-color: var(--primary); color: white; }
-.chip.hafal { border-color: var(--green); color: var(--green); }
-.chip.hafal.active { background: var(--green); color: white; }
-.chip.kaiwa { border-color: var(--blue); color: var(--blue); }
-.chip.kaiwa.active { background: var(--blue); color: white; }
-
-/* CARDS */
-.list { padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; }
-.card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); overflow: hidden; box-shadow: var(--shadow); transition: border-color .15s; }
-.card.hafal-done { border-color: var(--green); }
-.card-head { display: flex; align-items: center; gap: 10px; padding: 12px 14px; cursor: pointer; }
-.card-kanji { font-size: 28px; font-weight: 700; min-width: 44px; line-height: 1; }
-.card-meta { flex: 1; min-width: 0; }
-.card-meaning { font-size: 14px; font-weight: 600; color: var(--text); }
-.card-sub { font-size: 12px; color: var(--text2); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.card-badges { display: flex; gap: 4px; align-items: center; flex-shrink: 0; }
-.badge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 99px; }
-.badge-n5 { background: var(--primary-light); color: var(--primary); }
-.badge-n4 { background: var(--blue-light); color: var(--blue); }
-.badge-n3 { background: var(--amber-light); color: var(--amber); }
-.badge-v { background: #f0fdf4; color: #16a34a; }
-.badge-n { background: #eff6ff; color: #1d4ed8; }
-.badge-adj { background: #fdf4ff; color: #9333ea; }
-.badge-adv { background: #fff7ed; color: #c2410c; }
-.badge-expr { background: #fafafa; color: #374151; }
-.badge-kaiwa { background: var(--blue-light); color: var(--blue); }
-.hafal-btn { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--border); background: var(--surface); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all .15s; flex-shrink: 0; }
-.hafal-btn.done { background: var(--green); border-color: var(--green); }
-.expand-icon { font-size: 13px; color: var(--text3); transition: transform .2s; flex-shrink: 0; }
-.card.open .expand-icon { transform: rotate(180deg); }
-
-/* CARD BODY */
-.card-body { display: none; border-top: 1px solid var(--border); }
-.card.open .card-body { display: block; }
-.section { padding: 12px 14px; border-bottom: 1px solid var(--border); }
-.section:last-child { border-bottom: none; }
-.section-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); margin-bottom: 8px; }
-.sentence-jp { font-size: 18px; color: var(--text); line-height: 1.6; }
-.sentence-hira { font-size: 12px; color: var(--text2); margin-top: 3px; line-height: 1.5; }
-.sentence-romaji { font-size: 12px; color: var(--text3); line-height: 1.5; }
-.sentence-id { font-size: 13px; color: var(--text); margin-top: 5px; line-height: 1.5; font-style: italic; }
-.kaiwa-box { background: var(--bg); border-radius: var(--radius-sm); padding: 10px 12px; display: flex; flex-direction: column; gap: 10px; }
-.kaiwa-line { }
-.kaiwa-speaker { font-size: 10px; font-weight: 700; color: var(--primary); margin-bottom: 3px; }
-.kaiwa-jp { font-size: 16px; color: var(--text); line-height: 1.5; }
-.kaiwa-hira { font-size: 11px; color: var(--text2); }
-.kaiwa-romaji { font-size: 11px; color: var(--text3); }
-.kaiwa-id { font-size: 12px; color: var(--text); margin-top: 3px; font-style: italic; }
-
-/* QUIZ MODE */
-.quiz-wrap { padding: 16px 12px; display: flex; flex-direction: column; gap: 12px; min-height: calc(100vh - 200px); }
-.quiz-progress { background: var(--surface); border-radius: var(--radius); padding: 12px 14px; border: 1px solid var(--border); }
-.progress-bar-bg { background: var(--border); border-radius: 99px; height: 6px; margin-top: 8px; }
-.progress-bar-fill { background: var(--primary); border-radius: 99px; height: 6px; transition: width .3s; }
-.quiz-card { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 24px 16px; text-align: center; box-shadow: var(--shadow-md); }
-.quiz-word { font-size: 48px; font-weight: 700; margin-bottom: 6px; }
-.quiz-hint { font-size: 13px; color: var(--text2); margin-bottom: 20px; }
-.quiz-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.quiz-choice { padding: 12px 10px; border-radius: var(--radius-sm); border: 1.5px solid var(--border); background: var(--surface); font-size: 13px; font-weight: 500; cursor: pointer; transition: all .15s; text-align: center; }
-.quiz-choice:active { transform: scale(0.97); }
-.quiz-choice.correct { background: var(--green-light); border-color: var(--green); color: #15803d; }
-.quiz-choice.wrong { background: var(--red-light); border-color: var(--red); color: #dc2626; }
-.quiz-next { margin-top: 12px; width: 100%; padding: 13px; border-radius: var(--radius-sm); background: var(--primary); color: white; border: none; font-size: 15px; font-weight: 600; cursor: pointer; display: none; }
-.quiz-result { background: var(--surface); border-radius: var(--radius); border: 1.5px solid var(--border); padding: 28px 16px; text-align: center; box-shadow: var(--shadow-md); }
-.quiz-score { font-size: 52px; font-weight: 700; color: var(--primary); }
-.quiz-score-label { font-size: 15px; color: var(--text2); margin-top: 4px; margin-bottom: 20px; }
-.quiz-restart { padding: 12px 28px; border-radius: var(--radius-sm); background: var(--primary); color: white; border: none; font-size: 15px; font-weight: 600; cursor: pointer; }
-.quiz-type-btns { display: flex; gap: 8px; }
-.quiz-type-btn { flex: 1; padding: 10px; border-radius: var(--radius-sm); border: 1.5px solid var(--border); background: var(--surface); font-size: 13px; font-weight: 500; cursor: pointer; color: var(--text2); transition: all .15s; }
-.quiz-type-btn.active { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
-
+.filters{padding:8px 10px;display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;background:var(--sf);border-bottom:1px solid var(--bd)}
+.filters::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:4px 11px;border-radius:99px;font-size:11px;font-weight:500;border:1.5px solid var(--bd);background:var(--sf);color:var(--t2);cursor:pointer}
+.chip.active{background:var(--p);border-color:var(--p);color:#fff}
+.chip.ck{border-color:var(--b);color:var(--b)}
+.chip.ck.active{background:var(--b);color:#fff}
+.divchip{width:1px;background:var(--bd);flex:none;margin:4px 2px}
+/* LIST */
+.list{padding:8px 10px;display:flex;flex-direction:column;gap:7px}
+/* CARD */
+.card{background:var(--sf);border-radius:var(--rr);border:1.5px solid var(--bd);overflow:hidden}
+.card.hd{border-color:var(--g)}
+.card-head{display:flex;align-items:center;gap:9px;padding:11px 12px;cursor:pointer}
+.ck{font-size:26px;font-weight:700;min-width:48px;line-height:1}
+.cm{flex:1;min-width:0}
+.cmn{font-size:14px;font-weight:600}
+.cms{font-size:11px;color:var(--t2);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cbdg{display:flex;gap:3px;align-items:center;flex-shrink:0}
+.bdg{font-size:10px;font-weight:700;padding:2px 6px;border-radius:99px}
+.bn5{background:var(--pl);color:var(--p)}
+.bn4{background:var(--bl);color:var(--b)}
+.bn3{background:var(--al);color:var(--a)}
+.bv{background:#f0fdf4;color:#16a34a}
+.bn{background:#eff6ff;color:#1d4ed8}
+.badj{background:#fdf4ff;color:#9333ea}
+.badv{background:#fff7ed;color:#c2410c}
+.bex{background:#f9fafb;color:#374151}
+.bkw{background:var(--bl);color:var(--b)}
+.hbtn{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--bd);background:var(--sf);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.hbtn.on{background:var(--g);border-color:var(--g);color:#fff}
+.spk-btn{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--bd);background:var(--sf);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.spk-btn:active{background:var(--pl)}
+.xi{font-size:12px;color:var(--t3);transition:transform .2s;flex-shrink:0}
+.card.open .xi{transform:rotate(180deg)}
+.card-body{display:none;border-top:1px solid var(--bd)}
+.card.open .card-body{display:block}
+.sec{padding:10px 12px;border-bottom:1px solid var(--bd)}
+.sec:last-child{border-bottom:none}
+.slbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);margin-bottom:6px}
+.sjp{font-size:17px;color:var(--t1);line-height:1.6}
+.sh{font-size:11px;color:var(--t2);margin-top:2px}
+.sr{font-size:11px;color:var(--t3)}
+.si2{font-size:12px;color:var(--t1);margin-top:4px;font-style:italic}
+.kwbox{background:var(--bg);border-radius:var(--rs);padding:9px 10px;display:flex;flex-direction:column;gap:9px}
+.kwl{}
+.kwsp{font-size:10px;font-weight:700;color:var(--p);margin-bottom:2px}
+.kwjp{font-size:15px;color:var(--t1);line-height:1.5}
+.kwh{font-size:11px;color:var(--t2)}
+.kwr{font-size:11px;color:var(--t3)}
+.kwid{font-size:12px;color:var(--t1);margin-top:2px;font-style:italic}
+/* FLASHCARD */
+.fc-wrap{padding:12px 10px;display:flex;flex-direction:column;gap:10px;min-height:calc(100vh - 190px)}
+.fc-ctrl{display:flex;gap:8px;align-items:center}
+.fc-ctrl select{flex:1;font-size:13px;height:34px;border:1px solid var(--bd);border-radius:var(--rs);background:var(--sf);color:var(--t1);padding:0 8px}
+.fc-ctrl button{height:34px;padding:0 14px;border-radius:var(--rs);border:1.5px solid var(--bd);background:var(--sf);font-size:13px;font-weight:500;cursor:pointer;color:var(--t2)}
+.fc-prog{background:var(--sf);border-radius:var(--rr);padding:10px 12px;border:1px solid var(--bd)}
+.fc-prog-top{display:flex;justify-content:space-between;font-size:12px;color:var(--t2);margin-bottom:6px}
+.pbg{background:var(--bd);border-radius:99px;height:5px}
+.pf{background:var(--p);border-radius:99px;height:5px;transition:width .3s}
+.fc-scene{perspective:1000px;height:220px;cursor:pointer}
+.fc-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .4s}
+.fc-scene.flipped .fc-inner{transform:rotateY(180deg)}
+.fc-front,.fc-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:var(--rr);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;border:1.5px solid var(--bd);background:var(--sf)}
+.fc-back{transform:rotateY(180deg);background:var(--pl);border-color:var(--p)}
+.fc-word{font-size:52px;font-weight:700;margin-bottom:6px;line-height:1}
+.fc-hint{font-size:13px;color:var(--t2)}
+.fc-tap{font-size:11px;color:var(--t3);margin-top:10px}
+.fc-ans{font-size:22px;font-weight:600;color:var(--p);margin-bottom:4px}
+.fc-ans2{font-size:14px;color:var(--pd)}
+.fc-ans3{font-size:12px;color:var(--pd);margin-top:2px}
+.fc-btns{display:flex;gap:8px}
+.fc-btn{flex:1;padding:12px;border-radius:var(--rs);border:none;font-size:14px;font-weight:600;cursor:pointer}
+.fc-btn.wrong{background:var(--rl);color:#dc2626}
+.fc-btn.correct{background:var(--gl);color:#15803d}
+.fc-done{background:var(--sf);border-radius:var(--rr);border:1.5px solid var(--bd);padding:28px 16px;text-align:center}
+.fc-score{font-size:48px;font-weight:700;color:var(--p)}
+.fc-score-lbl{font-size:14px;color:var(--t2);margin-top:4px;margin-bottom:18px}
+/* QUIZ */
+.qz-wrap{padding:10px 10px;display:flex;flex-direction:column;gap:10px;min-height:calc(100vh - 190px)}
+.qz-ctrl{background:var(--sf);border-radius:var(--rr);padding:10px 12px;border:1px solid var(--bd)}
+.qz-type-row{display:flex;gap:6px;margin-bottom:8px}
+.qz-type-btn{flex:1;padding:8px 4px;border-radius:var(--rs);border:1.5px solid var(--bd);background:var(--sf);font-size:11px;font-weight:500;cursor:pointer;color:var(--t2);text-align:center}
+.qz-type-btn.active{background:var(--pl);border-color:var(--p);color:var(--p)}
+.qz-prog-top{display:flex;justify-content:space-between;font-size:12px;color:var(--t2);margin-bottom:5px}
+.qz-card{background:var(--sf);border-radius:var(--rr);border:1.5px solid var(--bd);padding:20px 14px;text-align:center}
+.qz-word{font-size:44px;font-weight:700;margin-bottom:4px;line-height:1.2}
+.qz-sub{font-size:12px;color:var(--t2);margin-bottom:16px}
+.qz-hint{font-size:12px;color:var(--t2);margin-bottom:16px}
+.qz-choices{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.qz-ch{padding:11px 8px;border-radius:var(--rs);border:1.5px solid var(--bd);background:var(--sf);font-size:13px;font-weight:500;cursor:pointer;text-align:center;line-height:1.3}
+.qz-ch:active{transform:scale(.97)}
+.qz-ch.ok{background:var(--gl);border-color:var(--g);color:#15803d}
+.qz-ch.ng{background:var(--rl);border-color:var(--r);color:#dc2626}
+.qz-next{margin-top:10px;width:100%;padding:12px;border-radius:var(--rs);background:var(--p);color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer;display:none}
+/* FILL */
+.fill-card{background:var(--sf);border-radius:var(--rr);border:1.5px solid var(--bd);padding:16px 14px}
+.fill-sent{font-size:18px;line-height:1.8;margin-bottom:10px;color:var(--t1)}
+.fill-blank{display:inline-block;border-bottom:2px solid var(--p);min-width:60px;text-align:center;font-weight:700;color:var(--p);padding:0 4px}
+.fill-opts{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px}
+.fill-opt{padding:7px 14px;border-radius:99px;border:1.5px solid var(--bd);background:var(--sf);font-size:14px;cursor:pointer;font-weight:500}
+.fill-opt:active{transform:scale(.96)}
+.fill-opt.ok{background:var(--gl);border-color:var(--g);color:#15803d}
+.fill-opt.ng{background:var(--rl);border-color:var(--r);color:#dc2626}
+.fill-exp{font-size:12px;color:var(--t2);margin-top:6px;padding:8px;background:var(--bg);border-radius:var(--rs);display:none}
+/* BUILD */
+.build-card{background:var(--sf);border-radius:var(--rr);border:1.5px solid var(--bd);padding:14px}
+.build-target{font-size:14px;color:var(--t2);margin-bottom:10px;font-style:italic}
+.build-answer{min-height:48px;border:2px dashed var(--bd);border-radius:var(--rs);padding:8px 10px;margin-bottom:10px;display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.build-answer.ok{border-color:var(--g);background:var(--gl)}
+.build-answer.ng{border-color:var(--r);background:var(--rl)}
+.build-word{padding:6px 10px;background:var(--p);color:#fff;border-radius:99px;font-size:14px;cursor:pointer;font-weight:500}
+.build-word.used{background:var(--t3)}
+.build-pool{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.pool-word{padding:6px 12px;border:1.5px solid var(--p);color:var(--p);border-radius:99px;font-size:14px;cursor:pointer;font-weight:500;background:var(--pl)}
+.pool-word.used{opacity:.3;pointer-events:none}
+.build-btns{display:flex;gap:7px}
+.build-btn{flex:1;padding:9px;border-radius:var(--rs);border:1.5px solid var(--bd);font-size:13px;font-weight:500;cursor:pointer;background:var(--sf);color:var(--t2)}
+.build-btn.check{background:var(--p);color:#fff;border-color:var(--p)}
+/* RESULT */
+.qz-result{background:var(--sf);border-radius:var(--rr);border:1.5px solid var(--bd);padding:28px 14px;text-align:center}
+.qz-score{font-size:48px;font-weight:700;color:var(--p)}
+.qz-score-lbl{font-size:14px;color:var(--t2);margin:4px 0 18px}
+.restart-btn{padding:11px 28px;border-radius:var(--rs);background:var(--p);color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer}
+/* HAFAL TAB */
+.hafal-list{padding:8px 10px;display:flex;flex-direction:column;gap:7px}
 /* EMPTY */
-.empty { text-align: center; padding: 48px 16px; color: var(--text2); font-size: 14px; }
-.empty-icon { font-size: 40px; margin-bottom: 10px; }
-
-/* INSTALL BANNER */
-.install-banner { background: var(--primary); color: white; padding: 12px 14px; display: flex; align-items: center; gap: 10px; }
-.install-banner p { flex: 1; font-size: 13px; line-height: 1.4; }
-.install-btn { background: white; color: var(--primary); border: none; border-radius: var(--radius-sm); padding: 7px 14px; font-size: 13px; font-weight: 700; cursor: pointer; flex-shrink: 0; }
-.install-close { background: none; border: none; color: white; font-size: 18px; cursor: pointer; flex-shrink: 0; opacity: 0.7; }
-
-/* DARK MODE */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0f0f17;
-    --surface: #1a1a2e;
-    --border: #2d2d44;
-    --text: #f1f0ff;
-    --text2: #9d9cb5;
-    --text3: #6b6a80;
-    --primary-light: #2d2b5a;
-    --green-light: #052e16;
-    --red-light: #2d0a0a;
-    --blue-light: #0c1a3d;
-    --amber-light: #2d1a00;
-  }
-  .search-wrap input { background: rgba(255,255,255,0.12); color: white; }
-  .search-wrap input::placeholder { color: rgba(255,255,255,0.5); }
-}
-
-@media (max-width: 400px) {
-  .quiz-word { font-size: 38px; }
-  .quiz-choices { grid-template-columns: 1fr; }
+.empty{text-align:center;padding:40px 16px;color:var(--t2);font-size:14px}
+.empty-icon{font-size:36px;margin-bottom:8px}
+/* INSTALL */
+.inst-banner{background:var(--p);color:#fff;padding:10px 12px;display:flex;align-items:center;gap:8px}
+.inst-banner p{flex:1;font-size:12px;line-height:1.4}
+.inst-btn{background:#fff;color:var(--p);border:none;border-radius:var(--rs);padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0}
+.inst-x{background:none;border:none;color:#fff;font-size:16px;cursor:pointer;opacity:.7;flex-shrink:0}
+/* DARK */
+@media(prefers-color-scheme:dark){
+  :root{--bg:#0f0f17;--sf:#1a1a2e;--bd:#2d2d44;--t1:#f1f0ff;--t2:#9d9cb5;--t3:#6b6a80;--pl:#2d2b5a;--gl:#052e16;--rl:#2d0a0a;--bl:#0c1a3d;--al:#2d1a00}
+  .search-wrap input{background:rgba(255,255,255,.12);color:#fff}
+  .search-wrap input::placeholder{color:rgba(255,255,255,.45)}
+  .fc-back{background:#2d2b5a;border-color:var(--p)}
 }
 </style>
 </head>
 <body>
-
-<div id="install-banner" class="install-banner" style="display:none">
-  <p>📲 Install aplikasi ini di HP kamu untuk akses offline!</p>
-  <button class="install-btn" onclick="installApp()">Install</button>
-  <button class="install-close" onclick="document.getElementById('install-banner').style.display='none'">✕</button>
+<div id="inst-banner" style="display:none" class="inst-banner">
+  <p>📲 Install aplikasi ini di HP untuk akses offline!</p>
+  <button class="inst-btn" onclick="installApp()">Install</button>
+  <button class="inst-x" onclick="document.getElementById('inst-banner').style.display='none'">✕</button>
 </div>
 
 <div class="topbar">
-  <div class="topbar-row1">
-    <div>
-      <div class="app-title">🇯🇵 日本語 Kosakata</div>
-      <div class="app-sub">N5 · N4 · N3 Lengkap</div>
-    </div>
+  <div class="tb1">
+    <div><div class="app-title">🇯🇵 日本語 Kosakata</div><div class="app-sub">N5 · N4 Lengkap</div></div>
     <div class="stats-pill" id="stats-pill">0 kata</div>
   </div>
   <div class="search-wrap">
-    <span class="search-icon">🔍</span>
+    <span class="si">🔍</span>
     <input type="text" id="search" placeholder="Cari kanji, romaji, atau Indonesia..." oninput="onSearch()">
-    <button class="search-clear" id="search-clear" onclick="clearSearch()">✕</button>
+    <button class="sc" id="sc" onclick="clearSearch()">✕</button>
   </div>
 </div>
 
 <div class="tabs" id="tabs">
   <div class="tab active" onclick="setTab('browse')">📚 Jelajahi</div>
+  <div class="tab" onclick="setTab('flash')">🃏 Flashcard</div>
   <div class="tab" onclick="setTab('quiz')">🧠 Kuis</div>
-  <div class="tab" onclick="setTab('hafal')">✅ Hafal (<span id="hafal-count">0</span>)</div>
+  <div class="tab" onclick="setTab('particle')">🔡 Partikel</div>
+  <div class="tab" onclick="setTab('build')">✍️ Kalimat</div>
+  <div class="tab" onclick="setTab('hafal')">✅ Hafal (<span id="hc">0</span>)</div>
 </div>
 
 <div class="filters" id="filters">
-  <div class="chip active" onclick="setFilter('level','semua')">Semua Level</div>
-  <div class="chip" onclick="setFilter('level','N5')">N5</div>
-  <div class="chip" onclick="setFilter('level','N4')">N4</div>
-  <div class="chip" onclick="setFilter('level','N3')">N3</div>
-  <div class="chip" style="margin-left:8px; border-left: 1px solid var(--border); padding-left:14px" onclick="setFilter('jenis','semua')">Semua Jenis</div>
-  <div class="chip" onclick="setFilter('jenis','v')">Kata Kerja</div>
-  <div class="chip" onclick="setFilter('jenis','n')">Kata Benda</div>
-  <div class="chip" onclick="setFilter('jenis','adj')">Kata Sifat</div>
-  <div class="chip" onclick="setFilter('jenis','adv')">Keterangan</div>
-  <div class="chip" onclick="setFilter('jenis','expr')">Ekspresi</div>
-  <div class="chip kaiwa" onclick="setFilter('kaiwa','1')">🗣 Sering di Kaiwa</div>
+  <div class="chip active" onclick="setF('level','semua')">Semua</div>
+  <div class="chip" onclick="setF('level','N5')">N5</div>
+  <div class="chip" onclick="setF('level','N4')">N4</div>
+  <div class="divchip"></div>
+  <div class="chip active" onclick="setF('jenis','semua')">Semua Jenis</div>
+  <div class="chip" onclick="setF('jenis','v')">Kata Kerja</div>
+  <div class="chip" onclick="setF('jenis','n')">Kata Benda</div>
+  <div class="chip" onclick="setF('jenis','adj')">Kata Sifat</div>
+  <div class="chip" onclick="setF('jenis','adv')">Keterangan</div>
+  <div class="chip" onclick="setF('jenis','expr')">Ekspresi</div>
+  <div class="divchip"></div>
+  <div class="chip ck" onclick="setF('kaiwa','t')">🗣 Kaiwa</div>
 </div>
 
-<div id="browse-tab">
-  <div class="list" id="list"></div>
-</div>
-
-<div id="quiz-tab" style="display:none">
-  <div class="quiz-wrap" id="quiz-wrap">
-    <div class="quiz-progress">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <span style="font-size:13px;font-weight:600">Mode Kuis</span>
-        <span style="font-size:12px;color:var(--text2)" id="quiz-score-top">Benar: 0 / 0</span>
-      </div>
-      <div class="quiz-type-btns" style="margin-top:8px">
-        <button class="quiz-type-btn active" onclick="setQuizType('jp-id')">JP → ID</button>
-        <button class="quiz-type-btn" onclick="setQuizType('id-jp')">ID → JP</button>
-        <button class="quiz-type-btn" onclick="setQuizType('romaji')">Romaji?</button>
-      </div>
-      <div class="progress-bar-bg" style="margin-top:8px"><div class="progress-bar-fill" id="quiz-bar" style="width:0%"></div></div>
-    </div>
-    <div id="quiz-content"></div>
-  </div>
-</div>
-
-<div id="hafal-tab" style="display:none">
-  <div class="list" id="hafal-list"></div>
-</div>
+<div id="browse-tab"><div class="list" id="list"></div></div>
+<div id="flash-tab" style="display:none"></div>
+<div id="quiz-tab" style="display:none"></div>
+<div id="particle-tab" style="display:none"></div>
+<div id="build-tab" style="display:none"></div>
+<div id="hafal-tab" style="display:none"><div class="hafal-list" id="hafal-list"></div></div>
 
 <script>
-// ===== DATA =====
-const vocab = [
+// ========== VOCAB DATA ==========
+const V=[
 // ── KATA KERJA N5 ──
-{k:"会う",h:"あう",r:"au",id:"Bertemu",jenis:"v",level:"N5",kaiwa:1,s:{jp:"駅で友達に会いました。",h:"えきでともだちにあいました。",r:"Eki de tomodachi ni aimashita.",i:"Saya bertemu teman di stasiun."},kw:[{sp:"A",jp:"昨日、田中さんに会いましたか？",h:"きのう、たなかさんにあいましたか？",r:"Kinō, Tanaka-san ni aimashita ka?",i:"Kemarin, kamu bertemu Pak Tanaka?"},{sp:"B",jp:"はい、図書館で会いました。",h:"はい、としょかんであいました。",r:"Hai, toshokan de aimashita.",i:"Iya, kami bertemu di perpustakaan."}]},
-{k:"開く",h:"あく",r:"aku",id:"Terbuka",jenis:"v",level:"N5",kaiwa:0,s:{jp:"ドアが自動で開きます。",h:"ドアがじどうであきます。",r:"Doa ga jidō de akimasu.",i:"Pintu terbuka secara otomatis."},kw:[{sp:"A",jp:"この窓は開きますか？",h:"このまどはあきますか？",r:"Kono mado wa akimasu ka?",i:"Apakah jendela ini bisa terbuka?"},{sp:"B",jp:"はい、右に引くと開きますよ。",h:"はい、みぎにひくとあきますよ。",r:"Hai, migi ni hiku to akimasu yo.",i:"Iya, tarik ke kanan maka terbuka."}]},
-{k:"開ける",h:"あける",r:"akeru",id:"Membuka",jenis:"v",level:"N5",kaiwa:1,s:{jp:"毎朝、窓を開けます。",h:"まいあさ、まどをあけます。",r:"Maiasa, mado o akemasu.",i:"Setiap pagi saya membuka jendela."},kw:[{sp:"A",jp:"窓を開けてもいいですか？",h:"まどをあけてもいいですか？",r:"Mado o akete mo ii desu ka?",i:"Boleh saya buka jendelanya?"},{sp:"B",jp:"もちろん、開けてください。",h:"もちろん、あけてください。",r:"Mochiron, akete kudasai.",i:"Tentu saja, tolong dibuka."}]},
-{k:"あげる",h:"あげる",r:"ageru",id:"Memberi",jenis:"v",level:"N5",kaiwa:1,s:{jp:"誕生日に花をあげました。",h:"たんじょうびにはなをあげました。",r:"Tanjōbi ni hana o agemashita.",i:"Saya memberi bunga di hari ulang tahunnya."},kw:[{sp:"A",jp:"山田さんに何をあげますか？",h:"やまださんになにをあげますか？",r:"Yamada-san ni nani o agemasu ka?",i:"Mau memberi apa kepada Yamada-san?"},{sp:"B",jp:"ケーキをあげようと思います。",h:"ケーキをあげようとおもいます。",r:"Kēki o ageyō to omoimasu.",i:"Saya pikir akan memberi kue."}]},
-{k:"遊ぶ",h:"あそぶ",r:"asobu",id:"Bermain",jenis:"v",level:"N5",kaiwa:1,s:{jp:"子供たちは公園で遊んでいます。",h:"こどもたちはこうえんであそんでいます。",r:"Kodomotachi wa kōen de asonde imasu.",i:"Anak-anak sedang bermain di taman."},kw:[{sp:"A",jp:"週末、一緒に遊びませんか？",h:"しゅうまつ、いっしょにあそびませんか？",r:"Shūmatsu, issho ni asobimasen ka?",i:"Akhir pekan, mau bermain bersama?"},{sp:"B",jp:"いいですね！どこで遊びましょうか？",h:"いいですね！どこであそびましょうか？",r:"Ii desu ne! Doko de asobimashō ka?",i:"Bagus! Kita bermain di mana ya?"}]},
-{k:"浴びる",h:"あびる",r:"abiru",id:"Mandi (shower)",jenis:"v",level:"N5",kaiwa:1,s:{jp:"朝、シャワーを浴びます。",h:"あさ、シャワーをあびます。",r:"Asa, shawā o abimasu.",i:"Pagi hari saya mandi shower."},kw:[{sp:"A",jp:"もうシャワーを浴びましたか？",h:"もうシャワーをあびましたか？",r:"Mō shawā o abimashita ka?",i:"Sudah mandi shower?"},{sp:"B",jp:"いいえ、これから浴びます。",h:"いいえ、これからあびます。",r:"Iie, korekara abimasu.",i:"Belum, sekarang mau mandi."}]},
-{k:"洗う",h:"あらう",r:"arau",id:"Mencuci",jenis:"v",level:"N5",kaiwa:1,s:{jp:"食事の前に手を洗います。",h:"しょくじのまえにてをあらいます。",r:"Shokuji no mae ni te o araimasu.",i:"Saya mencuci tangan sebelum makan."},kw:[{sp:"A",jp:"手を洗いましたか？",h:"てをあらいましたか？",r:"Te o araimashita ka?",i:"Sudah cuci tangan?"},{sp:"B",jp:"はい、今洗いました。",h:"はい、いまあらいました。",r:"Hai, ima araimashita.",i:"Sudah, baru saja cuci."}]},
-{k:"ある",h:"ある",r:"aru",id:"Ada (benda/hal)",jenis:"v",level:"N5",kaiwa:1,s:{jp:"机の上に本があります。",h:"つくえのうえにほんがあります。",r:"Tsukue no ue ni hon ga arimasu.",i:"Ada buku di atas meja."},kw:[{sp:"A",jp:"近くにコンビニがありますか？",h:"ちかくにコンビニがありますか？",r:"Chikaku ni konbini ga arimasu ka?",i:"Apakah ada konbini di dekat sini?"},{sp:"B",jp:"はい、駅の前にありますよ。",h:"はい、えきのまえにありますよ。",r:"Hai, eki no mae ni arimasu yo.",i:"Iya, ada di depan stasiun."}]},
-{k:"歩く",h:"あるく",r:"aruku",id:"Berjalan",jenis:"v",level:"N5",kaiwa:1,s:{jp:"毎日、駅まで歩きます。",h:"まいにち、えきまであるきます。",r:"Mainichi, eki made arukimasu.",i:"Setiap hari saya berjalan ke stasiun."},kw:[{sp:"A",jp:"駅まで歩いて何分かかりますか？",h:"えきまであるいてなんぷんかかりますか？",r:"Eki made aruite nanpun kakarimasu ka?",i:"Berapa menit jalan kaki ke stasiun?"},{sp:"B",jp:"だいたい十分かかります。",h:"だいたいじゅっぷんかかります。",r:"Daitai juppun kakarimasu.",i:"Kira-kira 10 menit."}]},
-{k:"言う",h:"いう",r:"iu",id:"Berkata",jenis:"v",level:"N5",kaiwa:1,s:{jp:"先生は「よくできました」と言いました。",h:"せんせいは「よくできました」といいました。",r:"Sensei wa 'yoku dekimashita' to iimashita.",i:"Guru berkata 'sudah bagus'."},kw:[{sp:"A",jp:"彼は何と言いましたか？",h:"かれはなんといいましたか？",r:"Kare wa nan to iimashita ka?",i:"Dia bilang apa?"},{sp:"B",jp:"「また来ます」と言いました。",h:"「またきます」といいました。",r:"'Mata kimasu' to iimashita.",i:"Dia bilang 'saya akan datang lagi'."}]},
-{k:"行く",h:"いく",r:"iku",id:"Pergi",jenis:"v",level:"N5",kaiwa:1,s:{jp:"明日、学校へ行きます。",h:"あした、がっこうへいきます。",r:"Ashita, gakkō e ikimasu.",i:"Besok saya pergi ke sekolah."},kw:[{sp:"A",jp:"今日、どこへ行きますか？",h:"きょう、どこへいきますか？",r:"Kyō, doko e ikimasu ka?",i:"Hari ini kamu pergi ke mana?"},{sp:"B",jp:"スーパーへ行きます。",h:"スーパーへいきます。",r:"Sūpā e ikimasu.",i:"Saya pergi ke supermarket."}]},
-{k:"いる",h:"いる",r:"iru",id:"Ada (orang/hewan)",jenis:"v",level:"N5",kaiwa:1,s:{jp:"リビングに猫がいます。",h:"リビングにねこがいます。",r:"Ribingu ni neko ga imasu.",i:"Ada kucing di ruang tamu."},kw:[{sp:"A",jp:"お母さんは家にいますか？",h:"おかあさんはいえにいますか？",r:"Okāsan wa ie ni imasu ka?",i:"Apakah ibu ada di rumah?"},{sp:"B",jp:"いいえ、今、外にいます。",h:"いいえ、いま、そとにいます。",r:"Iie, ima, soto ni imasu.",i:"Tidak, sekarang beliau di luar."}]},
-{k:"入れる",h:"いれる",r:"ireru",id:"Memasukkan",jenis:"v",level:"N5",kaiwa:1,s:{jp:"バッグに財布を入れました。",h:"バッグにさいふをいれました。",r:"Baggu ni saifu o iremashita.",i:"Saya memasukkan dompet ke dalam tas."},kw:[{sp:"A",jp:"砂糖をコーヒーに入れますか？",h:"さとうをコーヒーにいれますか？",r:"Satō o kōhī ni iremasu ka?",i:"Apakah kamu masukkan gula ke kopi?"},{sp:"B",jp:"いいえ、砂糖は入れません。",h:"いいえ、さとうはいれません。",r:"Iie, satō wa iremasen.",i:"Tidak, saya tidak masukkan gula."}]},
-{k:"歌う",h:"うたう",r:"utau",id:"Bernyanyi",jenis:"v",level:"N5",kaiwa:1,s:{jp:"カラオケで歌を歌いました。",h:"カラオケでうたをうたいました。",r:"Karaoke de uta o utaimashita.",i:"Saya bernyanyi di karaoke."},kw:[{sp:"A",jp:"カラオケで何を歌いますか？",h:"カラオケでなにをうたいますか？",r:"Karaoke de nani o utaimasu ka?",i:"Kamu menyanyikan apa di karaoke?"},{sp:"B",jp:"日本語の歌をよく歌います。",h:"にほんごのうたをよくうたいます。",r:"Nihongo no uta o yoku utaimasu.",i:"Saya sering menyanyikan lagu Jepang."}]},
-{k:"生まれる",h:"うまれる",r:"umareru",id:"Lahir",jenis:"v",level:"N5",kaiwa:0,s:{jp:"私は二〇〇〇年に生まれました。",h:"わたしはにせんねんにうまれました。",r:"Watashi wa nisen-nen ni umaremashita.",i:"Saya lahir pada tahun 2000."},kw:[{sp:"A",jp:"どこで生まれましたか？",h:"どこでうまれましたか？",r:"Doko de umaremashita ka?",i:"Kamu lahir di mana?"},{sp:"B",jp:"ジャカルタで生まれました。",h:"ジャカルタでうまれました。",r:"Jakaruta de umaremashita.",i:"Saya lahir di Jakarta."}]},
-{k:"売る",h:"うる",r:"uru",id:"Menjual",jenis:"v",level:"N5",kaiwa:0,s:{jp:"このお店では野菜を売っています。",h:"このおみせではやさいをうっています。",r:"Kono omise de wa yasai o utte imasu.",i:"Toko ini menjual sayuran."},kw:[{sp:"A",jp:"この自転車を売りたいんですが。",h:"このじてんしゃをうりたいんですが。",r:"Kono jitensha o uritain desu ga.",i:"Saya ingin menjual sepeda ini."},{sp:"B",jp:"いくらで売りますか？",h:"いくらでうりますか？",r:"Ikura de urimasu ka?",i:"Kamu jual berapa?"}]},
-{k:"起きる",h:"おきる",r:"okiru",id:"Bangun/Terjadi",jenis:"v",level:"N5",kaiwa:1,s:{jp:"毎朝六時に起きます。",h:"まいあさろくじにおきます。",r:"Maiasa rokuji ni okimasu.",i:"Setiap pagi saya bangun pukul enam."},kw:[{sp:"A",jp:"何時に起きますか？",h:"なんじにおきますか？",r:"Nanji ni okimasu ka?",i:"Kamu bangun jam berapa?"},{sp:"B",jp:"いつもは七時に起きます。",h:"いつもはしちじにおきます。",r:"Itsumo wa shichiji ni okimasu.",i:"Biasanya bangun jam 7."}]},
-{k:"置く",h:"おく",r:"oku",id:"Meletakkan",jenis:"v",level:"N5",kaiwa:1,s:{jp:"鍵をテーブルの上に置きました。",h:"かぎをテーブルのうえにおきました。",r:"Kagi o tēburu no ue ni okimashita.",i:"Saya meletakkan kunci di atas meja."},kw:[{sp:"A",jp:"荷物をどこに置けばいいですか？",h:"にもつをどこにおけばいいですか？",r:"Nimotsu o doko ni okeba ii desu ka?",i:"Barang bawaan ditaruh di mana?"},{sp:"B",jp:"ここに置いてください。",h:"ここにおいてください。",r:"Koko ni oite kudasai.",i:"Tolong letakkan di sini."}]},
-{k:"送る",h:"おくる",r:"okuru",id:"Mengirim",jenis:"v",level:"N5",kaiwa:1,s:{jp:"友達にメールを送りました。",h:"ともだちにメールをおくりました。",r:"Tomodachi ni mēru o okurimashita.",i:"Saya mengirim email kepada teman."},kw:[{sp:"A",jp:"この荷物を東京に送りたいんですが。",h:"このにもつをとうきょうにおくりたいんですが。",r:"Kono nimotsu o Tōkyō ni okuritain desu ga.",i:"Saya ingin kirim paket ini ke Tokyo."},{sp:"B",jp:"明日届くように送ります。",h:"あしたとどくようにおくります。",r:"Ashita todoku yō ni okurimasu.",i:"Akan dikirim agar tiba besok."}]},
-{k:"押す",h:"おす",r:"osu",id:"Menekan",jenis:"v",level:"N5",kaiwa:1,s:{jp:"ボタンを押してください。",h:"ボタンをおしてください。",r:"Botan o oshite kudasai.",i:"Tolong tekan tombolnya."},kw:[{sp:"A",jp:"このボタンを押してもらえますか？",h:"このボタンをおしてもらえますか？",r:"Kono botan o oshite moraemasu ka?",i:"Bisa tolong tekan tombol ini?"},{sp:"B",jp:"はい、押しますね。",h:"はい、おしますね。",r:"Hai, oshimasu ne.",i:"Baik, saya tekan ya."}]},
-{k:"覚える",h:"おぼえる",r:"oboeru",id:"Menghafal",jenis:"v",level:"N5",kaiwa:1,s:{jp:"毎日漢字を十個覚えます。",h:"まいにちかんじをじゅっこおぼえます。",r:"Mainichi kanji o jukko oboemasu.",i:"Setiap hari saya hafal 10 kanji."},kw:[{sp:"A",jp:"この単語を覚えましたか？",h:"このたんごをおぼえましたか？",r:"Kono tango o oboemashita ka?",i:"Apakah kamu sudah hafal kata ini?"},{sp:"B",jp:"まだ覚えていません。",h:"まだおぼえていません。",r:"Mada oboete imasen.",i:"Belum hafal."}]},
-{k:"泳ぐ",h:"およぐ",r:"oyogu",id:"Berenang",jenis:"v",level:"N5",kaiwa:0,s:{jp:"夏はプールで泳ぎます。",h:"なつはプールでおよぎます。",r:"Natsu wa pūru de oyogimasu.",i:"Di musim panas saya berenang di kolam."},kw:[{sp:"A",jp:"泳げますか？",h:"およげますか？",r:"Oyogemasu ka?",i:"Bisa berenang?"},{sp:"B",jp:"はい、でも速くは泳げません。",h:"はい、でもはやくはおよげません。",r:"Hai, demo hayaku wa oyogemasen.",i:"Bisa, tapi tidak bisa cepat."}]},
-{k:"降りる",h:"おりる",r:"oriru",id:"Turun (kendaraan)",jenis:"v",level:"N5",kaiwa:1,s:{jp:"次の駅で電車を降ります。",h:"つぎのえきでんしゃをおります。",r:"Tsugi no eki de densha o orimasu.",i:"Saya turun kereta di stasiun berikutnya."},kw:[{sp:"A",jp:"どこで降りますか？",h:"どこでおりますか？",r:"Doko de orimasu ka?",i:"Turun di mana?"},{sp:"B",jp:"渋谷で降ります。",h:"しぶやでおります。",r:"Shibuya de orimasu.",i:"Turun di Shibuya."}]},
-{k:"終わる",h:"おわる",r:"owaru",id:"Berakhir",jenis:"v",level:"N5",kaiwa:1,s:{jp:"授業は三時に終わります。",h:"じゅぎょうはさんじにおわります。",r:"Jugyō wa sanji ni owarimasu.",i:"Pelajaran berakhir pukul tiga."},kw:[{sp:"A",jp:"映画は何時に終わりますか？",h:"えいがはなんじにおわりますか？",r:"Eiga wa nanji ni owarimasu ka?",i:"Film berakhir jam berapa?"},{sp:"B",jp:"九時ごろに終わります。",h:"くじごろにおわります。",r:"Kuji goro ni owarimasu.",i:"Sekitar jam 9 berakhir."}]},
-{k:"買う",h:"かう",r:"kau",id:"Membeli",jenis:"v",level:"N5",kaiwa:1,s:{jp:"スーパーで野菜を買いました。",h:"スーパーでやさいをかいました。",r:"Sūpā de yasai o kaimashita.",i:"Saya membeli sayuran di supermarket."},kw:[{sp:"A",jp:"新しいスマホを買いたいんですが。",h:"あたらしいスマホをかいたいんですが。",r:"Atarashii sumaho o kaitain desu ga.",i:"Saya ingin membeli smartphone baru."},{sp:"B",jp:"どんなスマホを買うつもりですか？",h:"どんなスマホをかうつもりですか？",r:"Donna sumaho o kau tsumori desu ka?",i:"Smartphone seperti apa yang mau dibeli?"}]},
-{k:"返す",h:"かえす",r:"kaesu",id:"Mengembalikan",jenis:"v",level:"N5",kaiwa:1,s:{jp:"借りた本を図書館に返しました。",h:"かりたほんをとしょかんにかえしました。",r:"Karita hon o toshokan ni kaeshimashita.",i:"Saya mengembalikan buku yang dipinjam."},kw:[{sp:"A",jp:"この本、来週返してもいいですか？",h:"このほん、らいしゅうかえしてもいいですか？",r:"Kono hon, raishū kaeshite mo ii desu ka?",i:"Boleh mengembalikan buku ini minggu depan?"},{sp:"B",jp:"いいですよ。急がなくて大丈夫です。",h:"いいですよ。いそがなくてだいじょうぶです。",r:"Ii desu yo. Isoganakute daijōbu desu.",i:"Boleh. Tidak perlu terburu-buru."}]},
-{k:"帰る",h:"かえる",r:"kaeru",id:"Pulang",jenis:"v",level:"N5",kaiwa:1,s:{jp:"仕事が終わったら家に帰ります。",h:"しごとがおわったらいえにかえります。",r:"Shigoto ga owattara ie ni kaerimasu.",i:"Kalau pekerjaan selesai saya pulang."},kw:[{sp:"A",jp:"何時に帰りますか？",h:"なんじにかえりますか？",r:"Nanji ni kaerimasu ka?",i:"Kamu pulang jam berapa?"},{sp:"B",jp:"今日は早く帰れると思います。",h:"きょうははやくかえれるとおもいます。",r:"Kyō wa hayaku kaereru to omoimasu.",i:"Hari ini sepertinya bisa pulang lebih awal."}]},
-{k:"かかる",h:"かかる",r:"kakaru",id:"Membutuhkan (waktu/biaya)",jenis:"v",level:"N5",kaiwa:1,s:{jp:"駅まで歩いて十分かかります。",h:"えきまであるいてじゅっぷんかかります。",r:"Eki made aruite juppun kakarimasu.",i:"Butuh 10 menit jalan kaki ke stasiun."},kw:[{sp:"A",jp:"この修理にはいくらかかりますか？",h:"このしゅうりにはいくらかかりますか？",r:"Kono shūri ni wa ikura kakarimasu ka?",i:"Berapa biaya perbaikan ini?"},{sp:"B",jp:"だいたい五千円かかります。",h:"だいたいごせんえんかかります。",r:"Daitai gosen-en kakarimasu.",i:"Kira-kira 5000 yen."}]},
-{k:"書く",h:"かく",r:"kaku",id:"Menulis",jenis:"v",level:"N5",kaiwa:1,s:{jp:"日記を毎日書いています。",h:"にっきをまいにちかいています。",r:"Nikki o mainichi kaite imasu.",i:"Saya menulis buku harian setiap hari."},kw:[{sp:"A",jp:"ここに名前を書いてください。",h:"ここになまえをかいてください。",r:"Koko ni namae o kaite kudasai.",i:"Tolong tulis nama Anda di sini."},{sp:"B",jp:"漢字で書いてもいいですか？",h:"かんじでかいてもいいですか？",r:"Kanji de kaite mo ii desu ka?",i:"Boleh saya tulis dengan kanji?"}]},
-{k:"貸す",h:"かす",r:"kasu",id:"Meminjamkan",jenis:"v",level:"N5",kaiwa:1,s:{jp:"友達に傘を貸しました。",h:"ともだちにかさをかしました。",r:"Tomodachi ni kasa o kashimashita.",i:"Saya meminjamkan payung kepada teman."},kw:[{sp:"A",jp:"消しゴムを貸してもらえますか？",h:"けしゴムをかしてもらえますか？",r:"Keshigomu o kashite moraemasu ka?",i:"Bisa pinjamkan penghapusnya?"},{sp:"B",jp:"もちろん、どうぞ。",h:"もちろん、どうぞ。",r:"Mochiron, dōzo.",i:"Tentu saja, silakan."}]},
-{k:"借りる",h:"かりる",r:"kariru",id:"Meminjam",jenis:"v",level:"N5",kaiwa:1,s:{jp:"図書館で本を借りました。",h:"としょかんでほんをかりました。",r:"Toshokan de hon o karimashita.",i:"Saya meminjam buku di perpustakaan."},kw:[{sp:"A",jp:"少しお金を借りてもいいですか？",h:"すこしおかねをかりてもいいですか？",r:"Sukoshi okane o karite mo ii desu ka?",i:"Boleh saya pinjam sedikit uang?"},{sp:"B",jp:"いいですよ。いくら借りますか？",h:"いいですよ。いくらかりますか？",r:"Ii desu yo. Ikura karimasu ka?",i:"Boleh. Mau pinjam berapa?"}]},
-{k:"消える",h:"きえる",r:"kieru",id:"Menghilang",jenis:"v",level:"N5",kaiwa:0,s:{jp:"霧の中に姿が消えました。",h:"きりのなかにすがたがきえました。",r:"Kiri no naka ni sugata ga kiemashita.",i:"Sosoknya menghilang di dalam kabut."},kw:[{sp:"A",jp:"電気が消えましたよ！",h:"でんきがきえましたよ！",r:"Denki ga kiemashita yo!",i:"Lampunya mati!"},{sp:"B",jp:"停電かもしれません。",h:"ていでんかもしれません。",r:"Teiden kamo shiremasen.",i:"Mungkin mati lampu."}]},
-{k:"聞く",h:"きく",r:"kiku",id:"Mendengar/Bertanya",jenis:"v",level:"N5",kaiwa:1,s:{jp:"音楽を聞きながら勉強します。",h:"おんがくをききながらべんきょうします。",r:"Ongaku o kikinagara benkyō shimasu.",i:"Saya belajar sambil mendengarkan musik."},kw:[{sp:"A",jp:"先生に聞いてみましたか？",h:"せんせいにきいてみましたか？",r:"Sensei ni kiite mimashita ka?",i:"Sudah coba bertanya ke guru?"},{sp:"B",jp:"まだです。これから聞きます。",h:"まだです。これからききます。",r:"Mada desu. Korekara kikimasu.",i:"Belum. Sekarang mau bertanya."}]},
-{k:"切る",h:"きる",r:"kiru",id:"Memotong",jenis:"v",level:"N5",kaiwa:1,s:{jp:"料理のために野菜を切ります。",h:"りょうりのためにやさいをきります。",r:"Ryōri no tame ni yasai o kirimasu.",i:"Saya memotong sayuran untuk memasak."},kw:[{sp:"A",jp:"髪を切りたいんですが。",h:"かみをきりたいんですが。",r:"Kami o kiritain desu ga.",i:"Saya ingin potong rambut."},{sp:"B",jp:"どのくらい切りますか？",h:"どのくらいきりますか？",r:"Dono kurai kirimasu ka?",i:"Mau dipotong seberapa pendek?"}]},
-{k:"着る",h:"きる",r:"kiru",id:"Mengenakan (baju)",jenis:"v",level:"N5",kaiwa:1,s:{jp:"今日は白いシャツを着ています。",h:"きょうはしろいシャツをきています。",r:"Kyō wa shiroi shatsu o kite imasu.",i:"Hari ini saya mengenakan kemeja putih."},kw:[{sp:"A",jp:"パーティーに何を着ますか？",h:"パーティーになにをきますか？",r:"Pātī ni nani o kimasu ka?",i:"Kamu mau pakai apa ke pesta?"},{sp:"B",jp:"ドレスを着ようと思っています。",h:"ドレスをきようとおもっています。",r:"Doresu o kiyō to omotte imasu.",i:"Saya berencana mengenakan gaun."}]},
-{k:"来る",h:"くる",r:"kuru",id:"Datang",jenis:"v",level:"N5",kaiwa:1,s:{jp:"友達が家に来ました。",h:"ともだちがいえにきました。",r:"Tomodachi ga ie ni kimashita.",i:"Teman datang ke rumah saya."},kw:[{sp:"A",jp:"明日、パーティーに来ますか？",h:"あした、パーティーにきますか？",r:"Ashita, pātī ni kimasu ka?",i:"Besok, kamu datang ke pesta?"},{sp:"B",jp:"はい、六時ごろ来ます。",h:"はい、ろくじごろきます。",r:"Hai, rokuji goro kimasu.",i:"Iya, datang sekitar jam 6."}]},
-{k:"消す",h:"けす",r:"kesu",id:"Menghapus/Mematikan",jenis:"v",level:"N5",kaiwa:1,s:{jp:"電気を消してください。",h:"でんきをけしてください。",r:"Denki o keshite kudasai.",i:"Tolong matikan lampunya."},kw:[{sp:"A",jp:"電気を消してもいいですか？",h:"でんきをけしてもいいですか？",r:"Denki o keshite mo ii desu ka?",i:"Boleh saya matikan lampunya?"},{sp:"B",jp:"はい、消してください。",h:"はい、けしてください。",r:"Hai, keshite kudasai.",i:"Boleh, tolong dimatikan."}]},
-{k:"答える",h:"こたえる",r:"kotaeru",id:"Menjawab",jenis:"v",level:"N5",kaiwa:1,s:{jp:"先生の質問に答えました。",h:"せんせいのしつもんにこたえました。",r:"Sensei no shitsumon ni kotaemashita.",i:"Saya menjawab pertanyaan guru."},kw:[{sp:"A",jp:"この問題に答えられますか？",h:"このもんだいにこたえられますか？",r:"Kono mondai ni kotaeraremasu ka?",i:"Bisa kamu jawab soal ini?"},{sp:"B",jp:"答えてみます。",h:"こたえてみます。",r:"Kotaete mimasu.",i:"Akan saya coba jawab."}]},
-{k:"困る",h:"こまる",r:"komaru",id:"Kebingungan/Bermasalah",jenis:"v",level:"N5",kaiwa:1,s:{jp:"道に迷って困りました。",h:"みちにまよってこまりました。",r:"Michi ni mayotte komarimashita.",i:"Saya bingung karena tersesat."},kw:[{sp:"A",jp:"困っていますか？",h:"こまっていますか？",r:"Komatte imasu ka?",i:"Apakah kamu sedang kesulitan?"},{sp:"B",jp:"はい、財布を忘れて困っています。",h:"はい、さいふをわすれてこまっています。",r:"Hai, saifu o wasurete komatte imasu.",i:"Iya, lupa bawa dompet."}]},
-{k:"咲く",h:"さく",r:"saku",id:"Mekar",jenis:"v",level:"N5",kaiwa:0,s:{jp:"春になると桜が咲きます。",h:"はるになるとさくらがさきます。",r:"Haru ni naru to sakura ga sakimasu.",i:"Ketika musim semi tiba, sakura mekar."},kw:[{sp:"A",jp:"もう桜が咲きましたか？",h:"もうさくらがさきましたか？",r:"Mō sakura ga sakimashita ka?",i:"Bunga sakura sudah mekar?"},{sp:"B",jp:"はい、今週きれいに咲いています。",h:"はい、こんしゅうきれいにさいています。",r:"Hai, konshū kirei ni saite imasu.",i:"Sudah, minggu ini mekar dengan indah."}]},
-{k:"死ぬ",h:"しぬ",r:"shinu",id:"Mati",jenis:"v",level:"N5",kaiwa:0,s:{jp:"その木は枯れて死にました。",h:"そのきはかれてしにました。",r:"Sono ki wa karete shinimashita.",i:"Pohon itu layu dan mati."},kw:[{sp:"A",jp:"この植物、死にそうですね。",h:"このしょくぶつ、しにそうですね。",r:"Kono shokubutsu, shinisō desu ne.",i:"Tanaman ini sepertinya hampir mati ya."},{sp:"B",jp:"水をあげれば大丈夫だと思います。",h:"みずをあげればだいじょうぶだとおもいます。",r:"Mizu o agereba daijōbu da to omoimasu.",i:"Saya rasa akan baik-baik saja kalau diberi air."}]},
-{k:"閉まる",h:"しまる",r:"shimaru",id:"Tertutup",jenis:"v",level:"N5",kaiwa:1,s:{jp:"店は夜十時に閉まります。",h:"みせはよるじゅうじにしまります。",r:"Mise wa yoru jūji ni shimarimasu.",i:"Toko tutup pukul 10 malam."},kw:[{sp:"A",jp:"ドアが閉まっていますか？",h:"ドアがしまっていますか？",r:"Doa ga shimatte imasu ka?",i:"Apakah pintunya sudah tertutup?"},{sp:"B",jp:"はい、もう閉まっています。",h:"はい、もうしまっています。",r:"Hai, mō shimatte imasu.",i:"Iya, sudah tertutup."}]},
-{k:"閉める",h:"しめる",r:"shimeru",id:"Menutup",jenis:"v",level:"N5",kaiwa:1,s:{jp:"出かける前に窓を閉めました。",h:"でかけるまえにまどをしめました。",r:"Dekakeru mae ni mado o shimemashita.",i:"Saya menutup jendela sebelum keluar."},kw:[{sp:"A",jp:"ドアを閉めてもらえますか？",h:"ドアをしめてもらえますか？",r:"Doa o shimete moraemasu ka?",i:"Bisa tolong tutupkan pintunya?"},{sp:"B",jp:"はい、今閉めます。",h:"はい、いましめます。",r:"Hai, ima shimemasu.",i:"Baik, sekarang saya tutup."}]},
-{k:"知る",h:"しる",r:"shiru",id:"Tahu/Mengetahui",jenis:"v",level:"N5",kaiwa:1,s:{jp:"彼女の住所を知っています。",h:"かのじょのじゅうしょをしっています。",r:"Kanojo no jūsho o shitte imasu.",i:"Saya tahu alamat rumahnya."},kw:[{sp:"A",jp:"近くに郵便局があるか知っていますか？",h:"ちかくにゆうびんきょくがあるかしっていますか？",r:"Chikaku ni yūbinkyoku ga aru ka shitte imasu ka?",i:"Apakah kamu tahu ada kantor pos di dekat sini?"},{sp:"B",jp:"すみません、知りません。",h:"すみません、しりません。",r:"Sumimasen, shirimasen.",i:"Maaf, saya tidak tahu."}]},
-{k:"吸う",h:"すう",r:"suu",id:"Menghirup/Mengisap",jenis:"v",level:"N5",kaiwa:1,s:{jp:"新鮮な空気を吸いに公園へ行きます。",h:"しんせんなくうきをすいにこうえんへいきます。",r:"Shinsen na kūki o sui ni kōen e ikimasu.",i:"Saya pergi ke taman untuk menghirup udara segar."},kw:[{sp:"A",jp:"ここでタバコを吸ってもいいですか？",h:"ここでタバコをすってもいいですか？",r:"Koko de tabako o sutte mo ii desu ka?",i:"Boleh merokok di sini?"},{sp:"B",jp:"すみません、ここは禁煙です。",h:"すみません、ここはきんえんです。",r:"Sumimasen, koko wa kin'en desu.",i:"Maaf, di sini area bebas rokok."}]},
-{k:"住む",h:"すむ",r:"sumu",id:"Bertempat tinggal",jenis:"v",level:"N5",kaiwa:1,s:{jp:"今、東京に住んでいます。",h:"いま、とうきょうにすんでいます。",r:"Ima, Tōkyō ni sunde imasu.",i:"Sekarang saya tinggal di Tokyo."},kw:[{sp:"A",jp:"どこに住んでいますか？",h:"どこにすんでいますか？",r:"Doko ni sunde imasu ka?",i:"Kamu tinggal di mana?"},{sp:"B",jp:"ジャカルタに住んでいます。",h:"ジャカルタにすんでいます。",r:"Jakaruta ni sunde imasu.",i:"Saya tinggal di Jakarta."}]},
-{k:"する",h:"する",r:"suru",id:"Melakukan",jenis:"v",level:"N5",kaiwa:1,s:{jp:"毎朝、運動をします。",h:"まいあさ、うんどうをします。",r:"Maiasa, undō o shimasu.",i:"Setiap pagi saya berolahraga."},kw:[{sp:"A",jp:"週末は何をしますか？",h:"しゅうまつはなにをしますか？",r:"Shūmatsu wa nani o shimasu ka?",i:"Akhir pekan mau ngapain?"},{sp:"B",jp:"買い物をしようと思っています。",h:"かいものをしようとおもっています。",r:"Kaimono o shiyō to omotte imasu.",i:"Saya berencana belanja."}]},
-{k:"座る",h:"すわる",r:"suwaru",id:"Duduk",jenis:"v",level:"N5",kaiwa:1,s:{jp:"椅子に座ってください。",h:"いすにすわってください。",r:"Isu ni suwatte kudasai.",i:"Tolong duduk di kursi."},kw:[{sp:"A",jp:"ここに座ってもいいですか？",h:"ここにすわってもいいですか？",r:"Koko ni suwatte mo ii desu ka?",i:"Boleh saya duduk di sini?"},{sp:"B",jp:"どうぞ、座ってください。",h:"どうぞ、すわってください。",r:"Dōzo, suwatte kudasai.",i:"Silakan, duduk saja."}]},
-{k:"出す",h:"だす",r:"dasu",id:"Mengeluarkan",jenis:"v",level:"N5",kaiwa:1,s:{jp:"財布からお金を出しました。",h:"さいふからおかねをだしました。",r:"Saifu kara okane o dashimashita.",i:"Saya mengeluarkan uang dari dompet."},kw:[{sp:"A",jp:"宿題を出しましたか？",h:"しゅくだいをだしましたか？",r:"Shukudai o dashimashita ka?",i:"Sudah mengumpulkan PR?"},{sp:"B",jp:"まだです。明日出します。",h:"まだです。あしただします。",r:"Mada desu. Ashita dashimasu.",i:"Belum. Besok saya kumpulkan."}]},
-{k:"立つ",h:"たつ",r:"tatsu",id:"Berdiri",jenis:"v",level:"N5",kaiwa:1,s:{jp:"バスの中で立っています。",h:"バスのなかでたっています。",r:"Basu no naka de tatte imasu.",i:"Saya berdiri di dalam bus."},kw:[{sp:"A",jp:"立ってもいいですか？",h:"たってもいいですか？",r:"Tatte mo ii desu ka?",i:"Boleh saya berdiri?"},{sp:"B",jp:"はい、どうぞ立ってください。",h:"はい、どうぞたってください。",r:"Hai, dōzo tatte kudasai.",i:"Boleh, silakan berdiri."}]},
-{k:"頼む",h:"たのむ",r:"tanomu",id:"Memohon/Memesan",jenis:"v",level:"N5",kaiwa:1,s:{jp:"友達に手伝いを頼みました。",h:"ともだちにてつだいをたのみました。",r:"Tomodachi ni tetsudai o tanomimashita.",i:"Saya memohon bantuan kepada teman."},kw:[{sp:"A",jp:"少し頼んでもいいですか？",h:"すこしたのんでもいいですか？",r:"Sukoshi tanonde mo ii desu ka?",i:"Boleh saya minta tolong sedikit?"},{sp:"B",jp:"いいですよ。何を頼みますか？",h:"いいですよ。なにをたのみますか？",r:"Ii desu yo. Nani o tanomimasu ka?",i:"Boleh. Minta tolong apa?"}]},
-{k:"食べる",h:"たべる",r:"taberu",id:"Makan",jenis:"v",level:"N5",kaiwa:1,s:{jp:"朝ごはんにパンを食べます。",h:"あさごはんにパンをたべます。",r:"Asagohan ni pan o tabemasu.",i:"Saya makan roti untuk sarapan."},kw:[{sp:"A",jp:"昼ごはんは何を食べましたか？",h:"ひるごはんはなにをたべましたか？",r:"Hirugohan wa nani o tabemashita ka?",i:"Tadi siang makan apa?"},{sp:"B",jp:"ラーメンを食べました。おいしかったです！",h:"ラーメンをたべました。おいしかったです！",r:"Rāmen o tabemashita. Oishikatta desu!",i:"Makan ramen. Enak sekali!"}]},
-{k:"違う",h:"ちがう",r:"chigau",id:"Berbeda/Salah",jenis:"v",level:"N5",kaiwa:1,s:{jp:"この答えは違います。",h:"このこたえはちがいます。",r:"Kono kotae wa chigaimasu.",i:"Jawaban ini salah/berbeda."},kw:[{sp:"A",jp:"これはAですか？",h:"これはAですか？",r:"Kore wa A desu ka?",i:"Ini A?"},{sp:"B",jp:"いいえ、違います。Bです。",h:"いいえ、ちがいます。Bです。",r:"Iie, chigaimasu. B desu.",i:"Tidak, salah. Ini B."}]},
-{k:"使う",h:"つかう",r:"tsukau",id:"Menggunakan",jenis:"v",level:"N5",kaiwa:1,s:{jp:"毎日スマホを使います。",h:"まいにちスマホをつかいます。",r:"Mainichi sumaho o tsukaimasu.",i:"Saya menggunakan smartphone setiap hari."},kw:[{sp:"A",jp:"このパソコンを使ってもいいですか？",h:"このパソコンをつかってもいいですか？",r:"Kono pasokon o tsukatte mo ii desu ka?",i:"Boleh saya gunakan komputer ini?"},{sp:"B",jp:"どうぞ、使ってください。",h:"どうぞ、つかってください。",r:"Dōzo, tsukatte kudasai.",i:"Silakan, gunakan saja."}]},
-{k:"疲れる",h:"つかれる",r:"tsukareru",id:"Lelah",jenis:"v",level:"N5",kaiwa:1,s:{jp:"今日はたくさん歩いて疲れました。",h:"きょうはたくさんあるいてつかれました。",r:"Kyō wa takusan aruite tsukaremashita.",i:"Hari ini saya lelah karena banyak berjalan."},kw:[{sp:"A",jp:"疲れていますか？",h:"つかれていますか？",r:"Tsukarete imasu ka?",i:"Apakah kamu lelah?"},{sp:"B",jp:"はい、少し疲れています。",h:"はい、すこしつかれています。",r:"Hai, sukoshi tsukarete imasu.",i:"Iya, sedikit lelah."}]},
-{k:"着く",h:"つく",r:"tsuku",id:"Tiba/Sampai",jenis:"v",level:"N5",kaiwa:1,s:{jp:"空港に無事着きました。",h:"くうこうにぶじつきました。",r:"Kūkō ni buji tsukimashita.",i:"Saya tiba di bandara dengan selamat."},kw:[{sp:"A",jp:"何時に着きますか？",h:"なんじにつきますか？",r:"Nanji ni tsukimasu ka?",i:"Kamu tiba jam berapa?"},{sp:"B",jp:"三時ごろ着くと思います。",h:"さんじごろつくとおもいます。",r:"Sanji goro tsuku to omoimasu.",i:"Sepertinya tiba sekitar jam 3."}]},
-{k:"作る",h:"つくる",r:"tsukuru",id:"Membuat",jenis:"v",level:"N5",kaiwa:1,s:{jp:"母が夕食を作っています。",h:"ははがゆうしょくをつくっています。",r:"Haha ga yūshoku o tsukutte imasu.",i:"Ibu sedang membuat makan malam."},kw:[{sp:"A",jp:"料理は自分で作りますか？",h:"りょうりはじぶんでつくりますか？",r:"Ryōri wa jibun de tsukurimasu ka?",i:"Apakah kamu memasak sendiri?"},{sp:"B",jp:"はい、毎日作るようにしています。",h:"はい、まいにちつくるようにしています。",r:"Hai, mainichi tsukuru yō ni shite imasu.",i:"Iya, saya berusaha memasak setiap hari."}]},
-{k:"つける",h:"つける",r:"tsukeru",id:"Menyalakan",jenis:"v",level:"N5",kaiwa:1,s:{jp:"部屋に入って電気をつけました。",h:"へやにはいってでんきをつけました。",r:"Heya ni haitte denki o tsukemashita.",i:"Saya masuk kamar dan menyalakan lampu."},kw:[{sp:"A",jp:"エアコンをつけてもいいですか？",h:"エアコンをつけてもいいですか？",r:"Eakon o tsukete mo ii desu ka?",i:"Boleh saya nyalakan AC?"},{sp:"B",jp:"はい、暑いのでつけてください。",h:"はい、あついのでつけてください。",r:"Hai, atsui no de tsukete kudasai.",i:"Boleh, karena panas, tolong dinyalakan."}]},
-{k:"出来る",h:"できる",r:"dekiru",id:"Bisa",jenis:"v",level:"N5",kaiwa:1,s:{jp:"日本語で話すことができます。",h:"にほんごではなすことができます。",r:"Nihongo de hanasu koto ga dekimasu.",i:"Saya bisa berbicara dalam bahasa Jepang."},kw:[{sp:"A",jp:"漢字が読めますか？",h:"かんじがよめますか？",r:"Kanji ga yomemasu ka?",i:"Bisa baca kanji?"},{sp:"B",jp:"少しはできますが、まだ難しいです。",h:"すこしはできますが、まだむずかしいです。",r:"Sukoshi wa dekimasu ga, mada muzukashii desu.",i:"Bisa sedikit, tapi masih sulit."}]},
-{k:"出る",h:"でる",r:"deru",id:"Keluar",jenis:"v",level:"N5",kaiwa:1,s:{jp:"朝八時に家を出ます。",h:"あさはちじにいえをでます。",r:"Asa hachiji ni ie o demasu.",i:"Saya keluar dari rumah pukul 8 pagi."},kw:[{sp:"A",jp:"何時に家を出ますか？",h:"なんじにいえをでますか？",r:"Nanji ni ie o demasu ka?",i:"Kamu keluar rumah jam berapa?"},{sp:"B",jp:"七時半に出るつもりです。",h:"しちじはんにでるつもりです。",r:"Shichiji han ni deru tsumori desu.",i:"Saya berencana keluar jam setengah delapan."}]},
-{k:"飛ぶ",h:"とぶ",r:"tobu",id:"Terbang",jenis:"v",level:"N5",kaiwa:0,s:{jp:"飛行機で東京へ飛びます。",h:"ひこうきでとうきょうへとびます。",r:"Hikōki de Tōkyō e tobimasu.",i:"Saya terbang ke Tokyo dengan pesawat."},kw:[{sp:"A",jp:"鳥が空を飛んでいますね。",h:"とりがそらをとんでいますね。",r:"Tori ga sora o tonde imasu ne.",i:"Burung sedang terbang di langit ya."},{sp:"B",jp:"きれいですね。写真を撮りましょう。",h:"きれいですね。しゃしんをとりましょう。",r:"Kirei desu ne. Shashin o torimashō.",i:"Indah ya. Ayo ambil foto."}]},
-{k:"止まる",h:"とまる",r:"tomaru",id:"Berhenti",jenis:"v",level:"N5",kaiwa:1,s:{jp:"バスは駅の前で止まります。",h:"バスはえきのまえでとまります。",r:"Basu wa eki no mae de tomarimasu.",i:"Bus berhenti di depan stasiun."},kw:[{sp:"A",jp:"次のバス停で止まりますか？",h:"つぎのバスていでとまりますか？",r:"Tsugi no basutei de tomarimasu ka?",i:"Apakah berhenti di halte berikutnya?"},{sp:"B",jp:"はい、あそこで止まりますよ。",h:"はい、あそこでとまりますよ。",r:"Hai, asoko de tomarimasu yo.",i:"Iya, berhenti di sana."}]},
-{k:"取る",h:"とる",r:"toru",id:"Mengambil",jenis:"v",level:"N5",kaiwa:1,s:{jp:"棚から本を取りました。",h:"たなからほんをとりました。",r:"Tana kara hon o torimashita.",i:"Saya mengambil buku dari rak."},kw:[{sp:"A",jp:"塩を取ってもらえますか？",h:"しおをとってもらえますか？",r:"Shio o totte moraemasu ka?",i:"Bisa tolong ambilkan garamnya?"},{sp:"B",jp:"はい、どうぞ。",h:"はい、どうぞ。",r:"Hai, dōzo.",i:"Ini, silakan."}]},
-{k:"撮る",h:"とる",r:"toru",id:"Memotret",jenis:"v",level:"N5",kaiwa:1,s:{jp:"旅行で写真をたくさん撮りました。",h:"りょこうでしゃしんをたくさんとりました。",r:"Ryokō de shashin o takusan torimashita.",i:"Saya mengambil banyak foto saat perjalanan."},kw:[{sp:"A",jp:"一緒に写真を撮ってもいいですか？",h:"いっしょにしゃしんをとってもいいですか？",r:"Issho ni shashin o totte mo ii desu ka?",i:"Boleh kita foto bersama?"},{sp:"B",jp:"もちろん！撮りましょう。",h:"もちろん！とりましょう。",r:"Mochiron! Torimashō.",i:"Tentu saja! Ayo difoto."}]},
-{k:"鳴く",h:"なく",r:"naku",id:"Berbunyi (hewan)",jenis:"v",level:"N5",kaiwa:0,s:{jp:"犬が夜中に鳴いています。",h:"いぬがよなかになないています。",r:"Inu ga yonaka ni naite imasu.",i:"Anjing melolong di tengah malam."},kw:[{sp:"A",jp:"外で猫が鳴いていますね。",h:"そとでねこがないていますね。",r:"Soto de neko ga naite imasu ne.",i:"Di luar ada kucing yang berbunyi ya."},{sp:"B",jp:"お腹がすいているのかもしれません。",h:"おなかがすいているのかもしれません。",r:"Onaka ga suite iru no kamo shiremasen.",i:"Mungkin dia lapar."}]},
-{k:"泣く",h:"なく",r:"naku",id:"Menangis",jenis:"v",level:"N5",kaiwa:0,s:{jp:"映画を見て泣いてしまいました。",h:"えいがをみてないてしまいました。",r:"Eiga o mite naite shimaimashita.",i:"Saya sampai menangis nonton film itu."},kw:[{sp:"A",jp:"どうして泣いているんですか？",h:"どうしてないているんですか？",r:"Dōshite naite iru n desu ka?",i:"Kenapa kamu menangis?"},{sp:"B",jp:"悲しい映画を見てしまいました。",h:"かなしいえいがをみてしまいました。",r:"Kanashii eiga o mite shimaimashita.",i:"Saya menonton film sedih."}]},
-{k:"並ぶ",h:"ならぶ",r:"narabu",id:"Berbaris/Mengantri",jenis:"v",level:"N5",kaiwa:1,s:{jp:"レストランの前にたくさんの人が並んでいます。",h:"レストランのまえにたくさんのひとがならんでいます。",r:"Resutoran no mae ni takusan no hito ga narande imasu.",i:"Banyak orang mengantri di depan restoran."},kw:[{sp:"A",jp:"どこに並べばいいですか？",h:"どこにならべばいいですか？",r:"Doko ni narabeba ii desu ka?",i:"Saya harus mengantri di mana?"},{sp:"B",jp:"あそこの列に並んでください。",h:"あそこのれつにならんでください。",r:"Asoko no retsu ni narande kudasai.",i:"Tolong mengantri di barisan sana."}]},
-{k:"なる",h:"なる",r:"naru",id:"Menjadi",jenis:"v",level:"N5",kaiwa:1,s:{jp:"将来、医者になりたいです。",h:"しょうらい、いしゃになりたいです。",r:"Shōrai, isha ni naritai desu.",i:"Di masa depan saya ingin menjadi dokter."},kw:[{sp:"A",jp:"大きくなったら何になりたいですか？",h:"おおきくなったらなになりたいですか？",r:"Ōkiku nattara nani ni naritai desu ka?",i:"Kalau sudah besar mau jadi apa?"},{sp:"B",jp:"エンジニアになりたいと思っています。",h:"エンジニアになりたいとおもっています。",r:"Enjinia ni naritai to omotte imasu.",i:"Saya berpikir ingin menjadi insinyur."}]},
-{k:"脱ぐ",h:"ぬぐ",r:"nugu",id:"Menanggalkan pakaian",jenis:"v",level:"N5",kaiwa:1,s:{jp:"家に入る前に靴を脱ぎます。",h:"いえにはいるまえにくつをぬぎます。",r:"Ie ni hairu mae ni kutsu o nugimasu.",i:"Saya menanggalkan sepatu sebelum masuk rumah."},kw:[{sp:"A",jp:"ここで靴を脱いでください。",h:"ここでくつをぬいでください。",r:"Koko de kutsu o nuide kudasai.",i:"Tolong tanggalkan sepatu di sini."},{sp:"B",jp:"わかりました。脱ぎます。",h:"わかりました。ぬぎます。",r:"Wakarimashita. Nugimasu.",i:"Baik. Saya tanggalkan."}]},
-{k:"寝る",h:"ねる",r:"neru",id:"Tidur",jenis:"v",level:"N5",kaiwa:1,s:{jp:"毎晩十一時に寝ます。",h:"まいばんじゅういちじにねます。",r:"Maiban jūichiji ni nemasu.",i:"Setiap malam saya tidur pukul sebelas."},kw:[{sp:"A",jp:"昨日何時に寝ましたか？",h:"きのうなんじにねましたか？",r:"Kinō nanji ni nemashita ka?",i:"Kemarin kamu tidur jam berapa?"},{sp:"B",jp:"遅くて、一時ごろ寝ました。",h:"おそくて、いちじごろねました。",r:"Osokute, ichiji goro nemashita.",i:"Kemalaman, tidur sekitar jam 1."}]},
-{k:"登る",h:"のぼる",r:"noboru",id:"Mendaki",jenis:"v",level:"N5",kaiwa:0,s:{jp:"富士山に登りたいです。",h:"ふじさんにのぼりたいです。",r:"Fujisan ni noboritai desu.",i:"Saya ingin mendaki Gunung Fuji."},kw:[{sp:"A",jp:"山に登ったことがありますか？",h:"やまにのぼったことがありますか？",r:"Yama ni nobotta koto ga arimasu ka?",i:"Pernahkah kamu mendaki gunung?"},{sp:"B",jp:"はい、去年、高い山に登りました。",h:"はい、きょねん、たかいやまにのぼりました。",r:"Hai, kyonen, takai yama ni noborimashita.",i:"Pernah, tahun lalu saya mendaki gunung tinggi."}]},
-{k:"飲む",h:"のむ",r:"nomu",id:"Minum",jenis:"v",level:"N5",kaiwa:1,s:{jp:"毎朝、コーヒーを飲みます。",h:"まいあさ、コーヒーをのみます。",r:"Maiasa, kōhī o nomimasu.",i:"Setiap pagi saya minum kopi."},kw:[{sp:"A",jp:"何か飲みますか？",h:"なにかのみますか？",r:"Nanika nomimasu ka?",i:"Mau minum sesuatu?"},{sp:"B",jp:"お茶をいただけますか？",h:"おちゃをいただけますか？",r:"Ocha o itadakemasu ka?",i:"Boleh saya minta teh?"}]},
-{k:"乗る",h:"のる",r:"noru",id:"Naik (kendaraan)",jenis:"v",level:"N5",kaiwa:1,s:{jp:"毎日電車に乗って学校へ行きます。",h:"まいにちでんしゃにのってがっこうへいきます。",r:"Mainichi densha ni notte gakkō e ikimasu.",i:"Setiap hari saya naik kereta ke sekolah."},kw:[{sp:"A",jp:"どうやって来ましたか？",h:"どうやってきましたか？",r:"Dō yatte kimashita ka?",i:"Bagaimana kamu ke sini?"},{sp:"B",jp:"バスに乗って来ました。",h:"バスにのってきました。",r:"Basu ni notte kimashita.",i:"Saya naik bus ke sini."}]},
-{k:"入る",h:"はいる",r:"hairu",id:"Masuk",jenis:"v",level:"N5",kaiwa:1,s:{jp:"部屋に入る前にノックしてください。",h:"へやにはいるまえにノックしてください。",r:"Heya ni hairu mae ni nokku shite kudasai.",i:"Tolong ketuk pintu sebelum masuk kamar."},kw:[{sp:"A",jp:"入ってもいいですか？",h:"はいってもいいですか？",r:"Haitte mo ii desu ka?",i:"Boleh masuk?"},{sp:"B",jp:"どうぞ、入ってください。",h:"どうぞ、はいってください。",r:"Dōzo, haitte kudasai.",i:"Silakan masuk."}]},
-{k:"履く",h:"はく",r:"haku",id:"Memakai (sepatu/celana)",jenis:"v",level:"N5",kaiwa:1,s:{jp:"今日はスニーカーを履いています。",h:"きょうはスニーカーをはいています。",r:"Kyō wa sunīkā o haite imasu.",i:"Hari ini saya memakai sneakers."},kw:[{sp:"A",jp:"どんな靴を履いていますか？",h:"どんなくつをはいていますか？",r:"Donna kutsu o haite imasu ka?",i:"Kamu pakai sepatu apa?"},{sp:"B",jp:"今日は黒いブーツを履いています。",h:"きょうはくろいブーツをはいています。",r:"Kyō wa kuroi būtsu o haite imasu.",i:"Hari ini saya memakai boots hitam."}]},
-{k:"始まる",h:"はじまる",r:"hajimaru",id:"Mulai (sendiri)",jenis:"v",level:"N5",kaiwa:1,s:{jp:"授業は九時に始まります。",h:"じゅぎょうはくじにはじまります。",r:"Jugyō wa kuji ni hajimarimasu.",i:"Pelajaran mulai pukul sembilan."},kw:[{sp:"A",jp:"映画は何時に始まりますか？",h:"えいがはなんじにはじまりますか？",r:"Eiga wa nanji ni hajimarimasu ka?",i:"Film mulai jam berapa?"},{sp:"B",jp:"七時に始まります。急ぎましょう。",h:"しちじにはじまります。いそぎましょう。",r:"Shichiji ni hajimarimasu. Isogimashō.",i:"Mulai jam 7. Ayo cepat."}]},
-{k:"走る",h:"はしる",r:"hashiru",id:"Berlari",jenis:"v",level:"N5",kaiwa:1,s:{jp:"毎朝、公園で走ります。",h:"まいあさ、こうえんではしります。",r:"Maiasa, kōen de hashirimasu.",i:"Setiap pagi saya berlari di taman."},kw:[{sp:"A",jp:"遅刻しそう！走りましょう！",h:"ちこくしそう！はしりましょう！",r:"Chikoku shisō! Hashirimashō!",i:"Sepertinya akan terlambat! Ayo lari!"},{sp:"B",jp:"わかった！一緒に走ろう！",h:"わかった！いっしょにはしろう！",r:"Wakatta! Issho ni hashirō!",i:"Oke! Ayo lari bersama!"}]},
-{k:"働く",h:"はたらく",r:"hataraku",id:"Bekerja",jenis:"v",level:"N5",kaiwa:1,s:{jp:"父は毎日一生懸命働いています。",h:"ちちはまいにちいっしょうけんめいはたらいています。",r:"Chichi wa mainichi isshōkenmei hataraite imasu.",i:"Ayah bekerja keras setiap hari."},kw:[{sp:"A",jp:"どんな仕事をしていますか？",h:"どんなしごとをしていますか？",r:"Donna shigoto o shite imasu ka?",i:"Kamu kerja di bidang apa?"},{sp:"B",jp:"学校で働いています。教師です。",h:"がっこうではたらいています。きょうしです。",r:"Gakkō de hataraite imasu. Kyōshi desu.",i:"Saya bekerja di sekolah. Saya guru."}]},
-{k:"話す",h:"はなす",r:"hanasu",id:"Berbicara",jenis:"v",level:"N5",kaiwa:1,s:{jp:"日本語で話せるようになりました。",h:"にほんごではなせるようになりました。",r:"Nihongo de hanaseru yō ni narimashita.",i:"Saya sudah bisa berbicara dalam bahasa Jepang."},kw:[{sp:"A",jp:"日本語で話せますか？",h:"にほんごではなせますか？",r:"Nihongo de hanasemasu ka?",i:"Bisa berbicara dalam bahasa Jepang?"},{sp:"B",jp:"少し話せます。まだ練習中です。",h:"すこしはなせます。まだれんしゅうちゅうです。",r:"Sukoshi hanasemasu. Mada renshū-chū desu.",i:"Bisa sedikit. Masih dalam latihan."}]},
-{k:"引く",h:"ひく",r:"hiku",id:"Menarik",jenis:"v",level:"N5",kaiwa:1,s:{jp:"重いドアを引いて開けました。",h:"おもいドアをひいてあけました。",r:"Omoi doa o hiite akemashita.",i:"Saya menarik pintu berat untuk membukanya."},kw:[{sp:"A",jp:"このドアは押しますか、引きますか？",h:"このドアはおしますか、ひきますか？",r:"Kono doa wa oshimasu ka, hikimasu ka?",i:"Pintu ini didorong atau ditarik?"},{sp:"B",jp:"引いてください。",h:"ひいてください。",r:"Hiite kudasai.",i:"Tolong ditarik."}]},
-{k:"弾く",h:"ひく",r:"hiku",id:"Memainkan alat musik",jenis:"v",level:"N5",kaiwa:1,s:{jp:"ピアノを弾くのが好きです。",h:"ピアノをひくのがすきです。",r:"Piano o hiku no ga suki desu.",i:"Saya suka memainkan piano."},kw:[{sp:"A",jp:"何か楽器を弾けますか？",h:"なにかがっきをひけますか？",r:"Nanika gakki o hikemasu ka?",i:"Bisa main alat musik apa?"},{sp:"B",jp:"ギターを少し弾けます。",h:"ギターをすこしひけます。",r:"Gitā o sukoshi hikemasu.",i:"Saya bisa memainkan gitar sedikit."}]},
-{k:"吹く",h:"ふく",r:"fuku",id:"Meniup/Bertiup",jenis:"v",level:"N5",kaiwa:0,s:{jp:"今日は風が強く吹いています。",h:"きょうはかぜがつよくふいています。",r:"Kyō wa kaze ga tsuyoku fuite imasu.",i:"Hari ini angin bertiup kencang."},kw:[{sp:"A",jp:"フルートが吹けますか？",h:"フルートがふけますか？",r:"Furūto ga fukemasu ka?",i:"Bisa meniup flute?"},{sp:"B",jp:"少しは吹けますが、上手じゃないです。",h:"すこしはふけますが、じょうずじゃないです。",r:"Sukoshi wa fukemasu ga, jōzu ja nai desu.",i:"Bisa sedikit, tapi tidak mahir."}]},
-{k:"降る",h:"ふる",r:"furu",id:"Turun (hujan/salju)",jenis:"v",level:"N5",kaiwa:1,s:{jp:"昨日、雨がたくさん降りました。",h:"きのう、あめがたくさんふりました。",r:"Kinō, ame ga takusan furimashita.",i:"Kemarin hujan turun banyak."},kw:[{sp:"A",jp:"外は雨が降っていますか？",h:"そとはあめがふっていますか？",r:"Soto wa ame ga futte imasu ka?",i:"Di luar hujan turun?"},{sp:"B",jp:"はい、さっきから降っています。傘を持っていますか？",h:"はい、さっきからふっています。かさをもっていますか？",r:"Hai, sakki kara futte imasu. Kasa o motte imasu ka?",i:"Iya, sudah dari tadi. Apakah kamu punya payung?"}]},
-{k:"曲がる",h:"まがる",r:"magaru",id:"Berbelok/Bengkok",jenis:"v",level:"N5",kaiwa:1,s:{jp:"次の角を右に曲がってください。",h:"つぎのかどをみぎにまがってください。",r:"Tsugi no kado o migi ni magatte kudasai.",i:"Tolong belok kanan di tikungan berikutnya."},kw:[{sp:"A",jp:"駅への道を教えてください。",h:"えきへのみちをおしえてください。",r:"Eki e no michi o oshiete kudasai.",i:"Tolong beritahu saya jalan menuju stasiun."},{sp:"B",jp:"まっすぐ行って、信号を左に曲がってください。",h:"まっすぐいって、しんごうをひだりにまがってください。",r:"Massugu itte, shingō o hidari ni magatte kudasai.",i:"Jalan lurus, lalu belok kiri di lampu merah."}]},
-{k:"待つ",h:"まつ",r:"matsu",id:"Menunggu",jenis:"v",level:"N5",kaiwa:1,s:{jp:"駅で友達を十分待ちました。",h:"えきでともだちをじゅっぷんまちました。",r:"Eki de tomodachi o juppun machimashita.",i:"Saya menunggu teman selama 10 menit di stasiun."},kw:[{sp:"A",jp:"少し待ってもらえますか？",h:"すこしまってもらえますか？",r:"Sukoshi matte moraemasu ka?",i:"Bisa tolong tunggu sebentar?"},{sp:"B",jp:"はい、ここで待っています。",h:"はい、ここでまっています。",r:"Hai, koko de matte imasu.",i:"Baik, saya tunggu di sini."}]},
-{k:"磨く",h:"みがく",r:"migaku",id:"Menggosok/Menyikat",jenis:"v",level:"N5",kaiwa:1,s:{jp:"毎食後、歯を磨きます。",h:"まいしょくご、はをみがきます。",r:"Maishokugo, ha o migakimasu.",i:"Saya menyikat gigi setelah setiap makan."},kw:[{sp:"A",jp:"もう歯を磨きましたか？",h:"もうはをみがきましたか？",r:"Mō ha o migakimashita ka?",i:"Sudah gosok gigi?"},{sp:"B",jp:"まだです。今から磨きます。",h:"まだです。いまからみがきます。",r:"Mada desu. Ima kara migakimasu.",i:"Belum. Sekarang mau gosok."}]},
-{k:"見せる",h:"みせる",r:"miseru",id:"Memperlihatkan",jenis:"v",level:"N5",kaiwa:1,s:{jp:"新しいスマホを友達に見せました。",h:"あたらしいスマホをともだちにみせました。",r:"Atarashii sumaho o tomodachi ni misemashita.",i:"Saya memperlihatkan smartphone baru kepada teman."},kw:[{sp:"A",jp:"パスポートを見せてください。",h:"パスポートをみせてください。",r:"Pasupōto o misete kudasai.",i:"Tolong perlihatkan paspor Anda."},{sp:"B",jp:"はい、どうぞ。これです。",h:"はい、どうぞ。これです。",r:"Hai, dōzo. Kore desu.",i:"Baik, ini dia."}]},
-{k:"見る",h:"みる",r:"miru",id:"Melihat",jenis:"v",level:"N5",kaiwa:1,s:{jp:"テレビを見ながら食事をします。",h:"テレビをみながらしょくじをします。",r:"Terebi o minagara shokuji o shimasu.",i:"Saya makan sambil menonton TV."},kw:[{sp:"A",jp:"昨日、映画を見ましたか？",h:"きのう、えいがをみましたか？",r:"Kinō, eiga o mimashita ka?",i:"Kemarin kamu nonton film?"},{sp:"B",jp:"はい、面白い映画を見ました。",h:"はい、おもしろいえいがをみました。",r:"Hai, omoshiroi eiga o mimashita.",i:"Iya, saya nonton film yang menarik."}]},
-{k:"持つ",h:"もつ",r:"motsu",id:"Membawa/Memegang",jenis:"v",level:"N5",kaiwa:1,s:{jp:"重い荷物を持っています。",h:"おもいにもつをもっています。",r:"Omoi nimotsu o motte imasu.",i:"Saya membawa barang bawaan yang berat."},kw:[{sp:"A",jp:"荷物を持ってあげましょうか？",h:"にもつをもってあげましょうか？",r:"Nimotsu o motte agemashō ka?",i:"Mau saya bantu bawakan barangnya?"},{sp:"B",jp:"ありがとうございます。お願いします。",h:"ありがとうございます。おねがいします。",r:"Arigatō gozaimasu. Onegai shimasu.",i:"Terima kasih. Mohon bantuannya."}]},
-{k:"休む",h:"やすむ",r:"yasumu",id:"Beristirahat",jenis:"v",level:"N5",kaiwa:1,s:{jp:"疲れたので少し休みます。",h:"つかれたのですこしやすみます。",r:"Tsukareta node sukoshi yasumimasu.",i:"Karena lelah, saya beristirahat sebentar."},kw:[{sp:"A",jp:"今日は学校を休んでもいいですか？",h:"きょうはがっこうをやすんでもいいですか？",r:"Kyō wa gakkō o yasunde mo ii desu ka?",i:"Boleh saya tidak masuk sekolah hari ini?"},{sp:"B",jp:"具合が悪いですか？",h:"ぐあいがわるいですか？",r:"Guai ga warui desu ka?",i:"Apakah kamu tidak enak badan?"}]},
-{k:"呼ぶ",h:"よぶ",r:"yobu",id:"Memanggil",jenis:"v",level:"N5",kaiwa:1,s:{jp:"友達の名前を呼びました。",h:"ともだちのなまえをよびました。",r:"Tomodachi no namae o yobimashita.",i:"Saya memanggil nama teman."},kw:[{sp:"A",jp:"タクシーを呼んでもらえますか？",h:"タクシーをよんでもらえますか？",r:"Takushī o yonde moraemasu ka?",i:"Bisa tolong panggilkan taksi?"},{sp:"B",jp:"はい、今すぐ呼びます。",h:"はい、いますぐよびます。",r:"Hai, ima sugu yobimasu.",i:"Baik, sekarang saya panggilkan."}]},
-{k:"読む",h:"よむ",r:"yomu",id:"Membaca",jenis:"v",level:"N5",kaiwa:1,s:{jp:"毎日新聞を読みます。",h:"まいにちしんぶんをよみます。",r:"Mainichi shinbun o yomimasu.",i:"Saya membaca koran setiap hari."},kw:[{sp:"A",jp:"この本を読んだことがありますか？",h:"このほんをよんだことがありますか？",r:"Kono hon o yonda koto ga arimasu ka?",i:"Pernahkah kamu membaca buku ini?"},{sp:"B",jp:"はい、去年読みました。面白かったです。",h:"はい、きょねんよみました。おもしろかったです。",r:"Hai, kyonen yomimashita. Omoshirokatta desu.",i:"Pernah, saya baca tahun lalu. Menarik."}]},
-{k:"分かる",h:"わかる",r:"wakaru",id:"Mengerti",jenis:"v",level:"N5",kaiwa:1,s:{jp:"先生の説明がよく分かりました。",h:"せんせいのせつめいがよくわかりました。",r:"Sensei no setsumei ga yoku wakarimashita.",i:"Penjelasan guru sangat bisa saya mengerti."},kw:[{sp:"A",jp:"分かりましたか？",h:"わかりましたか？",r:"Wakarimashita ka?",i:"Apakah kamu mengerti?"},{sp:"B",jp:"はい、よく分かりました。ありがとうございます。",h:"はい、よくわかりました。ありがとうございます。",r:"Hai, yoku wakarimashita. Arigatō gozaimasu.",i:"Iya, mengerti. Terima kasih."}]},
-{k:"忘れる",h:"わすれる",r:"wasureru",id:"Lupa",jenis:"v",level:"N5",kaiwa:1,s:{jp:"宿題を家に忘れてしまいました。",h:"しゅくだいをいえにわすれてしまいました。",r:"Shukudai o ie ni wasurete shimaimashita.",i:"Saya lupa meninggalkan PR di rumah."},kw:[{sp:"A",jp:"名前を忘れてしまいました。すみません。",h:"なまえをわすれてしまいました。すみません。",r:"Namae o wasurete shimaimashita. Sumimasen.",i:"Saya lupa namanya. Maaf."},{sp:"B",jp:"大丈夫ですよ。もう一度言いますね。",h:"だいじょうぶですよ。もういちどいいますね。",r:"Daijōbu desu yo. Mō ichido iimasu ne.",i:"Tidak apa-apa. Saya ulangi sekali lagi ya."}]},
-{k:"渡す",h:"わたす",r:"watasu",id:"Menyerahkan",jenis:"v",level:"N5",kaiwa:1,s:{jp:"書類を先生に渡しました。",h:"しょるいをせんせいにわたしました。",r:"Shorui o sensei ni watashimashita.",i:"Saya menyerahkan dokumen kepada guru."},kw:[{sp:"A",jp:"このレポートをいつ渡せばいいですか？",h:"このレポートをいつわたせばいいですか？",r:"Kono repōto o itsu wataseba ii desu ka?",i:"Kapan sebaiknya saya serahkan laporan ini?"},{sp:"B",jp:"できれば今日中に渡してください。",h:"できればきょうじゅうにわたしてください。",r:"Dekireba kyōjū ni watashite kudasai.",i:"Kalau bisa serahkan hari ini juga."}]},
-{k:"渡る",h:"わたる",r:"wataru",id:"Menyebrang",jenis:"v",level:"N5",kaiwa:1,s:{jp:"横断歩道を渡ってください。",h:"おうだんほどうをわたってください。",r:"Ōdan hodō o watatte kudasai.",i:"Tolong menyebrang di zebra cross."},kw:[{sp:"A",jp:"どこで道を渡ればいいですか？",h:"どこでみちをわたればいいですか？",r:"Doko de michi o watarebа ii desu ka?",i:"Di mana sebaiknya menyebrang jalan?"},{sp:"B",jp:"信号のある横断歩道で渡ってください。",h:"しんごうのあるおうだんほどうでわたってください。",r:"Shingō no aru ōdan hodō de watatte kudasai.",i:"Tolong menyebrang di zebra cross yang ada lampu merahnya."}]},
+{k:"会う",h:"あう",r:"au",id:"Bertemu",j:"v",lv:"N5",kw:1,s:{jp:"駅で友達に会いました。",h:"えきでともだちにあいました。",r:"Eki de tomodachi ni aimashita.",i:"Saya bertemu teman di stasiun."},d:[{sp:"A",jp:"昨日、田中さんに会いましたか？",h:"きのう、たなかさんにあいましたか？",r:"Kinō, Tanaka-san ni aimashita ka?",i:"Kemarin, kamu bertemu Pak Tanaka?"},{sp:"B",jp:"はい、図書館で会いました。",h:"はい、としょかんであいました。",r:"Hai, toshokan de aimashita.",i:"Iya, kami bertemu di perpustakaan."}]},
+{k:"開く",h:"あく",r:"aku",id:"Terbuka",j:"v",lv:"N5",kw:0,s:{jp:"ドアが自動で開きます。",h:"ドアがじどうであきます。",r:"Doa ga jidō de akimasu.",i:"Pintu terbuka secara otomatis."},d:[{sp:"A",jp:"この窓は開きますか？",h:"このまどはあきますか？",r:"Kono mado wa akimasu ka?",i:"Apakah jendela ini bisa terbuka?"},{sp:"B",jp:"右に引くと開きますよ。",h:"みぎにひくとあきますよ。",r:"Migi ni hiku to akimasu yo.",i:"Tarik ke kanan maka akan terbuka."}]},
+{k:"開ける",h:"あける",r:"akeru",id:"Membuka",j:"v",lv:"N5",kw:1,s:{jp:"毎朝、窓を開けます。",h:"まいあさ、まどをあけます。",r:"Maiasa, mado o akemasu.",i:"Setiap pagi saya membuka jendela."},d:[{sp:"A",jp:"窓を開けてもいいですか？",h:"まどをあけてもいいですか？",r:"Mado o akete mo ii desu ka?",i:"Boleh saya buka jendelanya?"},{sp:"B",jp:"もちろん、開けてください。",h:"もちろん、あけてください。",r:"Mochiron, akete kudasai.",i:"Tentu saja, tolong dibuka."}]},
+{k:"あげる",h:"あげる",r:"ageru",id:"Memberi",j:"v",lv:"N5",kw:1,s:{jp:"誕生日に花をあげました。",h:"たんじょうびにはなをあげました。",r:"Tanjōbi ni hana o agemashita.",i:"Saya memberi bunga di hari ulang tahunnya."},d:[{sp:"A",jp:"山田さんに何をあげますか？",h:"やまださんになにをあげますか？",r:"Yamada-san ni nani o agemasu ka?",i:"Mau memberi apa kepada Yamada-san?"},{sp:"B",jp:"ケーキをあげようと思います。",h:"ケーキをあげようとおもいます。",r:"Kēki o ageyō to omoimasu.",i:"Saya pikir akan memberi kue."}]},
+{k:"遊ぶ",h:"あそぶ",r:"asobu",id:"Bermain",j:"v",lv:"N5",kw:1,s:{jp:"子供たちは公園で遊んでいます。",h:"こどもたちはこうえんであそんでいます。",r:"Kodomotachi wa kōen de asonde imasu.",i:"Anak-anak sedang bermain di taman."},d:[{sp:"A",jp:"週末、一緒に遊びませんか？",h:"しゅうまつ、いっしょにあそびませんか？",r:"Shūmatsu, issho ni asobimasen ka?",i:"Akhir pekan, mau bermain bersama?"},{sp:"B",jp:"いいですね！どこで遊びましょうか？",h:"いいですね！どこであそびましょうか？",r:"Ii desu ne! Doko de asobimashō ka?",i:"Bagus! Kita bermain di mana ya?"}]},
+{k:"洗う",h:"あらう",r:"arau",id:"Mencuci",j:"v",lv:"N5",kw:1,s:{jp:"食事の前に手を洗います。",h:"しょくじのまえにてをあらいます。",r:"Shokuji no mae ni te o araimasu.",i:"Saya mencuci tangan sebelum makan."},d:[{sp:"A",jp:"手を洗いましたか？",h:"てをあらいましたか？",r:"Te o araimashita ka?",i:"Sudah cuci tangan?"},{sp:"B",jp:"はい、今洗いました。",h:"はい、いまあらいました。",r:"Hai, ima araimashita.",i:"Sudah, baru saja cuci."}]},
+{k:"ある",h:"ある",r:"aru",id:"Ada (benda/hal)",j:"v",lv:"N5",kw:1,s:{jp:"机の上に本があります。",h:"つくえのうえにほんがあります。",r:"Tsukue no ue ni hon ga arimasu.",i:"Ada buku di atas meja."},d:[{sp:"A",jp:"近くにコンビニがありますか？",h:"ちかくにコンビニがありますか？",r:"Chikaku ni konbini ga arimasu ka?",i:"Apakah ada konbini di dekat sini?"},{sp:"B",jp:"はい、駅の前にありますよ。",h:"はい、えきのまえにありますよ。",r:"Hai, eki no mae ni arimasu yo.",i:"Iya, ada di depan stasiun."}]},
+{k:"歩く",h:"あるく",r:"aruku",id:"Berjalan",j:"v",lv:"N5",kw:1,s:{jp:"毎日、駅まで歩きます。",h:"まいにち、えきまであるきます。",r:"Mainichi, eki made arukimasu.",i:"Setiap hari saya berjalan ke stasiun."},d:[{sp:"A",jp:"駅まで歩いて何分かかりますか？",h:"えきまであるいてなんぷんかかりますか？",r:"Eki made aruite nanpun kakarimasu ka?",i:"Berapa menit jalan kaki ke stasiun?"},{sp:"B",jp:"だいたい十分かかります。",h:"だいたいじゅっぷんかかります。",r:"Daitai juppun kakarimasu.",i:"Kira-kira 10 menit."}]},
+{k:"言う",h:"いう",r:"iu",id:"Berkata",j:"v",lv:"N5",kw:1,s:{jp:"先生は「よくできました」と言いました。",h:"せんせいは「よくできました」といいました。",r:"Sensei wa 'yoku dekimashita' to iimashita.",i:"Guru berkata 'sudah bagus'."},d:[{sp:"A",jp:"彼は何と言いましたか？",h:"かれはなんといいましたか？",r:"Kare wa nan to iimashita ka?",i:"Dia bilang apa?"},{sp:"B",jp:"「また来ます」と言いました。",h:"「またきます」といいました。",r:"'Mata kimasu' to iimashita.",i:"Dia bilang 'saya akan datang lagi'."}]},
+{k:"行く",h:"いく",r:"iku",id:"Pergi",j:"v",lv:"N5",kw:1,s:{jp:"明日、学校へ行きます。",h:"あした、がっこうへいきます。",r:"Ashita, gakkō e ikimasu.",i:"Besok saya pergi ke sekolah."},d:[{sp:"A",jp:"今日、どこへ行きますか？",h:"きょう、どこへいきますか？",r:"Kyō, doko e ikimasu ka?",i:"Hari ini kamu pergi ke mana?"},{sp:"B",jp:"スーパーへ行きます。",h:"スーパーへいきます。",r:"Sūpā e ikimasu.",i:"Saya pergi ke supermarket."}]},
+{k:"いる",h:"いる",r:"iru",id:"Ada (orang/hewan)",j:"v",lv:"N5",kw:1,s:{jp:"リビングに猫がいます。",h:"リビングにねこがいます。",r:"Ribingu ni neko ga imasu.",i:"Ada kucing di ruang tamu."},d:[{sp:"A",jp:"お母さんは家にいますか？",h:"おかあさんはいえにいますか？",r:"Okāsan wa ie ni imasu ka?",i:"Apakah ibu ada di rumah?"},{sp:"B",jp:"いいえ、今、外にいます。",h:"いいえ、いま、そとにいます。",r:"Iie, ima, soto ni imasu.",i:"Tidak, sekarang beliau di luar."}]},
+{k:"入れる",h:"いれる",r:"ireru",id:"Memasukkan",j:"v",lv:"N5",kw:1,s:{jp:"バッグに財布を入れました。",h:"バッグにさいふをいれました。",r:"Baggu ni saifu o iremashita.",i:"Saya memasukkan dompet ke dalam tas."},d:[{sp:"A",jp:"砂糖をコーヒーに入れますか？",h:"さとうをコーヒーにいれますか？",r:"Satō o kōhī ni iremasu ka?",i:"Masukkan gula ke kopi?"},{sp:"B",jp:"いいえ、砂糖は入れません。",h:"いいえ、さとうはいれません。",r:"Iie, satō wa iremasen.",i:"Tidak, saya tidak masukkan gula."}]},
+{k:"歌う",h:"うたう",r:"utau",id:"Bernyanyi",j:"v",lv:"N5",kw:1,s:{jp:"カラオケで歌を歌いました。",h:"カラオケでうたをうたいました。",r:"Karaoke de uta o utaimashita.",i:"Saya bernyanyi di karaoke."},d:[{sp:"A",jp:"カラオケで何を歌いますか？",h:"カラオケでなにをうたいますか？",r:"Karaoke de nani o utaimasu ka?",i:"Kamu menyanyikan apa di karaoke?"},{sp:"B",jp:"日本語の歌をよく歌います。",h:"にほんごのうたをよくうたいます。",r:"Nihongo no uta o yoku utaimasu.",i:"Saya sering menyanyikan lagu Jepang."}]},
+{k:"売る",h:"うる",r:"uru",id:"Menjual",j:"v",lv:"N5",kw:0,s:{jp:"このお店では野菜を売っています。",h:"このおみせではやさいをうっています。",r:"Kono omise de wa yasai o utte imasu.",i:"Toko ini menjual sayuran."},d:[{sp:"A",jp:"この自転車を売りたいんですが。",h:"このじてんしゃをうりたいんですが。",r:"Kono jitensha o uritain desu ga.",i:"Saya ingin menjual sepeda ini."},{sp:"B",jp:"いくらで売りますか？",h:"いくらでうりますか？",r:"Ikura de urimasu ka?",i:"Kamu jual berapa?"}]},
+{k:"起きる",h:"おきる",r:"okiru",id:"Bangun/Terjadi",j:"v",lv:"N5",kw:1,s:{jp:"毎朝六時に起きます。",h:"まいあさろくじにおきます。",r:"Maiasa rokuji ni okimasu.",i:"Setiap pagi saya bangun pukul enam."},d:[{sp:"A",jp:"何時に起きますか？",h:"なんじにおきますか？",r:"Nanji ni okimasu ka?",i:"Kamu bangun jam berapa?"},{sp:"B",jp:"いつもは七時に起きます。",h:"いつもはしちじにおきます。",r:"Itsumo wa shichiji ni okimasu.",i:"Biasanya bangun jam 7."}]},
+{k:"置く",h:"おく",r:"oku",id:"Meletakkan",j:"v",lv:"N5",kw:1,s:{jp:"鍵をテーブルの上に置きました。",h:"かぎをテーブルのうえにおきました。",r:"Kagi o tēburu no ue ni okimashita.",i:"Saya meletakkan kunci di atas meja."},d:[{sp:"A",jp:"荷物をどこに置けばいいですか？",h:"にもつをどこにおけばいいですか？",r:"Nimotsu o doko ni okeba ii desu ka?",i:"Barang bawaan ditaruh di mana?"},{sp:"B",jp:"ここに置いてください。",h:"ここにおいてください。",r:"Koko ni oite kudasai.",i:"Tolong letakkan di sini."}]},
+{k:"送る",h:"おくる",r:"okuru",id:"Mengirim",j:"v",lv:"N5",kw:1,s:{jp:"友達にメールを送りました。",h:"ともだちにメールをおくりました。",r:"Tomodachi ni mēru o okurimashita.",i:"Saya mengirim email kepada teman."},d:[{sp:"A",jp:"この荷物を東京に送りたいんですが。",h:"このにもつをとうきょうにおくりたいんですが。",r:"Kono nimotsu o Tōkyō ni okuritain desu ga.",i:"Saya ingin kirim paket ini ke Tokyo."},{sp:"B",jp:"明日届くように送ります。",h:"あしたとどくようにおくります。",r:"Ashita todoku yō ni okurimasu.",i:"Akan dikirim agar tiba besok."}]},
+{k:"覚える",h:"おぼえる",r:"oboeru",id:"Menghafal",j:"v",lv:"N5",kw:1,s:{jp:"毎日漢字を十個覚えます。",h:"まいにちかんじをじゅっこおぼえます。",r:"Mainichi kanji o jukko oboemasu.",i:"Setiap hari saya hafal 10 kanji."},d:[{sp:"A",jp:"この単語を覚えましたか？",h:"このたんごをおぼえましたか？",r:"Kono tango o oboemashita ka?",i:"Sudah hafal kata ini?"},{sp:"B",jp:"まだ覚えていません。",h:"まだおぼえていません。",r:"Mada oboete imasen.",i:"Belum hafal."}]},
+{k:"泳ぐ",h:"およぐ",r:"oyogu",id:"Berenang",j:"v",lv:"N5",kw:0,s:{jp:"夏はプールで泳ぎます。",h:"なつはプールでおよぎます。",r:"Natsu wa pūru de oyogimasu.",i:"Di musim panas saya berenang di kolam."},d:[{sp:"A",jp:"泳げますか？",h:"およげますか？",r:"Oyogemasu ka?",i:"Bisa berenang?"},{sp:"B",jp:"はい、でも速くは泳げません。",h:"はい、でもはやくはおよげません。",r:"Hai, demo hayaku wa oyogemasen.",i:"Bisa, tapi tidak bisa cepat."}]},
+{k:"降りる",h:"おりる",r:"oriru",id:"Turun (kendaraan)",j:"v",lv:"N5",kw:1,s:{jp:"次の駅で電車を降ります。",h:"つぎのえきでんしゃをおります。",r:"Tsugi no eki de densha o orimasu.",i:"Saya turun kereta di stasiun berikutnya."},d:[{sp:"A",jp:"どこで降りますか？",h:"どこでおりますか？",r:"Doko de orimasu ka?",i:"Turun di mana?"},{sp:"B",jp:"渋谷で降ります。",h:"しぶやでおります。",r:"Shibuya de orimasu.",i:"Turun di Shibuya."}]},
+{k:"終わる",h:"おわる",r:"owaru",id:"Berakhir",j:"v",lv:"N5",kw:1,s:{jp:"授業は三時に終わります。",h:"じゅぎょうはさんじにおわります。",r:"Jugyō wa sanji ni owarimasu.",i:"Pelajaran berakhir pukul tiga."},d:[{sp:"A",jp:"映画は何時に終わりますか？",h:"えいがはなんじにおわりますか？",r:"Eiga wa nanji ni owarimasu ka?",i:"Film berakhir jam berapa?"},{sp:"B",jp:"九時ごろに終わります。",h:"くじごろにおわります。",r:"Kuji goro ni owarimasu.",i:"Sekitar jam 9 berakhir."}]},
+{k:"買う",h:"かう",r:"kau",id:"Membeli",j:"v",lv:"N5",kw:1,s:{jp:"スーパーで野菜を買いました。",h:"スーパーでやさいをかいました。",r:"Sūpā de yasai o kaimashita.",i:"Saya membeli sayuran di supermarket."},d:[{sp:"A",jp:"新しいスマホを買いたいんですが。",h:"あたらしいスマホをかいたいんですが。",r:"Atarashii sumaho o kaitain desu ga.",i:"Saya ingin membeli smartphone baru."},{sp:"B",jp:"どんなスマホを買うつもりですか？",h:"どんなスマホをかうつもりですか？",r:"Donna sumaho o kau tsumori desu ka?",i:"Smartphone seperti apa yang mau dibeli?"}]},
+{k:"帰る",h:"かえる",r:"kaeru",id:"Pulang",j:"v",lv:"N5",kw:1,s:{jp:"仕事が終わったら家に帰ります。",h:"しごとがおわったらいえにかえります。",r:"Shigoto ga owattara ie ni kaerimasu.",i:"Kalau pekerjaan selesai saya pulang."},d:[{sp:"A",jp:"何時に帰りますか？",h:"なんじにかえりますか？",r:"Nanji ni kaerimasu ka?",i:"Kamu pulang jam berapa?"},{sp:"B",jp:"今日は早く帰れると思います。",h:"きょうははやくかえれるとおもいます。",r:"Kyō wa hayaku kaereru to omoimasu.",i:"Hari ini sepertinya bisa pulang lebih awal."}]},
+{k:"かかる",h:"かかる",r:"kakaru",id:"Membutuhkan (waktu/biaya)",j:"v",lv:"N5",kw:1,s:{jp:"駅まで歩いて十分かかります。",h:"えきまであるいてじゅっぷんかかります。",r:"Eki made aruite juppun kakarimasu.",i:"Butuh 10 menit jalan kaki ke stasiun."},d:[{sp:"A",jp:"この修理にはいくらかかりますか？",h:"このしゅうりにはいくらかかりますか？",r:"Kono shūri ni wa ikura kakarimasu ka?",i:"Berapa biaya perbaikan ini?"},{sp:"B",jp:"だいたい五千円かかります。",h:"だいたいごせんえんかかります。",r:"Daitai gosen-en kakarimasu.",i:"Kira-kira 5000 yen."}]},
+{k:"書く",h:"かく",r:"kaku",id:"Menulis",j:"v",lv:"N5",kw:1,s:{jp:"日記を毎日書いています。",h:"にっきをまいにちかいています。",r:"Nikki o mainichi kaite imasu.",i:"Saya menulis buku harian setiap hari."},d:[{sp:"A",jp:"ここに名前を書いてください。",h:"ここになまえをかいてください。",r:"Koko ni namae o kaite kudasai.",i:"Tolong tulis nama Anda di sini."},{sp:"B",jp:"漢字で書いてもいいですか？",h:"かんじでかいてもいいですか？",r:"Kanji de kaite mo ii desu ka?",i:"Boleh saya tulis dengan kanji?"}]},
+{k:"貸す",h:"かす",r:"kasu",id:"Meminjamkan",j:"v",lv:"N5",kw:1,s:{jp:"友達に傘を貸しました。",h:"ともだちにかさをかしました。",r:"Tomodachi ni kasa o kashimashita.",i:"Saya meminjamkan payung kepada teman."},d:[{sp:"A",jp:"消しゴムを貸してもらえますか？",h:"けしゴムをかしてもらえますか？",r:"Keshigomu o kashite moraemasu ka?",i:"Bisa pinjamkan penghapusnya?"},{sp:"B",jp:"もちろん、どうぞ。",h:"もちろん、どうぞ。",r:"Mochiron, dōzo.",i:"Tentu saja, silakan."}]},
+{k:"借りる",h:"かりる",r:"kariru",id:"Meminjam",j:"v",lv:"N5",kw:1,s:{jp:"図書館で本を借りました。",h:"としょかんでほんをかりました。",r:"Toshokan de hon o karimashita.",i:"Saya meminjam buku di perpustakaan."},d:[{sp:"A",jp:"少しお金を借りてもいいですか？",h:"すこしおかねをかりてもいいですか？",r:"Sukoshi okane o karite mo ii desu ka?",i:"Boleh saya pinjam sedikit uang?"},{sp:"B",jp:"いいですよ。いくら借りますか？",h:"いいですよ。いくらかりますか？",r:"Ii desu yo. Ikura karimasu ka?",i:"Boleh. Mau pinjam berapa?"}]},
+{k:"聞く",h:"きく",r:"kiku",id:"Mendengar/Bertanya",j:"v",lv:"N5",kw:1,s:{jp:"音楽を聞きながら勉強します。",h:"おんがくをききながらべんきょうします。",r:"Ongaku o kikinagara benkyō shimasu.",i:"Saya belajar sambil mendengarkan musik."},d:[{sp:"A",jp:"先生に聞いてみましたか？",h:"せんせいにきいてみましたか？",r:"Sensei ni kiite mimashita ka?",i:"Sudah coba bertanya ke guru?"},{sp:"B",jp:"まだです。これから聞きます。",h:"まだです。これからききます。",r:"Mada desu. Korekara kikimasu.",i:"Belum. Sekarang mau bertanya."}]},
+{k:"来る",h:"くる",r:"kuru",id:"Datang",j:"v",lv:"N5",kw:1,s:{jp:"友達が家に来ました。",h:"ともだちがいえにきました。",r:"Tomodachi ga ie ni kimashita.",i:"Teman datang ke rumah saya."},d:[{sp:"A",jp:"明日、パーティーに来ますか？",h:"あした、パーティーにきますか？",r:"Ashita, pātī ni kimasu ka?",i:"Besok, kamu datang ke pesta?"},{sp:"B",jp:"はい、六時ごろ来ます。",h:"はい、ろくじごろきます。",r:"Hai, rokuji goro kimasu.",i:"Iya, datang sekitar jam 6."}]},
+{k:"消す",h:"けす",r:"kesu",id:"Menghapus/Mematikan",j:"v",lv:"N5",kw:1,s:{jp:"電気を消してください。",h:"でんきをけしてください。",r:"Denki o keshite kudasai.",i:"Tolong matikan lampunya."},d:[{sp:"A",jp:"電気を消してもいいですか？",h:"でんきをけしてもいいですか？",r:"Denki o keshite mo ii desu ka?",i:"Boleh saya matikan lampunya?"},{sp:"B",jp:"はい、消してください。",h:"はい、けしてください。",r:"Hai, keshite kudasai.",i:"Boleh, tolong dimatikan."}]},
+{k:"知る",h:"しる",r:"shiru",id:"Tahu/Mengetahui",j:"v",lv:"N5",kw:1,s:{jp:"彼女の住所を知っています。",h:"かのじょのじゅうしょをしっています。",r:"Kanojo no jūsho o shitte imasu.",i:"Saya tahu alamat rumahnya."},d:[{sp:"A",jp:"近くに郵便局があるか知っていますか？",h:"ちかくにゆうびんきょくがあるかしっていますか？",r:"Chikaku ni yūbinkyoku ga aru ka shitte imasu ka?",i:"Apakah kamu tahu ada kantor pos di dekat sini?"},{sp:"B",jp:"すみません、知りません。",h:"すみません、しりません。",r:"Sumimasen, shirimasen.",i:"Maaf, saya tidak tahu."}]},
+{k:"住む",h:"すむ",r:"sumu",id:"Bertempat tinggal",j:"v",lv:"N5",kw:1,s:{jp:"今、東京に住んでいます。",h:"いま、とうきょうにすんでいます。",r:"Ima, Tōkyō ni sunde imasu.",i:"Sekarang saya tinggal di Tokyo."},d:[{sp:"A",jp:"どこに住んでいますか？",h:"どこにすんでいますか？",r:"Doko ni sunde imasu ka?",i:"Kamu tinggal di mana?"},{sp:"B",jp:"ジャカルタに住んでいます。",h:"ジャカルタにすんでいます。",r:"Jakaruta ni sunde imasu.",i:"Saya tinggal di Jakarta."}]},
+{k:"する",h:"する",r:"suru",id:"Melakukan",j:"v",lv:"N5",kw:1,s:{jp:"毎朝、運動をします。",h:"まいあさ、うんどうをします。",r:"Maiasa, undō o shimasu.",i:"Setiap pagi saya berolahraga."},d:[{sp:"A",jp:"週末は何をしますか？",h:"しゅうまつはなにをしますか？",r:"Shūmatsu wa nani o shimasu ka?",i:"Akhir pekan mau ngapain?"},{sp:"B",jp:"買い物をしようと思っています。",h:"かいものをしようとおもっています。",r:"Kaimono o shiyō to omotte imasu.",i:"Saya berencana belanja."}]},
+{k:"食べる",h:"たべる",r:"taberu",id:"Makan",j:"v",lv:"N5",kw:1,s:{jp:"朝ごはんにパンを食べます。",h:"あさごはんにパンをたべます。",r:"Asagohan ni pan o tabemasu.",i:"Saya makan roti untuk sarapan."},d:[{sp:"A",jp:"昼ごはんは何を食べましたか？",h:"ひるごはんはなにをたべましたか？",r:"Hirugohan wa nani o tabemashita ka?",i:"Tadi siang makan apa?"},{sp:"B",jp:"ラーメンを食べました！おいしかったです！",h:"ラーメンをたべました！おいしかったです！",r:"Rāmen o tabemashita! Oishikatta desu!",i:"Makan ramen! Enak sekali!"}]},
+{k:"使う",h:"つかう",r:"tsukau",id:"Menggunakan",j:"v",lv:"N5",kw:1,s:{jp:"毎日スマホを使います。",h:"まいにちスマホをつかいます。",r:"Mainichi sumaho o tsukaimasu.",i:"Saya menggunakan smartphone setiap hari."},d:[{sp:"A",jp:"このパソコンを使ってもいいですか？",h:"このパソコンをつかってもいいですか？",r:"Kono pasokon o tsukatte mo ii desu ka?",i:"Boleh saya gunakan komputer ini?"},{sp:"B",jp:"どうぞ、使ってください。",h:"どうぞ、つかってください。",r:"Dōzo, tsukatte kudasai.",i:"Silakan, gunakan saja."}]},
+{k:"作る",h:"つくる",r:"tsukuru",id:"Membuat",j:"v",lv:"N5",kw:1,s:{jp:"母が夕食を作っています。",h:"ははがゆうしょくをつくっています。",r:"Haha ga yūshoku o tsukutte imasu.",i:"Ibu sedang membuat makan malam."},d:[{sp:"A",jp:"料理は自分で作りますか？",h:"りょうりはじぶんでつくりますか？",r:"Ryōri wa jibun de tsukurimasu ka?",i:"Apakah kamu memasak sendiri?"},{sp:"B",jp:"はい、毎日作るようにしています。",h:"はい、まいにちつくるようにしています。",r:"Hai, mainichi tsukuru yō ni shite imasu.",i:"Iya, saya berusaha memasak setiap hari."}]},
+{k:"出来る",h:"できる",r:"dekiru",id:"Bisa",j:"v",lv:"N5",kw:1,s:{jp:"日本語で話すことができます。",h:"にほんごではなすことができます。",r:"Nihongo de hanasu koto ga dekimasu.",i:"Saya bisa berbicara dalam bahasa Jepang."},d:[{sp:"A",jp:"漢字が読めますか？",h:"かんじがよめますか？",r:"Kanji ga yomemasu ka?",i:"Bisa baca kanji?"},{sp:"B",jp:"少しはできますが、まだ難しいです。",h:"すこしはできますが、まだむずかしいです。",r:"Sukoshi wa dekimasu ga, mada muzukashii desu.",i:"Bisa sedikit, tapi masih sulit."}]},
+{k:"出る",h:"でる",r:"deru",id:"Keluar",j:"v",lv:"N5",kw:1,s:{jp:"朝八時に家を出ます。",h:"あさはちじにいえをでます。",r:"Asa hachiji ni ie o demasu.",i:"Saya keluar dari rumah pukul 8 pagi."},d:[{sp:"A",jp:"何時に家を出ますか？",h:"なんじにいえをでますか？",r:"Nanji ni ie o demasu ka?",i:"Kamu keluar rumah jam berapa?"},{sp:"B",jp:"七時半に出るつもりです。",h:"しちじはんにでるつもりです。",r:"Shichiji han ni deru tsumori desu.",i:"Saya berencana keluar jam setengah delapan."}]},
+{k:"止まる",h:"とまる",r:"tomaru",id:"Berhenti",j:"v",lv:"N5",kw:1,s:{jp:"バスは駅の前で止まります。",h:"バスはえきのまえでとまります。",r:"Basu wa eki no mae de tomarimasu.",i:"Bus berhenti di depan stasiun."},d:[{sp:"A",jp:"次のバス停で止まりますか？",h:"つぎのバスていでとまりますか？",r:"Tsugi no basutei de tomarimasu ka?",i:"Apakah berhenti di halte berikutnya?"},{sp:"B",jp:"はい、あそこで止まりますよ。",h:"はい、あそこでとまりますよ。",r:"Hai, asoko de tomarimasu yo.",i:"Iya, berhenti di sana."}]},
+{k:"取る",h:"とる",r:"toru",id:"Mengambil",j:"v",lv:"N5",kw:1,s:{jp:"棚から本を取りました。",h:"たなからほんをとりました。",r:"Tana kara hon o torimashita.",i:"Saya mengambil buku dari rak."},d:[{sp:"A",jp:"塩を取ってもらえますか？",h:"しおをとってもらえますか？",r:"Shio o totte moraemasu ka?",i:"Bisa tolong ambilkan garamnya?"},{sp:"B",jp:"はい、どうぞ。",h:"はい、どうぞ。",r:"Hai, dōzo.",i:"Ini, silakan."}]},
+{k:"なる",h:"なる",r:"naru",id:"Menjadi",j:"v",lv:"N5",kw:1,s:{jp:"将来、医者になりたいです。",h:"しょうらい、いしゃになりたいです。",r:"Shōrai, isha ni naritai desu.",i:"Di masa depan saya ingin menjadi dokter."},d:[{sp:"A",jp:"大きくなったら何になりたいですか？",h:"おおきくなったらなになりたいですか？",r:"Ōkiku nattara nani ni naritai desu ka?",i:"Kalau sudah besar mau jadi apa?"},{sp:"B",jp:"エンジニアになりたいと思っています。",h:"エンジニアになりたいとおもっています。",r:"Enjinia ni naritai to omotte imasu.",i:"Saya berpikir ingin menjadi insinyur."}]},
+{k:"寝る",h:"ねる",r:"neru",id:"Tidur",j:"v",lv:"N5",kw:1,s:{jp:"毎晩十一時に寝ます。",h:"まいばんじゅういちじにねます。",r:"Maiban jūichiji ni nemasu.",i:"Setiap malam saya tidur pukul sebelas."},d:[{sp:"A",jp:"昨日何時に寝ましたか？",h:"きのうなんじにねましたか？",r:"Kinō nanji ni nemashita ka?",i:"Kemarin kamu tidur jam berapa?"},{sp:"B",jp:"遅くて、一時ごろ寝ました。",h:"おそくて、いちじごろねました。",r:"Osokute, ichiji goro nemashita.",i:"Kemalaman, tidur sekitar jam 1."}]},
+{k:"飲む",h:"のむ",r:"nomu",id:"Minum",j:"v",lv:"N5",kw:1,s:{jp:"毎朝、コーヒーを飲みます。",h:"まいあさ、コーヒーをのみます。",r:"Maiasa, kōhī o nomimasu.",i:"Setiap pagi saya minum kopi."},d:[{sp:"A",jp:"何か飲みますか？",h:"なにかのみますか？",r:"Nanika nomimasu ka?",i:"Mau minum sesuatu?"},{sp:"B",jp:"お茶をいただけますか？",h:"おちゃをいただけますか？",r:"Ocha o itadakemasu ka?",i:"Boleh saya minta teh?"}]},
+{k:"乗る",h:"のる",r:"noru",id:"Naik (kendaraan)",j:"v",lv:"N5",kw:1,s:{jp:"毎日電車に乗って学校へ行きます。",h:"まいにちでんしゃにのってがっこうへいきます。",r:"Mainichi densha ni notte gakkō e ikimasu.",i:"Setiap hari saya naik kereta ke sekolah."},d:[{sp:"A",jp:"どうやって来ましたか？",h:"どうやってきましたか？",r:"Dō yatte kimashita ka?",i:"Bagaimana kamu ke sini?"},{sp:"B",jp:"バスに乗って来ました。",h:"バスにのってきました。",r:"Basu ni notte kimashita.",i:"Saya naik bus ke sini."}]},
+{k:"入る",h:"はいる",r:"hairu",id:"Masuk",j:"v",lv:"N5",kw:1,s:{jp:"部屋に入る前にノックしてください。",h:"へやにはいるまえにノックしてください。",r:"Heya ni hairu mae ni nokku shite kudasai.",i:"Tolong ketuk pintu sebelum masuk kamar."},d:[{sp:"A",jp:"入ってもいいですか？",h:"はいってもいいですか？",r:"Haitte mo ii desu ka?",i:"Boleh masuk?"},{sp:"B",jp:"どうぞ、入ってください。",h:"どうぞ、はいってください。",r:"Dōzo, haitte kudasai.",i:"Silakan masuk."}]},
+{k:"始まる",h:"はじまる",r:"hajimaru",id:"Mulai (sendiri)",j:"v",lv:"N5",kw:1,s:{jp:"授業は九時に始まります。",h:"じゅぎょうはくじにはじまります。",r:"Jugyō wa kuji ni hajimarimasu.",i:"Pelajaran mulai pukul sembilan."},d:[{sp:"A",jp:"映画は何時に始まりますか？",h:"えいがはなんじにはじまりますか？",r:"Eiga wa nanji ni hajimarimasu ka?",i:"Film mulai jam berapa?"},{sp:"B",jp:"七時に始まります。急ぎましょう。",h:"しちじにはじまります。いそぎましょう。",r:"Shichiji ni hajimarimasu. Isogimashō.",i:"Mulai jam 7. Ayo cepat."}]},
+{k:"走る",h:"はしる",r:"hashiru",id:"Berlari",j:"v",lv:"N5",kw:1,s:{jp:"毎朝、公園で走ります。",h:"まいあさ、こうえんではしります。",r:"Maiasa, kōen de hashirimasu.",i:"Setiap pagi saya berlari di taman."},d:[{sp:"A",jp:"遅刻しそう！走りましょう！",h:"ちこくしそう！はしりましょう！",r:"Chikoku shisō! Hashirimashō!",i:"Sepertinya akan terlambat! Ayo lari!"},{sp:"B",jp:"わかった！一緒に走ろう！",h:"わかった！いっしょにはしろう！",r:"Wakatta! Issho ni hashirō!",i:"Oke! Ayo lari bersama!"}]},
+{k:"働く",h:"はたらく",r:"hataraku",id:"Bekerja",j:"v",lv:"N5",kw:1,s:{jp:"父は毎日一生懸命働いています。",h:"ちちはまいにちいっしょうけんめいはたらいています。",r:"Chichi wa mainichi isshōkenmei hataraite imasu.",i:"Ayah bekerja keras setiap hari."},d:[{sp:"A",jp:"どんな仕事をしていますか？",h:"どんなしごとをしていますか？",r:"Donna shigoto o shite imasu ka?",i:"Kamu kerja di bidang apa?"},{sp:"B",jp:"学校で働いています。教師です。",h:"がっこうではたらいています。きょうしです。",r:"Gakkō de hataraite imasu. Kyōshi desu.",i:"Saya bekerja di sekolah. Saya guru."}]},
+{k:"話す",h:"はなす",r:"hanasu",id:"Berbicara",j:"v",lv:"N5",kw:1,s:{jp:"日本語で話せるようになりました。",h:"にほんごではなせるようになりました。",r:"Nihongo de hanaseru yō ni narimashita.",i:"Saya sudah bisa berbicara dalam bahasa Jepang."},d:[{sp:"A",jp:"日本語で話せますか？",h:"にほんごではなせますか？",r:"Nihongo de hanasemasu ka?",i:"Bisa berbicara dalam bahasa Jepang?"},{sp:"B",jp:"少し話せます。まだ練習中です。",h:"すこしはなせます。まだれんしゅうちゅうです。",r:"Sukoshi hanasemasu. Mada renshū-chū desu.",i:"Bisa sedikit. Masih dalam latihan."}]},
+{k:"待つ",h:"まつ",r:"matsu",id:"Menunggu",j:"v",lv:"N5",kw:1,s:{jp:"駅で友達を十分待ちました。",h:"えきでともだちをじゅっぷんまちました。",r:"Eki de tomodachi o juppun machimashita.",i:"Saya menunggu teman selama 10 menit di stasiun."},d:[{sp:"A",jp:"少し待ってもらえますか？",h:"すこしまってもらえますか？",r:"Sukoshi matte moraemasu ka?",i:"Bisa tolong tunggu sebentar?"},{sp:"B",jp:"はい、ここで待っています。",h:"はい、ここでまっています。",r:"Hai, koko de matte imasu.",i:"Baik, saya tunggu di sini."}]},
+{k:"見る",h:"みる",r:"miru",id:"Melihat",j:"v",lv:"N5",kw:1,s:{jp:"テレビを見ながら食事をします。",h:"テレビをみながらしょくじをします。",r:"Terebi o minagara shokuji o shimasu.",i:"Saya makan sambil menonton TV."},d:[{sp:"A",jp:"昨日、映画を見ましたか？",h:"きのう、えいがをみましたか？",r:"Kinō, eiga o mimashita ka?",i:"Kemarin kamu nonton film?"},{sp:"B",jp:"はい、面白い映画を見ました。",h:"はい、おもしろいえいがをみました。",r:"Hai, omoshiroi eiga o mimashita.",i:"Iya, saya nonton film yang menarik."}]},
+{k:"持つ",h:"もつ",r:"motsu",id:"Membawa/Memegang",j:"v",lv:"N5",kw:1,s:{jp:"重い荷物を持っています。",h:"おもいにもつをもっています。",r:"Omoi nimotsu o motte imasu.",i:"Saya membawa barang bawaan yang berat."},d:[{sp:"A",jp:"荷物を持ってあげましょうか？",h:"にもつをもってあげましょうか？",r:"Nimotsu o motte agemashō ka?",i:"Mau saya bantu bawakan barangnya?"},{sp:"B",jp:"ありがとうございます。お願いします。",h:"ありがとうございます。おねがいします。",r:"Arigatō gozaimasu. Onegai shimasu.",i:"Terima kasih. Mohon bantuannya."}]},
+{k:"休む",h:"やすむ",r:"yasumu",id:"Beristirahat",j:"v",lv:"N5",kw:1,s:{jp:"疲れたので少し休みます。",h:"つかれたのですこしやすみます。",r:"Tsukareta node sukoshi yasumimasu.",i:"Karena lelah, saya beristirahat sebentar."},d:[{sp:"A",jp:"今日は学校を休んでもいいですか？",h:"きょうはがっこうをやすんでもいいですか？",r:"Kyō wa gakkō o yasunde mo ii desu ka?",i:"Boleh saya tidak masuk sekolah hari ini?"},{sp:"B",jp:"具合が悪いですか？",h:"ぐあいがわるいですか？",r:"Guai ga warui desu ka?",i:"Apakah kamu tidak enak badan?"}]},
+{k:"読む",h:"よむ",r:"yomu",id:"Membaca",j:"v",lv:"N5",kw:1,s:{jp:"毎日新聞を読みます。",h:"まいにちしんぶんをよみます。",r:"Mainichi shinbun o yomimasu.",i:"Saya membaca koran setiap hari."},d:[{sp:"A",jp:"この本を読んだことがありますか？",h:"このほんをよんだことがありますか？",r:"Kono hon o yonda koto ga arimasu ka?",i:"Pernahkah kamu membaca buku ini?"},{sp:"B",jp:"はい、去年読みました。面白かったです。",h:"はい、きょねんよみました。おもしろかったです。",r:"Hai, kyonen yomimashita. Omoshirokatta desu.",i:"Pernah, saya baca tahun lalu. Menarik."}]},
+{k:"分かる",h:"わかる",r:"wakaru",id:"Mengerti",j:"v",lv:"N5",kw:1,s:{jp:"先生の説明がよく分かりました。",h:"せんせいのせつめいがよくわかりました。",r:"Sensei no setsumei ga yoku wakarimashita.",i:"Penjelasan guru sangat bisa saya mengerti."},d:[{sp:"A",jp:"分かりましたか？",h:"わかりましたか？",r:"Wakarimashita ka?",i:"Apakah kamu mengerti?"},{sp:"B",jp:"はい、よく分かりました。",h:"はい、よくわかりました。",r:"Hai, yoku wakarimashita.",i:"Iya, mengerti dengan baik."}]},
+{k:"忘れる",h:"わすれる",r:"wasureru",id:"Lupa",j:"v",lv:"N5",kw:1,s:{jp:"宿題を家に忘れてしまいました。",h:"しゅくだいをいえにわすれてしまいました。",r:"Shukudai o ie ni wasurete shimaimashita.",i:"Saya lupa meninggalkan PR di rumah."},d:[{sp:"A",jp:"名前を忘れてしまいました。すみません。",h:"なまえをわすれてしまいました。すみません。",r:"Namae o wasurete shimaimashita. Sumimasen.",i:"Saya lupa namanya. Maaf."},{sp:"B",jp:"大丈夫ですよ。もう一度言いますね。",h:"だいじょうぶですよ。もういちどいいますね。",r:"Daijōbu desu yo. Mō ichido iimasu ne.",i:"Tidak apa-apa. Saya ulangi sekali lagi ya."}]},
 
-// ── KATA BENDA N5 ──
-{k:"学校",h:"がっこう",r:"gakkou",id:"Sekolah",jenis:"n",level:"N5",kaiwa:1,s:{jp:"毎日学校へ行きます。",h:"まいにちがっこうへいきます。",r:"Mainichi gakkō e ikimasu.",i:"Saya pergi ke sekolah setiap hari."},kw:[{sp:"A",jp:"学校は楽しいですか？",h:"がっこうはたのしいですか？",r:"Gakkō wa tanoshii desu ka?",i:"Apakah sekolah menyenangkan?"},{sp:"B",jp:"はい、友達がたくさんいて楽しいです。",h:"はい、ともだちがたくさんいてたのしいです。",r:"Hai, tomodachi ga takusan ite tanoshii desu.",i:"Iya, karena banyak teman jadi menyenangkan."}]},
-{k:"先生",h:"せんせい",r:"sensei",id:"Guru/Dokter",jenis:"n",level:"N5",kaiwa:1,s:{jp:"田中先生は数学を教えています。",h:"たなかせんせいはすうがくをおしえています。",r:"Tanaka-sensei wa sūgaku o oshiete imasu.",i:"Guru Tanaka mengajar matematika."},kw:[{sp:"A",jp:"先生、質問があります。",h:"せんせい、しつもんがあります。",r:"Sensei, shitsumon ga arimasu.",i:"Guru, saya punya pertanyaan."},{sp:"B",jp:"はい、どうぞ聞いてください。",h:"はい、どうぞきいてください。",r:"Hai, dōzo kiite kudasai.",i:"Silakan, tanyakan saja."}]},
-{k:"友達",h:"ともだち",r:"tomodachi",id:"Teman",jenis:"n",level:"N5",kaiwa:1,s:{jp:"友達と映画を見に行きました。",h:"ともだちとえいがをみにいきました。",r:"Tomodachi to eiga o mi ni ikimashita.",i:"Saya pergi nonton film bersama teman."},kw:[{sp:"A",jp:"あの人は友達ですか？",h:"あのひとはともだちですか？",r:"Ano hito wa tomodachi desu ka?",i:"Apakah orang itu teman kamu?"},{sp:"B",jp:"はい、高校からの友達です。",h:"はい、こうこうからのともだちです。",r:"Hai, kōkō kara no tomodachi desu.",i:"Iya, teman sejak SMA."}]},
-{k:"家族",h:"かぞく",r:"kazoku",id:"Keluarga",jenis:"n",level:"N5",kaiwa:1,s:{jp:"週末は家族と過ごします。",h:"しゅうまつはかぞくとすごします。",r:"Shūmatsu wa kazoku to sugoshimasu.",i:"Akhir pekan saya menghabiskan waktu bersama keluarga."},kw:[{sp:"A",jp:"家族は何人ですか？",h:"かぞくはなんにんですか？",r:"Kazoku wa nan-nin desu ka?",i:"Keluargamu berapa orang?"},{sp:"B",jp:"四人家族です。父、母、妹、私です。",h:"よにんかぞくです。ちち、はは、いもうと、わたしです。",r:"Yo-nin kazoku desu. Chichi, haha, imōto, watashi desu.",i:"Keluarga 4 orang. Ayah, ibu, adik perempuan, dan saya."}]},
-{k:"電車",h:"でんしゃ",r:"densha",id:"Kereta listrik",jenis:"n",level:"N5",kaiwa:1,s:{jp:"電車で会社に通っています。",h:"でんしゃでかいしゃにかよっています。",r:"Densha de kaisha ni kayotte imasu.",i:"Saya commute ke kantor naik kereta."},kw:[{sp:"A",jp:"ここから電車で何分かかりますか？",h:"ここからでんしゃでなんぷんかかりますか？",r:"Koko kara densha de nanpun kakarimasu ka?",i:"Dari sini naik kereta berapa menit?"},{sp:"B",jp:"だいたい三十分かかります。",h:"だいたいさんじゅっぷんかかります。",r:"Daitai sanjuppun kakarimasu.",i:"Kira-kira 30 menit."}]},
-{k:"時間",h:"じかん",r:"jikan",id:"Waktu/Jam",jenis:"n",level:"N5",kaiwa:1,s:{jp:"時間がありません。急ぎましょう。",h:"じかんがありません。いそぎましょう。",r:"Jikan ga arimasen. Isogimashō.",i:"Tidak ada waktu. Ayo cepat."},kw:[{sp:"A",jp:"今、時間がありますか？",h:"いま、じかんがありますか？",r:"Ima, jikan ga arimasu ka?",i:"Sekarang, apakah kamu punya waktu?"},{sp:"B",jp:"少しなら大丈夫です。",h:"すこしならだいじょうぶです。",r:"Sukoshi nara daijōbu desu.",i:"Kalau sebentar, tidak apa-apa."}]},
-{k:"お金",h:"おかね",r:"okane",id:"Uang",jenis:"n",level:"N5",kaiwa:1,s:{jp:"お金がないので、買えません。",h:"おかねがないので、かえません。",r:"Okane ga nai node, kaemasen.",i:"Karena tidak ada uang, saya tidak bisa membeli."},kw:[{sp:"A",jp:"お金を持っていますか？",h:"おかねをもっていますか？",r:"Okane o motte imasu ka?",i:"Apakah kamu punya uang?"},{sp:"B",jp:"少し持っています。何かありましたか？",h:"すこしもっています。なにかありましたか？",r:"Sukoshi motte imasu. Nanika arimashita ka?",i:"Punya sedikit. Ada apa?"}]},
-{k:"食べ物",h:"たべもの",r:"tabemono",id:"Makanan",jenis:"n",level:"N5",kaiwa:1,s:{jp:"日本の食べ物はとてもおいしいです。",h:"にほんのたべものはとてもおいしいです。",r:"Nihon no tabemono wa totemo oishii desu.",i:"Makanan Jepang sangat enak."},kw:[{sp:"A",jp:"好きな食べ物は何ですか？",h:"すきなたべものはなんですか？",r:"Suki na tabemono wa nan desu ka?",i:"Makanan kesukaan kamu apa?"},{sp:"B",jp:"寿司が一番好きです。",h:"すしがいちばんすきです。",r:"Sushi ga ichiban suki desu.",i:"Saya paling suka sushi."}]},
-{k:"水",h:"みず",r:"mizu",id:"Air",jenis:"n",level:"N5",kaiwa:1,s:{jp:"喉が渇いたので、水を飲みます。",h:"のどがかわいたので、みずをのみます。",r:"Nodo ga kawaita node, mizu o nomimasu.",i:"Karena haus, saya minum air."},kw:[{sp:"A",jp:"お水をください。",h:"おみずをください。",r:"Omizu o kudasai.",i:"Tolong berikan air."},{sp:"B",jp:"はい、少々お待ちください。",h:"はい、しょうしょうおまちください。",r:"Hai, shōshō omachi kudasai.",i:"Baik, mohon tunggu sebentar."}]},
-{k:"駅",h:"えき",r:"eki",id:"Stasiun",jenis:"n",level:"N5",kaiwa:1,s:{jp:"駅の近くにカフェがあります。",h:"えきのちかくにカフェがあります。",r:"Eki no chikaku ni kafe ga arimasu.",i:"Ada kafe di dekat stasiun."},kw:[{sp:"A",jp:"駅はどこですか？",h:"えきはどこですか？",r:"Eki wa doko desu ka?",i:"Di mana stasiunnya?"},{sp:"B",jp:"あの角を曲がったところにあります。",h:"あのかどをまがったところにあります。",r:"Ano kado o magatta tokoro ni arimasu.",i:"Ada di tikungan sudut itu."}]},
+// ── KATA KERJA N4 (dari PDF) ──
+{k:"合う",h:"あう",r:"au",id:"Cocok/Pas",j:"v",lv:"N4",kw:0,s:{jp:"このサイズはよく合います。",h:"このサイズはよくあいます。",r:"Kono saizu wa yoku aimasu.",i:"Ukuran ini sangat cocok."},d:[{sp:"A",jp:"この色は私に合いますか？",h:"このいろはわたしにあいますか？",r:"Kono iro wa watashi ni aimasu ka?",i:"Apakah warna ini cocok untuk saya?"},{sp:"B",jp:"はい、とても似合っていますよ。",h:"はい、とてもにあっていますよ。",r:"Hai, totemo niatte imasu yo.",i:"Iya, sangat cocok untuk kamu."}]},
+{k:"上がる",h:"あがる",r:"agaru",id:"Naik/Meningkat",j:"v",lv:"N4",kw:1,s:{jp:"気温が上がっています。",h:"きおんがあがっています。",r:"Kion ga agatte imasu.",i:"Suhu udara sedang naik."},d:[{sp:"A",jp:"最近、物価が上がりましたね。",h:"さいきん、ぶっかがあがりましたね。",r:"Saikin, bukka ga agarimashita ne.",i:"Belakangan ini harga-harga naik ya."},{sp:"B",jp:"そうですね。生活費が大変です。",h:"そうですね。せいかつひがたいへんです。",r:"Sō desu ne. Seikatsuhi ga taihen desu.",i:"Iya betul. Biaya hidup jadi berat."}]},
+{k:"運ぶ",h:"はこぶ",r:"hakobu",id:"Mengangkut/Membawa",j:"v",lv:"N4",kw:1,s:{jp:"荷物を部屋まで運びました。",h:"にもつをへやまではこびました。",r:"Nimotsu o heya made hakobimashita.",i:"Saya mengangkut barang sampai ke kamar."},d:[{sp:"A",jp:"重い荷物を一人で運べますか？",h:"おもいにもつをひとりではこべますか？",r:"Omoi nimotsu o hitori de hakobemasu ka?",i:"Bisa mengangkut barang berat sendirian?"},{sp:"B",jp:"少し手伝ってもらえますか？",h:"すこしてつだってもらえますか？",r:"Sukoshi tetsudatte moraemasu ka?",i:"Bisa tolong bantu sedikit?"}]},
+{k:"壊れる",h:"こわれる",r:"kowareru",id:"Rusak (sendiri)",j:"v",lv:"N4",kw:1,s:{jp:"パソコンが壊れてしまいました。",h:"パソコンがこわれてしまいました。",r:"Pasokon ga kowarete shimaimashita.",i:"Komputernya rusak."},d:[{sp:"A",jp:"エアコンが壊れました。どうしましょう。",h:"エアコンがこわれました。どうしましょう。",r:"Eakon ga kowaremashita. Dō shimashō.",i:"AC-nya rusak. Bagaimana ini."},{sp:"B",jp:"修理に出しましょうか？",h:"しゅうりにだしましょうか？",r:"Shūri ni dashimashō ka?",i:"Mau kita bawa ke tempat reparasi?"}]},
+{k:"壊す",h:"こわす",r:"kowasu",id:"Merusak",j:"v",lv:"N4",kw:0,s:{jp:"うっかり皿を壊してしまいました。",h:"うっかりさらをこわしてしまいました。",r:"Ukkari sara o kowashite shimaimashita.",i:"Tanpa sengaja saya merusak/memecahkan piring."},d:[{sp:"A",jp:"どうして壊したんですか？",h:"どうしてこわしたんですか？",r:"Dōshite kowashita n desu ka?",i:"Kenapa kamu merusaknya?"},{sp:"B",jp:"事故です。本当に申し訳ありません。",h:"じこです。ほんとうにもうしわけありません。",r:"Jiko desu. Hontō ni mōshiwake arimasen.",i:"Kecelakaan. Saya benar-benar minta maaf."}]},
+{k:"下がる",h:"さがる",r:"sagaru",id:"Turun/Menurun",j:"v",lv:"N4",kw:1,s:{jp:"熱が下がってよかったです。",h:"ねつがさがってよかったです。",r:"Netsu ga sagatte yokatta desu.",i:"Syukurlah demamnya turun."},d:[{sp:"A",jp:"最近、成績が下がってしまいました。",h:"さいきん、せいせきがさがってしまいました。",r:"Saikin, seiseki ga sagatte shimaimashita.",i:"Belakangan ini nilainya menurun."},{sp:"B",jp:"もっと勉強しなければなりませんね。",h:"もっとべんきょうしなければなりませんね。",r:"Motto benkyō shinakereba narimasen ne.",i:"Harus lebih giat belajar ya."}]},
+{k:"楽しむ",h:"たのしむ",r:"tanoshimu",id:"Menikmati",j:"v",lv:"N4",kw:1,s:{jp:"音楽を楽しんでいます。",h:"おんがくをたのしんでいます。",r:"Ongaku o tanoshinde imasu.",i:"Saya sedang menikmati musik."},d:[{sp:"A",jp:"旅行を楽しんでいますか？",h:"りょこうをたのしんでいますか？",r:"Ryokō o tanoshinde imasu ka?",i:"Apakah kamu menikmati perjalanannya?"},{sp:"B",jp:"はい、とても楽しんでいます！",h:"はい、とてもたのしんでいます！",r:"Hai, totemo tanoshinde imasu!",i:"Iya, sangat menikmati!"}]},
+{k:"触る",h:"さわる",r:"sawaru",id:"Menyentuh",j:"v",lv:"N4",kw:1,s:{jp:"展示品に触らないでください。",h:"てんじひんにさわらないでください。",r:"Tenji-hin ni sawaranaide kudasai.",i:"Tolong jangan menyentuh barang pameran."},d:[{sp:"A",jp:"この機械に触ってもいいですか？",h:"このきかいにさわってもいいですか？",r:"Kono kikai ni sawatte mo ii desu ka?",i:"Boleh saya menyentuh mesin ini?"},{sp:"B",jp:"すみません、触らないでください。",h:"すみません、さわらないでください。",r:"Sumimasen, sawaranaide kudasai.",i:"Maaf, tolong jangan disentuh."}]},
+{k:"比べる",h:"くらべる",r:"kuraberu",id:"Membandingkan",j:"v",lv:"N4",kw:1,s:{jp:"二つの商品を比べてみました。",h:"ふたつのしょうひんをくらべてみました。",r:"Futatsu no shōhin o kurabete mimashita.",i:"Saya mencoba membandingkan dua produk."},d:[{sp:"A",jp:"AとBを比べると、どちらがいいですか？",h:"AとBをくらべると、どちらがいいですか？",r:"A to B o kuraberu to, dochira ga ii desu ka?",i:"Kalau membandingkan A dan B, mana yang lebih baik?"},{sp:"B",jp:"値段を比べると、Aのほうが安いです。",h:"ねだんをくらべると、Aのほうがやすいです。",r:"Nedan o kuraberu to, A no hō ga yasui desu.",i:"Kalau membandingkan harga, A lebih murah."}]},
+{k:"決める",h:"きめる",r:"kimeru",id:"Memutuskan",j:"v",lv:"N4",kw:1,s:{jp:"旅行の日程を決めました。",h:"りょこうのにってをきめました。",r:"Ryokō no nittei o kimemashita.",i:"Saya sudah memutuskan jadwal perjalanan."},d:[{sp:"A",jp:"もう決めましたか？",h:"もうきめましたか？",r:"Mō kimemashita ka?",i:"Sudah memutuskan?"},{sp:"B",jp:"まだです。もう少し考えてから決めます。",h:"まだです。もうすこしかんがえてからきめます。",r:"Mada desu. Mō sukoshi kangaete kara kimemasu.",i:"Belum. Saya akan memutuskan setelah berpikir sedikit lagi."}]},
+{k:"調べる",h:"しらべる",r:"shiraberu",id:"Menyelidiki/Mencari tahu",j:"v",lv:"N4",kw:1,s:{jp:"インターネットで調べました。",h:"インターネットでしらべました。",r:"Intānetto de shirabemashita.",i:"Saya mencari tahu di internet."},d:[{sp:"A",jp:"この言葉の意味を調べてもらえますか？",h:"このことばのいみをしらべてもらえますか？",r:"Kono kotoba no imi o shirabete moraemasu ka?",i:"Bisa tolong cari tahu arti kata ini?"},{sp:"B",jp:"はい、今すぐ調べます。",h:"はい、いますぐしらべます。",r:"Hai, ima sugu shirabemasu.",i:"Baik, sekarang saya cari."}]},
+{k:"伝える",h:"つたえる",r:"tsutaeru",id:"Menyampaikan",j:"v",lv:"N4",kw:1,s:{jp:"大切なことを彼女に伝えました。",h:"たいせつなことをかのじょにつたえました。",r:"Taisetsuna koto o kanojo ni tsutaemashita.",i:"Saya menyampaikan hal penting kepadanya."},d:[{sp:"A",jp:"田中さんにこのメッセージを伝えてもらえますか？",h:"たなかさんにこのメッセージをつたえてもらえますか？",r:"Tanaka-san ni kono messēji o tsutaete moraemasu ka?",i:"Bisa tolong sampaikan pesan ini ke Tanaka-san?"},{sp:"B",jp:"はい、必ず伝えます。",h:"はい、かならずつたえます。",r:"Hai, kanarazu tsutaemasu.",i:"Baik, pasti akan saya sampaikan."}]},
+{k:"手伝う",h:"てつだう",r:"tetsudau",id:"Membantu",j:"v",lv:"N4",kw:1,s:{jp:"引っ越しを手伝ってあげました。",h:"ひっこしをてつだってあげました。",r:"Hikkoshi o tetsudatte agemashita.",i:"Saya membantu pindahan rumah."},d:[{sp:"A",jp:"ちょっと手伝ってもらえますか？",h:"ちょっとてつだってもらえますか？",r:"Chotto tetsudatte moraemasu ka?",i:"Bisa tolong bantu sebentar?"},{sp:"B",jp:"もちろん！何を手伝えばいいですか？",h:"もちろん！なにをてつだえばいいですか？",r:"Mochiron! Nani o tetsudaeba ii desu ka?",i:"Tentu saja! Mau dibantu apa?"}]},
+{k:"治る",h:"なおる",r:"naoru",id:"Sembuh",j:"v",lv:"N4",kw:1,s:{jp:"風邪が治りました。",h:"かぜがなおりました。",r:"Kaze ga naorimashita.",i:"Flu saya sudah sembuh."},d:[{sp:"A",jp:"具合はどうですか？もう治りましたか？",h:"ぐあいはどうですか？もうなおりましたか？",r:"Guai wa dō desu ka? Mō naorimashita ka?",i:"Bagaimana kondisinya? Sudah sembuh?"},{sp:"B",jp:"はい、おかげさまで治りました。",h:"はい、おかげさまでなおりました。",r:"Hai, okagesama de naorimashita.",i:"Sudah sembuh, terima kasih."}]},
+{k:"払う",h:"はらう",r:"harau",id:"Membayar",j:"v",lv:"N4",kw:1,s:{jp:"レストランで食事代を払いました。",h:"レストランでしょくじだいをはらいました。",r:"Resutoran de shokuji-dai o haraimashita.",i:"Saya membayar biaya makan di restoran."},d:[{sp:"A",jp:"料金はどこで払えばいいですか？",h:"りょうきんはどこではらえばいいですか？",r:"Ryōkin wa doko de haraeba ii desu ka?",i:"Di mana saya harus membayar biayanya?"},{sp:"B",jp:"あちらのレジで払ってください。",h:"あちらのレジではらってください。",r:"Achira no reji de haratte kudasai.",i:"Tolong bayar di kasir sana."}]},
+{k:"引っ越す",h:"ひっこす",r:"hikkosu",id:"Pindah rumah",j:"v",lv:"N4",kw:1,s:{jp:"来月、新しいアパートに引っ越します。",h:"らいげつ、あたらしいアパートにひっこします。",r:"Raigetsu, atarashii apāto ni hikkoshimasu.",i:"Bulan depan saya pindah ke apartemen baru."},d:[{sp:"A",jp:"もう引っ越しましたか？",h:"もうひっこしましたか？",r:"Mō hikkoshimashita ka?",i:"Sudah pindah?"},{sp:"B",jp:"はい、先週引っ越しました。",h:"はい、せんしゅうひっこしました。",r:"Hai, senshū hikkoshimashita.",i:"Sudah, pindah minggu lalu."}]},
+{k:"増える",h:"ふえる",r:"fueru",id:"Bertambah",j:"v",lv:"N4",kw:0,s:{jp:"観光客が増えています。",h:"かんこうきゃくがふえています。",r:"Kankōkyaku ga fuete imasu.",i:"Jumlah wisatawan sedang bertambah."},d:[{sp:"A",jp:"最近、仕事が増えましたか？",h:"さいきん、しごとがふえましたか？",r:"Saikin, shigoto ga fuemashita ka?",i:"Belakangan ini pekerjaan bertambah?"},{sp:"B",jp:"はい、とても忙しいです。",h:"はい、とてもいそがしいです。",r:"Hai, totemo isogashii desu.",i:"Iya, sangat sibuk."}]},
+{k:"間に合う",h:"まにあう",r:"maniau",id:"Tepat waktu",j:"v",lv:"N4",kw:1,s:{jp:"電車に間に合いました。",h:"でんしゃにまにあいました。",r:"Densha ni maniaimashita.",i:"Saya tepat waktu naik kereta."},d:[{sp:"A",jp:"急がないと間に合いませんよ！",h:"いそがないとまにあいませんよ！",r:"Isoganai to maniaimasen yo!",i:"Kalau tidak cepat tidak akan tepat waktu!"},{sp:"B",jp:"わかった！今すぐ行きます！",h:"わかった！いますぐいきます！",r:"Wakatta! Ima sugu ikimasu!",i:"Oke! Saya pergi sekarang!"}]},
+{k:"見つける",h:"みつける",r:"mitsukeru",id:"Menemukan",j:"v",lv:"N4",kw:1,s:{jp:"なくした財布を見つけました。",h:"なくしたさいふをみつけました。",r:"Nakushita saifu o mitsukemashita.",i:"Saya menemukan dompet yang hilang."},d:[{sp:"A",jp:"鍵を見つけられましたか？",h:"かぎをみつけられましたか？",r:"Kagi o mitsukeraremashita ka?",i:"Apakah kamu sudah menemukan kuncinya?"},{sp:"B",jp:"はい！ソファの下で見つけました。",h:"はい！ソファのしたでみつけました。",r:"Hai! Sofa no shita de mitsukemashita.",i:"Sudah! Saya menemukannya di bawah sofa."}]},
+{k:"戻る",h:"もどる",r:"modoru",id:"Kembali",j:"v",lv:"N4",kw:1,s:{jp:"忘れ物をしたので、家に戻りました。",h:"わすれものをしたので、いえにもどりました。",r:"Wasuremono o shita node, ie ni modorimashita.",i:"Karena ada yang terlupa, saya kembali ke rumah."},d:[{sp:"A",jp:"いつ戻りますか？",h:"いつもどりますか？",r:"Itsu modorimasu ka?",i:"Kapan kamu kembali?"},{sp:"B",jp:"三時ごろ戻る予定です。",h:"さんじごろもどるよていです。",r:"Sanji goro modoru yotei desu.",i:"Rencana kembali sekitar jam 3."}]},
+{k:"遅れる",h:"おくれる",r:"okureru",id:"Terlambat",j:"v",lv:"N4",kw:1,s:{jp:"渋滞で会議に遅れてしまいました。",h:"じゅうたいでかいぎにおくれてしまいました。",r:"Jūtai de kaigi ni okurete shimaimashita.",i:"Saya terlambat ke rapat karena macet."},d:[{sp:"A",jp:"すみません、少し遅れます。",h:"すみません、すこしおくれます。",r:"Sumimasen, sukoshi okuremasu.",i:"Maaf, saya akan sedikit terlambat."},{sp:"B",jp:"大丈夫ですよ。気をつけて来てください。",h:"だいじょうぶですよ。きをつけてきてください。",r:"Daijōbu desu yo. Ki o tsukete kite kudasai.",i:"Tidak apa-apa. Hati-hati di jalan ya."}]},
+{k:"参加する",h:"さんかする",r:"sanka suru",id:"Ikut serta/Berpartisipasi",j:"v",lv:"N4",kw:1,s:{jp:"来週のイベントに参加します。",h:"らいしゅうのイベントにさんかします。",r:"Raishū no ibento ni sanka shimasu.",i:"Saya akan berpartisipasi dalam acara minggu depan."},d:[{sp:"A",jp:"このプロジェクトに参加しませんか？",h:"このプロジェクトにさんかしませんか？",r:"Kono purojekuto ni sanka shimasen ka?",i:"Mau ikut serta dalam proyek ini?"},{sp:"B",jp:"ぜひ参加したいです！",h:"ぜひさんかしたいです！",r:"Zehi sanka shitai desu!",i:"Saya sangat ingin ikut serta!"}]},
+{k:"申し込む",h:"もうしこむ",r:"moushikomu",id:"Mendaftar",j:"v",lv:"N4",kw:1,s:{jp:"日本語のコースに申し込みました。",h:"にほんごのコースにもうしこみました。",r:"Nihongo no kōsu ni mōshikomimashita.",i:"Saya mendaftar kursus bahasa Jepang."},d:[{sp:"A",jp:"どうやって申し込めばいいですか？",h:"どうやってもうしこめばいいですか？",r:"Dō yatte mōshikomeba ii desu ka?",i:"Bagaimana cara mendaftarnya?"},{sp:"B",jp:"ウェブサイトから申し込んでください。",h:"ウェブサイトからもうしこんでください。",r:"Webusaito kara mōshikonde kudasai.",i:"Tolong daftar melalui website."}]},
+{k:"合格する",h:"ごうかくする",r:"goukaku suru",id:"Lulus (ujian)",j:"v",lv:"N4",kw:1,s:{jp:"N4の試験に合格しました！",h:"N4のしけんにごうかくしました！",r:"N4 no shiken ni gōkaku shimashita!",i:"Saya lulus ujian N4!"},d:[{sp:"A",jp:"試験の結果はどうでしたか？",h:"しけんのけっかはどうでしたか？",r:"Shiken no kekka wa dō deshita ka?",i:"Bagaimana hasil ujiannya?"},{sp:"B",jp:"合格しました！とても嬉しいです！",h:"ごうかくしました！とてもうれしいです！",r:"Gōkaku shimashita! Totemo ureshii desu!",i:"Lulus! Sangat senang!"}]},
+{k:"相談する",h:"そうだんする",r:"soudan suru",id:"Berunding/Konsultasi",j:"v",lv:"N4",kw:1,s:{jp:"先生に相談してみました。",h:"せんせいにそうだんしてみました。",r:"Sensei ni sōdan shite mimashita.",i:"Saya mencoba berkonsultasi dengan guru."},d:[{sp:"A",jp:"困ったことがあれば、相談してください。",h:"こまったことがあれば、そうだんしてください。",r:"Komatta koto ga areba, sōdan shite kudasai.",i:"Kalau ada masalah, tolong konsultasikan."},{sp:"B",jp:"ありがとうございます。少し相談があります。",h:"ありがとうございます。すこしそうだんがあります。",r:"Arigatō gozaimasu. Sukoshi sōdan ga arimasu.",i:"Terima kasih. Ada sedikit yang ingin saya konsultasikan."}]},
 
 // ── KATA SIFAT N5 ──
-{k:"大きい",h:"おおきい",r:"ookii",id:"Besar",jenis:"adj",level:"N5",kaiwa:1,s:{jp:"あの建物はとても大きいです。",h:"あのたてものはとてもおおきいです。",r:"Ano tatemono wa totemo ōkii desu.",i:"Gedung itu sangat besar."},kw:[{sp:"A",jp:"どちらのほうが大きいですか？",h:"どちらのほうがおおきいですか？",r:"Dochira no hō ga ōkii desu ka?",i:"Yang mana yang lebih besar?"},{sp:"B",jp:"右のほうが大きいと思います。",h:"みぎのほうがおおきいとおもいます。",r:"Migi no hō ga ōkii to omoimasu.",i:"Saya rasa yang kanan lebih besar."}]},
-{k:"小さい",h:"ちいさい",r:"chiisai",id:"Kecil",jenis:"adj",level:"N5",kaiwa:1,s:{jp:"この部屋は少し小さいです。",h:"このへやはすこしちいさいです。",r:"Kono heya wa sukoshi chiisai desu.",i:"Kamar ini agak kecil."},kw:[{sp:"A",jp:"このサイズは小さすぎますか？",h:"このサイズはちいさすぎますか？",r:"Kono saizu wa chiisakisugi masu ka?",i:"Apakah ukuran ini terlalu kecil?"},{sp:"B",jp:"少し小さいですが、大丈夫です。",h:"すこしちいさいですが、だいじょうぶです。",r:"Sukoshi chiisai desu ga, daijōbu desu.",i:"Agak kecil, tapi tidak apa-apa."}]},
-{k:"いい／良い",h:"いい／よい",r:"ii / yoi",id:"Bagus/Baik",jenis:"adj",level:"N5",kaiwa:1,s:{jp:"今日は天気がいいですね。",h:"きょうはてんきがいいですね。",r:"Kyō wa tenki ga ii desu ne.",i:"Hari ini cuacanya bagus ya."},kw:[{sp:"A",jp:"このレストランはどうですか？",h:"このレストランはどうですか？",r:"Kono resutoran wa dō desu ka?",i:"Bagaimana restoran ini?"},{sp:"B",jp:"とてもいいですよ。料理がおいしいです。",h:"とてもいいですよ。りょうりがおいしいです。",r:"Totemo ii desu yo. Ryōri ga oishii desu.",i:"Sangat bagus. Masakannya enak."}]},
-{k:"悪い",h:"わるい",r:"warui",id:"Buruk/Jahat",jenis:"adj",level:"N5",kaiwa:1,s:{jp:"今日は体の具合が悪いです。",h:"きょうはからだのぐあいがわるいです。",r:"Kyō wa karada no guai ga warui desu.",i:"Hari ini badan saya tidak enak."},kw:[{sp:"A",jp:"顔色が悪いですね。大丈夫ですか？",h:"かおいろがわるいですね。だいじょうぶですか？",r:"Kaoiro ga warui desu ne. Daijōbu desu ka?",i:"Mukamu pucat. Apakah kamu baik-baik saja?"},{sp:"B",jp:"少し具合が悪いです。",h:"すこしぐあいがわるいです。",r:"Sukoshi guai ga warui desu.",i:"Badan saya agak tidak enak."}]},
-{k:"多い",h:"おおい",r:"ooi",id:"Banyak",jenis:"adj",level:"N5",kaiwa:1,s:{jp:"今日は宿題が多いです。",h:"きょうはしゅくだいがおおいです。",r:"Kyō wa shukudai ga ōi desu.",i:"Hari ini PR-nya banyak."},kw:[{sp:"A",jp:"人が多いですね。",h:"ひとがおおいですね。",r:"Hito ga ōi desu ne.",i:"Orangnya banyak ya."},{sp:"B",jp:"はい、今日は祭りがあるから多いんです。",h:"はい、きょうはまつりがあるからおおいんです。",r:"Hai, kyō wa matsuri ga aru kara ōi n desu.",i:"Iya, karena hari ini ada festival makanya banyak."}]},
-{k:"少ない",h:"すくない",r:"sukunai",id:"Sedikit",jenis:"adj",level:"N5",kaiwa:0,s:{jp:"今月はお金が少ないです。",h:"こんげつはおかねがすくないです。",r:"Kongetsu wa okane ga sukunai desu.",i:"Bulan ini uangnya sedikit."},kw:[{sp:"A",jp:"参加者が少ないですね。",h:"さんかしゃがすくないですね。",r:"Sankasha ga sukunai desu ne.",i:"Pesertanya sedikit ya."},{sp:"B",jp:"はい、天気が悪いからかもしれません。",h:"はい、てんきがわるいからかもしれません。",r:"Hai, tenki ga warui kara kamo shiremasen.",i:"Iya, mungkin karena cuaca buruk."}]},
-{k:"暑い",h:"あつい",r:"atsui",id:"Panas (udara)",jenis:"adj",level:"N5",kaiwa:1,s:{jp:"今日はとても暑いですね。",h:"きょうはとてもあついですね。",r:"Kyō wa totemo atsui desu ne.",i:"Hari ini sangat panas ya."},kw:[{sp:"A",jp:"暑いですね。エアコンをつけましょうか？",h:"あついですね。エアコンをつけましょうか？",r:"Atsui desu ne. Eakon o tsukemashō ka?",i:"Panas ya. Mau saya nyalakan AC?"},{sp:"B",jp:"はい、お願いします。",h:"はい、おねがいします。",r:"Hai, onegai shimasu.",i:"Iya, tolong."}]},
-{k:"寒い",h:"さむい",r:"samui",id:"Dingin (udara)",jenis:"adj",level:"N5",kaiwa:1,s:{jp:"冬は寒いので、コートを着ます。",h:"ふゆはさむいので、コートをきます。",r:"Fuyu wa samui node, kōto o kimasu.",i:"Karena musim dingin dingin, saya memakai mantel."},kw:[{sp:"A",jp:"今日は寒いですね。",h:"きょうはさむいですね。",r:"Kyō wa samui desu ne.",i:"Hari ini dingin ya."},{sp:"B",jp:"はい、コートを持ってきてよかったです。",h:"はい、コートをもってきてよかったです。",r:"Hai, kōto o motte kite yokatta desu.",i:"Iya, syukurlah saya membawa mantel."}]},
-{k:"おいしい",h:"おいしい",r:"oishii",id:"Enak/Lezat",jenis:"adj",level:"N5",kaiwa:1,s:{jp:"この料理はとてもおいしいです！",h:"このりょうりはとてもおいしいです！",r:"Kono ryōri wa totemo oishii desu!",i:"Masakan ini sangat enak!"},kw:[{sp:"A",jp:"この料理はどうですか？",h:"このりょうりはどうですか？",r:"Kono ryōri wa dō desu ka?",i:"Bagaimana masakan ini?"},{sp:"B",jp:"とてもおいしいです！何が入っていますか？",h:"とてもおいしいです！なにがはいっていますか？",r:"Totemo oishii desu! Nani ga haitte imasu ka?",i:"Sangat enak! Bahan apa saja yang dipakai?"}]},
-{k:"難しい",h:"むずかしい",r:"muzukashii",id:"Sulit/Susah",jenis:"adj",level:"N5",kaiwa:1,s:{jp:"漢字はとても難しいですが、面白いです。",h:"かんじはとてもむずかしいですが、おもしろいです。",r:"Kanji wa totemo muzukashii desu ga, omoshiroi desu.",i:"Kanji sangat sulit, tetapi menarik."},kw:[{sp:"A",jp:"日本語は難しいですか？",h:"にほんごはむずかしいですか？",r:"Nihongo wa muzukashii desu ka?",i:"Apakah bahasa Jepang sulit?"},{sp:"B",jp:"少し難しいですが、毎日練習しています。",h:"すこしむずかしいですが、まいにちれんしゅうしています。",r:"Sukoshi muzukashii desu ga, mainichi renshū shite imasu.",i:"Agak sulit, tapi saya berlatih setiap hari."}]},
-{k:"簡単",h:"かんたん",r:"kantan",id:"Mudah/Sederhana",jenis:"adj",level:"N5",kaiwa:1,s:{jp:"この問題は簡単です。",h:"このもんだいはかんたんです。",r:"Kono mondai wa kantan desu.",i:"Soal ini mudah."},kw:[{sp:"A",jp:"この料理は作るのが簡単ですか？",h:"このりょうりはつくるのがかんたんですか？",r:"Kono ryōri wa tsukuru no ga kantan desu ka?",i:"Apakah masakan ini mudah dibuat?"},{sp:"B",jp:"はい、材料も少なくて簡単ですよ。",h:"はい、ざいりょうもすくなくてかんたんですよ。",r:"Hai, zairyō mo sukunakute kantan desu yo.",i:"Iya, bahannya sedikit dan mudah kok."}]},
-{k:"好き",h:"すき",r:"suki",id:"Suka",jenis:"adj",level:"N5",kaiwa:1,s:{jp:"私は音楽が好きです。",h:"わたしはおんがくがすきです。",r:"Watashi wa ongaku ga suki desu.",i:"Saya suka musik."},kw:[{sp:"A",jp:"どんな音楽が好きですか？",h:"どんなおんがくがすきですか？",r:"Donna ongaku ga suki desu ka?",i:"Kamu suka musik apa?"},{sp:"B",jp:"JPOPが好きです。特に米津玄師が好きです。",h:"JPOPがすきです。とくによねづけんしがすきです。",r:"JPOP ga suki desu. Toku ni Yonezu Kenshi ga suki desu.",i:"Saya suka JPOP. Terutama Yonezu Kenshi."}]},
-{k:"嫌い",h:"きらい",r:"kirai",id:"Tidak suka",jenis:"adj",level:"N5",kaiwa:1,s:{jp:"私はゴキブリが嫌いです。",h:"わたしはゴキブリがきらいです。",r:"Watashi wa gokiburi ga kirai desu.",i:"Saya tidak suka kecoa."},kw:[{sp:"A",jp:"苦手な食べ物がありますか？",h:"にがてなたべものがありますか？",r:"Nigate na tabemono ga arimasu ka?",i:"Apakah ada makanan yang tidak kamu suka?"},{sp:"B",jp:"納豆が少し嫌いです。",h:"なっとうがすこしきらいです。",r:"Nattō ga sukoshi kirai desu.",i:"Saya agak tidak suka natto."}]},
-{k:"上手",h:"じょうず",r:"jouzu",id:"Mahir/Pandai",jenis:"adj",level:"N5",kaiwa:1,s:{jp:"田中さんは料理が上手です。",h:"たなかさんはりょうりがじょうずです。",r:"Tanaka-san wa ryōri ga jōzu desu.",i:"Tanaka-san mahir memasak."},kw:[{sp:"A",jp:"日本語が上手ですね！",h:"にほんごがじょうずですね！",r:"Nihongo ga jōzu desu ne!",i:"Bahasa Jepangmu mahir ya!"},{sp:"B",jp:"いいえ、まだまだです。もっと練習が必要です。",h:"いいえ、まだまだです。もっとれんしゅうがひつようです。",r:"Iie, madamada desu. Motto renshū ga hitsuyō desu.",i:"Tidak, masih jauh. Saya masih perlu banyak latihan."}]},
-{k:"下手",h:"へた",r:"heta",id:"Tidak mahir/Buruk",jenis:"adj",level:"N5",kaiwa:1,s:{jp:"私は歌が下手です。",h:"わたしはうたがへたです。",r:"Watashi wa uta ga heta desu.",i:"Saya tidak mahir menyanyi."},kw:[{sp:"A",jp:"料理は得意ですか？",h:"りょうりはとくいですか？",r:"Ryōri wa tokui desu ka?",i:"Apakah kamu pandai memasak?"},{sp:"B",jp:"いいえ、料理は下手です。",h:"いいえ、りょうりはへたです。",r:"Iie, ryōri wa heta desu.",i:"Tidak, saya tidak pandai memasak."}]},
-{k:"きれい",h:"きれい",r:"kirei",id:"Cantik/Bersih",jenis:"adj",level:"N5",kaiwa:1,s:{jp:"この花はとてもきれいです。",h:"このはなはとてもきれいです。",r:"Kono hana wa totemo kirei desu.",i:"Bunga ini sangat cantik."},kw:[{sp:"A",jp:"この部屋はきれいですね。",h:"このへやはきれいですね。",r:"Kono heya wa kirei desu ne.",i:"Kamar ini bersih ya."},{sp:"B",jp:"ありがとうございます。毎日掃除しています。",h:"ありがとうございます。まいにちそうじしています。",r:"Arigatō gozaimasu. Mainichi sōji shite imasu.",i:"Terima kasih. Saya bersih-bersih setiap hari."}]},
-{k:"便利",h:"べんり",r:"benri",id:"Praktis/Nyaman",jenis:"adj",level:"N5",kaiwa:1,s:{jp:"スマートフォンはとても便利です。",h:"スマートフォンはとてもべんりです。",r:"Sumātofon wa totemo benri desu.",i:"Smartphone sangat praktis."},kw:[{sp:"A",jp:"この近くに住んでいると便利ですか？",h:"このちかくにすんでいるとべんりですか？",r:"Kono chikaku ni sunde iru to benri desu ka?",i:"Apakah tinggal di dekat sini praktis?"},{sp:"B",jp:"はい、駅も近いのでとても便利です。",h:"はい、えきもちかいのでとてもべんりです。",r:"Hai, eki mo chikai no de totemo benri desu.",i:"Iya, stasiun juga dekat jadi sangat praktis."}]},
+{k:"大きい",h:"おおきい",r:"ookii",id:"Besar",j:"adj",lv:"N5",kw:1,s:{jp:"あの建物はとても大きいです。",h:"あのたてものはとてもおおきいです。",r:"Ano tatemono wa totemo ōkii desu.",i:"Gedung itu sangat besar."},d:[{sp:"A",jp:"どちらのほうが大きいですか？",h:"どちらのほうがおおきいですか？",r:"Dochira no hō ga ōkii desu ka?",i:"Yang mana yang lebih besar?"},{sp:"B",jp:"右のほうが大きいと思います。",h:"みぎのほうがおおきいとおもいます。",r:"Migi no hō ga ōkii to omoimasu.",i:"Saya rasa yang kanan lebih besar."}]},
+{k:"小さい",h:"ちいさい",r:"chiisai",id:"Kecil",j:"adj",lv:"N5",kw:1,s:{jp:"この部屋は少し小さいです。",h:"このへやはすこしちいさいです。",r:"Kono heya wa sukoshi chiisai desu.",i:"Kamar ini agak kecil."},d:[{sp:"A",jp:"このサイズは小さすぎますか？",h:"このサイズはちいさすぎますか？",r:"Kono saizu wa chiisa-sugimasu ka?",i:"Apakah ukuran ini terlalu kecil?"},{sp:"B",jp:"少し小さいですが、大丈夫です。",h:"すこしちいさいですが、だいじょうぶです。",r:"Sukoshi chiisai desu ga, daijōbu desu.",i:"Agak kecil, tapi tidak apa-apa."}]},
+{k:"おいしい",h:"おいしい",r:"oishii",id:"Enak/Lezat",j:"adj",lv:"N5",kw:1,s:{jp:"この料理はとてもおいしいです！",h:"このりょうりはとてもおいしいです！",r:"Kono ryōri wa totemo oishii desu!",i:"Masakan ini sangat enak!"},d:[{sp:"A",jp:"この料理はどうですか？",h:"このりょうりはどうですか？",r:"Kono ryōri wa dō desu ka?",i:"Bagaimana masakan ini?"},{sp:"B",jp:"とてもおいしいです！何が入っていますか？",h:"とてもおいしいです！なにがはいっていますか？",r:"Totemo oishii desu! Nani ga haitte imasu ka?",i:"Sangat enak! Bahan apa saja yang dipakai?"}]},
+{k:"難しい",h:"むずかしい",r:"muzukashii",id:"Sulit",j:"adj",lv:"N5",kw:1,s:{jp:"漢字はとても難しいですが、面白いです。",h:"かんじはとてもむずかしいですが、おもしろいです。",r:"Kanji wa totemo muzukashii desu ga, omoshiroi desu.",i:"Kanji sangat sulit, tetapi menarik."},d:[{sp:"A",jp:"日本語は難しいですか？",h:"にほんごはむずかしいですか？",r:"Nihongo wa muzukashii desu ka?",i:"Apakah bahasa Jepang sulit?"},{sp:"B",jp:"少し難しいですが、毎日練習しています。",h:"すこしむずかしいですが、まいにちれんしゅうしています。",r:"Sukoshi muzukashii desu ga, mainichi renshū shite imasu.",i:"Agak sulit, tapi saya berlatih setiap hari."}]},
+{k:"暑い",h:"あつい",r:"atsui",id:"Panas (udara)",j:"adj",lv:"N5",kw:1,s:{jp:"今日はとても暑いですね。",h:"きょうはとてもあついですね。",r:"Kyō wa totemo atsui desu ne.",i:"Hari ini sangat panas ya."},d:[{sp:"A",jp:"暑いですね。エアコンをつけましょうか？",h:"あついですね。エアコンをつけましょうか？",r:"Atsui desu ne. Eakon o tsukemashō ka?",i:"Panas ya. Mau saya nyalakan AC?"},{sp:"B",jp:"はい、お願いします。",h:"はい、おねがいします。",r:"Hai, onegai shimasu.",i:"Iya, tolong."}]},
+{k:"寒い",h:"さむい",r:"samui",id:"Dingin (udara)",j:"adj",lv:"N5",kw:1,s:{jp:"冬は寒いので、コートを着ます。",h:"ふゆはさむいので、コートをきます。",r:"Fuyu wa samui node, kōto o kimasu.",i:"Karena musim dingin dingin, saya memakai mantel."},d:[{sp:"A",jp:"今日は寒いですね。",h:"きょうはさむいですね。",r:"Kyō wa samui desu ne.",i:"Hari ini dingin ya."},{sp:"B",jp:"そうですね。コートを着てきてよかったです。",h:"そうですね。コートをきてきてよかったです。",r:"Sō desu ne. Kōto o kite kite yokatta desu.",i:"Iya betul. Syukurlah saya memakai mantel."}]},
+{k:"好き",h:"すき",r:"suki",id:"Suka",j:"adj",lv:"N5",kw:1,s:{jp:"私は音楽が好きです。",h:"わたしはおんがくがすきです。",r:"Watashi wa ongaku ga suki desu.",i:"Saya suka musik."},d:[{sp:"A",jp:"どんな音楽が好きですか？",h:"どんなおんがくがすきですか？",r:"Donna ongaku ga suki desu ka?",i:"Kamu suka musik apa?"},{sp:"B",jp:"JPOPが好きです。",h:"JPOPがすきです。",r:"JPOP ga suki desu.",i:"Saya suka JPOP."}]},
+{k:"嫌い",h:"きらい",r:"kirai",id:"Tidak suka",j:"adj",lv:"N5",kw:1,s:{jp:"私はゴキブリが嫌いです。",h:"わたしはゴキブリがきらいです。",r:"Watashi wa gokiburi ga kirai desu.",i:"Saya tidak suka kecoa."},d:[{sp:"A",jp:"苦手な食べ物がありますか？",h:"にがてなたべものがありますか？",r:"Nigate na tabemono ga arimasu ka?",i:"Apakah ada makanan yang tidak kamu suka?"},{sp:"B",jp:"納豆が少し嫌いです。",h:"なっとうがすこしきらいです。",r:"Nattō ga sukoshi kirai desu.",i:"Saya agak tidak suka natto."}]},
+{k:"上手",h:"じょうず",r:"jouzu",id:"Mahir/Pandai",j:"adj",lv:"N5",kw:1,s:{jp:"田中さんは料理が上手です。",h:"たなかさんはりょうりがじょうずです。",r:"Tanaka-san wa ryōri ga jōzu desu.",i:"Tanaka-san mahir memasak."},d:[{sp:"A",jp:"日本語が上手ですね！",h:"にほんごがじょうずですね！",r:"Nihongo ga jōzu desu ne!",i:"Bahasa Jepangmu mahir ya!"},{sp:"B",jp:"いいえ、まだまだです。もっと練習が必要です。",h:"いいえ、まだまだです。もっとれんしゅうがひつようです。",r:"Iie, madamada desu. Motto renshū ga hitsuyō desu.",i:"Tidak, masih jauh. Saya masih perlu banyak latihan."}]},
+{k:"きれい",h:"きれい",r:"kirei",id:"Cantik/Bersih",j:"adj",lv:"N5",kw:1,s:{jp:"この花はとてもきれいです。",h:"このはなはとてもきれいです。",r:"Kono hana wa totemo kirei desu.",i:"Bunga ini sangat cantik."},d:[{sp:"A",jp:"この部屋はきれいですね。",h:"このへやはきれいですね。",r:"Kono heya wa kirei desu ne.",i:"Kamar ini bersih ya."},{sp:"B",jp:"ありがとうございます。毎日掃除しています。",h:"ありがとうございます。まいにちそうじしています。",r:"Arigatō gozaimasu. Mainichi sōji shite imasu.",i:"Terima kasih. Saya bersih-bersih setiap hari."}]},
+{k:"便利",h:"べんり",r:"benri",id:"Praktis/Nyaman",j:"adj",lv:"N5",kw:1,s:{jp:"スマートフォンはとても便利です。",h:"スマートフォンはとてもべんりです。",r:"Sumātofon wa totemo benri desu.",i:"Smartphone sangat praktis."},d:[{sp:"A",jp:"この近くに住んでいると便利ですか？",h:"このちかくにすんでいるとべんりですか？",r:"Kono chikaku ni sunde iru to benri desu ka?",i:"Apakah tinggal di dekat sini praktis?"},{sp:"B",jp:"はい、駅も近いのでとても便利です。",h:"はい、えきもちかいのでとてもべんりです。",r:"Hai, eki mo chikai no de totemo benri desu.",i:"Iya, stasiun juga dekat jadi sangat praktis."}]},
+// ── KATA SIFAT N4 ──
+{k:"珍しい",h:"めずらしい",r:"mezurashii",id:"Jarang/Langka",j:"adj",lv:"N4",kw:1,s:{jp:"この植物は珍しいですね。",h:"このしょくぶつはめずらしいですね。",r:"Kono shokubutsu wa mezurashii desu ne.",i:"Tanaman ini langka ya."},d:[{sp:"A",jp:"この食べ物は日本では珍しいですか？",h:"このたべものはにほんではめずらしいですか？",r:"Kono tabemono wa Nihon de wa mezurashii desu ka?",i:"Apakah makanan ini langka di Jepang?"},{sp:"B",jp:"はい、あまり見かけません。",h:"はい、あまりみかけません。",r:"Hai, amari mikakemasen.",i:"Iya, jarang sekali ditemukan."}]},
+{k:"優しい",h:"やさしい",r:"yasashii",id:"Lemah lembut/Baik hati",j:"adj",lv:"N4",kw:1,s:{jp:"田中先生はとても優しいです。",h:"たなかせんせいはとてもやさしいです。",r:"Tanaka-sensei wa totemo yasashii desu.",i:"Guru Tanaka sangat baik hati."},d:[{sp:"A",jp:"あの人は優しいですか？",h:"あのひとはやさしいですか？",r:"Ano hito wa yasashii desu ka?",i:"Apakah orang itu baik hati?"},{sp:"B",jp:"はい、とても優しくていつも助けてくれます。",h:"はい、とてもやさしくていつもたすけてくれます。",r:"Hai, totemo yasashikute itsumo tasukete kuremasu.",i:"Iya, sangat baik hati dan selalu membantu."}]},
+{k:"怖い",h:"こわい",r:"kowai",id:"Takut/Menakutkan",j:"adj",lv:"N4",kw:1,s:{jp:"その映画はとても怖かったです。",h:"そのえいがはとてもこわかったです。",r:"Sono eiga wa totemo kowakatta desu.",i:"Film itu sangat menakutkan."},d:[{sp:"A",jp:"お化け屋敷は怖いですか？",h:"おばけやしきはこわいですか？",r:"Obake-yashiki wa kowai desu ka?",i:"Apakah rumah hantu itu menakutkan?"},{sp:"B",jp:"はい、とても怖くて途中で出てしまいました。",h:"はい、とてもこわくてとちゅうででてしまいました。",r:"Hai, totemo kowakute tochū de dete shimaimashita.",i:"Iya, sangat menakutkan sampai saya keluar di tengah jalan."}]},
+{k:"嬉しい",h:"うれしい",r:"ureshii",id:"Senang/Gembira",j:"adj",lv:"N4",kw:1,s:{jp:"プレゼントをもらってとても嬉しいです。",h:"プレゼントをもらってとてもうれしいです。",r:"Purezento o moratte totemo ureshii desu.",i:"Saya sangat senang mendapat hadiah."},d:[{sp:"A",jp:"合格おめでとうございます！",h:"ごうかくおめでとうございます！",r:"Gōkaku omedetō gozaimasu!",i:"Selamat lulus ujian!"},{sp:"B",jp:"ありがとうございます！とても嬉しいです！",h:"ありがとうございます！とてもうれしいです！",r:"Arigatō gozaimasu! Totemo ureshii desu!",i:"Terima kasih! Saya sangat senang!"}]},
+{k:"悲しい",h:"かなしい",r:"kanashii",id:"Sedih",j:"adj",lv:"N4",kw:1,s:{jp:"その知らせを聞いてとても悲しいです。",h:"そのしらせをきいてとてもかなしいです。",r:"Sono shirase o kiite totemo kanashii desu.",i:"Saya sangat sedih mendengar kabar itu."},d:[{sp:"A",jp:"どうして悲しそうな顔をしているんですか？",h:"どうしてかなしそうなかおをしているんですか？",r:"Dōshite kanashisō na kao o shite iru n desu ka?",i:"Kenapa mukamu terlihat sedih?"},{sp:"B",jp:"友達と別れたので、少し悲しいです。",h:"ともだちとわかれたので、すこしかなしいです。",r:"Tomodachi to wakareta node, sukoshi kanashii desu.",i:"Berpisah dengan teman, jadi sedikit sedih."}]},
+{k:"不安",h:"ふあん",r:"fuan",id:"Gelisah/Khawatir",j:"adj",lv:"N4",kw:1,s:{jp:"試験の前はいつも不安です。",h:"しけんのまえはいつもふあんです。",r:"Shiken no mae wa itsumo fuan desu.",i:"Sebelum ujian saya selalu gelisah."},d:[{sp:"A",jp:"大丈夫ですか？不安そうですね。",h:"だいじょうぶですか？ふあんそうですね。",r:"Daijōbu desu ka? Fuansō desu ne.",i:"Apakah kamu baik-baik saja? Terlihat khawatir ya."},{sp:"B",jp:"明日の発表があって少し不安です。",h:"あしたのはっぴょうがあってすこしふあんです。",r:"Ashita no happyō ga atte sukoshi fuan desu.",i:"Ada presentasi besok dan saya sedikit khawatir."}]},
+{k:"幸せ",h:"しあわせ",r:"shiawase",id:"Bahagia",j:"adj",lv:"N4",kw:1,s:{jp:"家族と一緒にいると幸せです。",h:"かぞくといっしょにいるとしあわせです。",r:"Kazoku to issho ni iru to shiawase desu.",i:"Saya bahagia kalau bersama keluarga."},d:[{sp:"A",jp:"今、幸せですか？",h:"いま、しあわせですか？",r:"Ima, shiawase desu ka?",i:"Apakah kamu bahagia sekarang?"},{sp:"B",jp:"はい、とても幸せです。",h:"はい、とてもしあわせです。",r:"Hai, totemo shiawase desu.",i:"Iya, sangat bahagia."}]},
 
-// ── KATA KETERANGAN N5 ──
-{k:"とても",h:"とても",r:"totemo",id:"Sangat",jenis:"adv",level:"N5",kaiwa:1,s:{jp:"この映画はとても面白かったです。",h:"このえいがはとてもおもしろかったです。",r:"Kono eiga wa totemo omoshirokatta desu.",i:"Film ini sangat menarik."},kw:[{sp:"A",jp:"旅行はどうでしたか？",h:"りょこうはどうでしたか？",r:"Ryokō wa dō deshita ka?",i:"Bagaimana perjalanannya?"},{sp:"B",jp:"とても楽しかったです！",h:"とてもたのしかったです！",r:"Totemo tanoshikatta desu!",i:"Sangat menyenangkan!"}]},
-{k:"もう",h:"もう",r:"mou",id:"Sudah/Lagi",jenis:"adv",level:"N5",kaiwa:1,s:{jp:"もう宿題が終わりました。",h:"もうしゅくだいがおわりました。",r:"Mō shukudai ga owarimashita.",i:"PR sudah selesai."},kw:[{sp:"A",jp:"もう食べましたか？",h:"もうたべましたか？",r:"Mō tabemashita ka?",i:"Sudah makan?"},{sp:"B",jp:"はい、もう食べました。",h:"はい、もうたべました。",r:"Hai, mō tabemashita.",i:"Sudah, sudah makan."}]},
-{k:"まだ",h:"まだ",r:"mada",id:"Masih/Belum",jenis:"adv",level:"N5",kaiwa:1,s:{jp:"まだ日本語を勉強しています。",h:"まだにほんごをべんきょうしています。",r:"Mada nihongo o benkyō shite imasu.",i:"Saya masih belajar bahasa Jepang."},kw:[{sp:"A",jp:"宿題は終わりましたか？",h:"しゅくだいはおわりましたか？",r:"Shukudai wa owarimashita ka?",i:"PR sudah selesai?"},{sp:"B",jp:"いいえ、まだです。",h:"いいえ、まだです。",r:"Iie, mada desu.",i:"Belum, masih belum."}]},
-{k:"また",h:"また",r:"mata",id:"Lagi/Lain kali",jenis:"adv",level:"N5",kaiwa:1,s:{jp:"また明日会いましょう。",h:"またあしたあいましょう。",r:"Mata ashita aimashō.",i:"Mari bertemu lagi besok."},kw:[{sp:"A",jp:"じゃあ、また来週。",h:"じゃあ、またらいしゅう。",r:"Jā, mata raishū.",i:"Kalau begitu, sampai minggu depan."},{sp:"B",jp:"はい、また来週会いましょう！",h:"はい、またらいしゅうあいましょう！",r:"Hai, mata raishū aimashō!",i:"Iya, mari bertemu minggu depan!"}]},
-{k:"少し",h:"すこし",r:"sukoshi",id:"Sedikit",jenis:"adv",level:"N5",kaiwa:1,s:{jp:"日本語が少し話せます。",h:"にほんごがすこしはなせます。",r:"Nihongo ga sukoshi hanasemasu.",i:"Saya bisa berbicara bahasa Jepang sedikit."},kw:[{sp:"A",jp:"日本語が分かりますか？",h:"にほんごがわかりますか？",r:"Nihongo ga wakarimasu ka?",i:"Apakah kamu mengerti bahasa Jepang?"},{sp:"B",jp:"少しだけ分かります。",h:"すこしだけわかります。",r:"Sukoshi dake wakarimasu.",i:"Saya hanya mengerti sedikit."}]},
-{k:"たくさん",h:"たくさん",r:"takusan",id:"Banyak",jenis:"adv",level:"N5",kaiwa:1,s:{jp:"昨日、たくさん食べました。",h:"きのう、たくさんたべました。",r:"Kinō, takusan tabemashita.",i:"Kemarin saya makan banyak."},kw:[{sp:"A",jp:"野菜をたくさん食べますか？",h:"やさいをたくさんたべますか？",r:"Yasai o takusan tabemasu ka?",i:"Apakah kamu makan banyak sayuran?"},{sp:"B",jp:"はい、健康のためにたくさん食べます。",h:"はい、けんこうのためにたくさんたべます。",r:"Hai, kenkō no tame ni takusan tabemasu.",i:"Iya, untuk kesehatan saya makan banyak sayuran."}]},
-{k:"一緒に",h:"いっしょに",r:"issho ni",id:"Bersama",jenis:"adv",level:"N5",kaiwa:1,s:{jp:"一緒に昼ごはんを食べましょう。",h:"いっしょにひるごはんをたべましょう。",r:"Issho ni hirugohan o tabemashō.",i:"Mari makan siang bersama."},kw:[{sp:"A",jp:"今日、一緒に映画を見ませんか？",h:"きょう、いっしょにえいがをみませんか？",r:"Kyō, issho ni eiga o mimasen ka?",i:"Hari ini, mau nonton film bersama?"},{sp:"B",jp:"いいですね！何時にしましょうか？",h:"いいですね！なんじにしましょうか？",r:"Ii desu ne! Nanji ni shimashō ka?",i:"Bagus! Jam berapa kita mulai?"}]},
-{k:"ゆっくり",h:"ゆっくり",r:"yukkuri",id:"Pelan-pelan",jenis:"adv",level:"N5",kaiwa:1,s:{jp:"もう少しゆっくり話してください。",h:"もうすこしゆっくりはなしてください。",r:"Mō sukoshi yukkuri hanashite kudasai.",i:"Tolong bicara lebih pelan sedikit."},kw:[{sp:"A",jp:"ゆっくり話してもらえますか？よく聞こえません。",h:"ゆっくりはなしてもらえますか？よくきこえません。",r:"Yukkuri hanashite moraemasu ka? Yoku kikoemasen.",i:"Bisa tolong bicara pelan-pelan? Tidak terdengar jelas."},{sp:"B",jp:"すみません、ゆっくり話しますね。",h:"すみません、ゆっくりはなしますね。",r:"Sumimasen, yukkuri hanashimasu ne.",i:"Maaf, saya bicara pelan-pelan ya."}]},
+// ── KATA BENDA N5 ──
+{k:"学校",h:"がっこう",r:"gakkou",id:"Sekolah",j:"n",lv:"N5",kw:1,s:{jp:"毎日学校へ行きます。",h:"まいにちがっこうへいきます。",r:"Mainichi gakkō e ikimasu.",i:"Saya pergi ke sekolah setiap hari."},d:[{sp:"A",jp:"学校は楽しいですか？",h:"がっこうはたのしいですか？",r:"Gakkō wa tanoshii desu ka?",i:"Apakah sekolah menyenangkan?"},{sp:"B",jp:"はい、友達がたくさんいて楽しいです。",h:"はい、ともだちがたくさんいてたのしいです。",r:"Hai, tomodachi ga takusan ite tanoshii desu.",i:"Iya, karena banyak teman jadi menyenangkan."}]},
+{k:"先生",h:"せんせい",r:"sensei",id:"Guru/Dokter",j:"n",lv:"N5",kw:1,s:{jp:"田中先生は数学を教えています。",h:"たなかせんせいはすうがくをおしえています。",r:"Tanaka-sensei wa sūgaku o oshiete imasu.",i:"Guru Tanaka mengajar matematika."},d:[{sp:"A",jp:"先生、質問があります。",h:"せんせい、しつもんがあります。",r:"Sensei, shitsumon ga arimasu.",i:"Guru, saya punya pertanyaan."},{sp:"B",jp:"はい、どうぞ聞いてください。",h:"はい、どうぞきいてください。",r:"Hai, dōzo kiite kudasai.",i:"Silakan, tanyakan saja."}]},
+{k:"友達",h:"ともだち",r:"tomodachi",id:"Teman",j:"n",lv:"N5",kw:1,s:{jp:"友達と映画を見に行きました。",h:"ともだちとえいがをみにいきました。",r:"Tomodachi to eiga o mi ni ikimashita.",i:"Saya pergi nonton film bersama teman."},d:[{sp:"A",jp:"あの人は友達ですか？",h:"あのひとはともだちですか？",r:"Ano hito wa tomodachi desu ka?",i:"Apakah orang itu teman kamu?"},{sp:"B",jp:"はい、高校からの友達です。",h:"はい、こうこうからのともだちです。",r:"Hai, kōkō kara no tomodachi desu.",i:"Iya, teman sejak SMA."}]},
+{k:"電車",h:"でんしゃ",r:"densha",id:"Kereta listrik",j:"n",lv:"N5",kw:1,s:{jp:"電車で会社に通っています。",h:"でんしゃでかいしゃにかよっています。",r:"Densha de kaisha ni kayotte imasu.",i:"Saya commute ke kantor naik kereta."},d:[{sp:"A",jp:"ここから電車で何分かかりますか？",h:"ここからでんしゃでなんぷんかかりますか？",r:"Koko kara densha de nanpun kakarimasu ka?",i:"Dari sini naik kereta berapa menit?"},{sp:"B",jp:"だいたい三十分かかります。",h:"だいたいさんじゅっぷんかかります。",r:"Daitai sanjuppun kakarimasu.",i:"Kira-kira 30 menit."}]},
+{k:"時間",h:"じかん",r:"jikan",id:"Waktu/Jam",j:"n",lv:"N5",kw:1,s:{jp:"時間がありません。急ぎましょう。",h:"じかんがありません。いそぎましょう。",r:"Jikan ga arimasen. Isogimashō.",i:"Tidak ada waktu. Ayo cepat."},d:[{sp:"A",jp:"今、時間がありますか？",h:"いま、じかんがありますか？",r:"Ima, jikan ga arimasu ka?",i:"Sekarang, apakah kamu punya waktu?"},{sp:"B",jp:"少しなら大丈夫です。",h:"すこしならだいじょうぶです。",r:"Sukoshi nara daijōbu desu.",i:"Kalau sebentar, tidak apa-apa."}]},
 
-// ── EKSPRESI UMUM N5 ──
-{k:"すみません",h:"すみません",r:"sumimasen",id:"Permisi/Maaf",jenis:"expr",level:"N5",kaiwa:1,s:{jp:"すみません、駅はどこですか？",h:"すみません、えきはどこですか？",r:"Sumimasen, eki wa doko desu ka?",i:"Permisi, di mana stasiunnya?"},kw:[{sp:"A",jp:"すみません、少し聞いてもいいですか？",h:"すみません、すこしきいてもいいですか？",r:"Sumimasen, sukoshi kiite mo ii desu ka?",i:"Permisi, boleh saya tanya sebentar?"},{sp:"B",jp:"はい、どうぞ。",h:"はい、どうぞ。",r:"Hai, dōzo.",i:"Iya, silakan."}]},
-{k:"ありがとうございます",h:"ありがとうございます",r:"arigatou gozaimasu",id:"Terima kasih",jenis:"expr",level:"N5",kaiwa:1,s:{jp:"手伝ってくれてありがとうございます。",h:"てつだってくれてありがとうございます。",r:"Tetsudatte kurete arigatō gozaimasu.",i:"Terima kasih sudah membantu."},kw:[{sp:"A",jp:"どうぞ、お先に。",h:"どうぞ、おさきに。",r:"Dōzo, osaki ni.",i:"Silakan, duluan saja."},{sp:"B",jp:"ありがとうございます。助かります。",h:"ありがとうございます。たすかります。",r:"Arigatō gozaimasu. Tasukarimasu.",i:"Terima kasih. Sangat membantu."}]},
-{k:"いただきます",h:"いただきます",r:"itadakimasu",id:"Selamat makan (sebelum makan)",jenis:"expr",level:"N5",kaiwa:1,s:{jp:"食事の前に「いただきます」と言います。",h:"しょくじのまえに「いただきます」といいます。",r:"Shokuji no mae ni 'itadakimasu' to iimasu.",i:"Sebelum makan, kita mengucapkan 'itadakimasu'."},kw:[{sp:"A",jp:"さあ、食べましょう。いただきます！",h:"さあ、たべましょう。いただきます！",r:"Sā, tabemashō. Itadakimasu!",i:"Ayo makan. Selamat makan!"},{sp:"B",jp:"いただきます！おいしそうですね。",h:"いただきます！おいしそうですね。",r:"Itadakimasu! Oishisō desu ne.",i:"Selamat makan! Kelihatannya enak ya."}]},
-{k:"ごちそうさまでした",h:"ごちそうさまでした",r:"gochisousama deshita",id:"Terima kasih atas makanannya",jenis:"expr",level:"N5",kaiwa:1,s:{jp:"食事が終わったら「ごちそうさまでした」と言います。",h:"しょくじがおわったら「ごちそうさまでした」といいます。",r:"Shokuji ga owattara 'gochisōsama deshita' to iimasu.",i:"Setelah selesai makan, kita mengucapkan 'gochisousama deshita'."},kw:[{sp:"A",jp:"ごちそうさまでした！とてもおいしかったです。",h:"ごちそうさまでした！とてもおいしかったです。",r:"Gochisōsama deshita! Totemo oishikatta desu.",i:"Terima kasih atas makanannya! Sangat enak."},{sp:"B",jp:"よかった！またいつでも来てください。",h:"よかった！またいつでもきてください。",r:"Yokatta! Mata itsudemo kite kudasai.",i:"Syukurlah! Silakan datang lagi kapan saja."}]},
-{k:"おはようございます",h:"おはようございます",r:"ohayou gozaimasu",id:"Selamat pagi",jenis:"expr",level:"N5",kaiwa:1,s:{jp:"朝、会社に着いたら「おはようございます」と言います。",h:"あさ、かいしゃについたら「おはようございます」といいます。",r:"Asa, kaisha ni tsuitara 'ohayō gozaimasu' to iimasu.",i:"Pagi hari saat tiba di kantor, kita mengucapkan 'selamat pagi'."},kw:[{sp:"A",jp:"おはようございます！今日もよろしくお願いします。",h:"おはようございます！きょうもよろしくおねがいします。",r:"Ohayō gozaimasu! Kyō mo yoroshiku onegai shimasu.",i:"Selamat pagi! Mohon kerjasamanya hari ini juga."},{sp:"B",jp:"おはようございます！今日もよろしくお願いします。",h:"おはようございます！きょうもよろしくおねがいします。",r:"Ohayō gozaimasu! Kyō mo yoroshiku onegai shimasu.",i:"Selamat pagi! Mohon kerjasamanya juga."}]},
-{k:"よろしくお願いします",h:"よろしくおねがいします",r:"yoroshiku onegai shimasu",id:"Mohon bantuannya",jenis:"expr",level:"N5",kaiwa:1,s:{jp:"はじめまして、田中です。よろしくお願いします。",h:"はじめまして、たなかです。よろしくおねがいします。",r:"Hajimemashite, Tanaka desu. Yoroshiku onegai shimasu.",i:"Salam kenal, saya Tanaka. Mohon bantuannya."},kw:[{sp:"A",jp:"はじめまして！アフマドです。よろしくお願いします。",h:"はじめまして！アフマドです。よろしくおねがいします。",r:"Hajimemashite! Afumado desu. Yoroshiku onegai shimasu.",i:"Salam kenal! Saya Ahmad. Mohon bantuannya."},{sp:"B",jp:"こちらこそ、よろしくお願いします！",h:"こちらこそ、よろしくおねがいします！",r:"Kochira koso, yoroshiku onegai shimasu!",i:"Sama-sama, mohon bantuannya juga!"}]},
-{k:"大丈夫",h:"だいじょうぶ",r:"daijoubu",id:"Tidak apa-apa/Oke",jenis:"expr",level:"N5",kaiwa:1,s:{jp:"少し遅れますが、大丈夫ですか？",h:"すこしおくれますが、だいじょうぶですか？",r:"Sukoshi okuremasu ga, daijōbu desu ka?",i:"Saya akan sedikit terlambat, apakah tidak apa-apa?"},kw:[{sp:"A",jp:"大丈夫ですか？顔色が悪いですよ。",h:"だいじょうぶですか？かおいろがわるいですよ。",r:"Daijōbu desu ka? Kaoiro ga warui desu yo.",i:"Apakah kamu baik-baik saja? Mukamu pucat."},{sp:"B",jp:"大丈夫です。少し疲れているだけです。",h:"だいじょうぶです。すこしつかれているだけです。",r:"Daijōbu desu. Sukoshi tsukarete iru dake desu.",i:"Tidak apa-apa. Hanya sedikit lelah saja."}]},
-{k:"ちょっと待ってください",h:"ちょっとまってください",r:"chotto matte kudasai",id:"Tunggu sebentar",jenis:"expr",level:"N5",kaiwa:1,s:{jp:"ちょっと待ってください、今行きます。",h:"ちょっとまってください、いまいきます。",r:"Chotto matte kudasai, ima ikimasu.",i:"Tunggu sebentar, saya segera datang."},kw:[{sp:"A",jp:"もう行きましょう！",h:"もういきましょう！",r:"Mō ikimashō!",i:"Ayo pergi sekarang!"},{sp:"B",jp:"ちょっと待ってください。鍵を忘れました。",h:"ちょっとまってください。かぎをわすれました。",r:"Chotto matte kudasai. Kagi o wasuremashita.",i:"Tunggu sebentar. Saya lupa kunci."}]},
+// ── KATA BENDA N4 ──
+{k:"気持ち",h:"きもち",r:"kimochi",id:"Perasaan",j:"n",lv:"N4",kw:1,s:{jp:"今日はとても気持ちがいいです。",h:"きょうはとてもきもちがいいです。",r:"Kyō wa totemo kimochi ga ii desu.",i:"Hari ini perasaan saya sangat baik."},d:[{sp:"A",jp:"今の気持ちを教えてください。",h:"いまのきもちをおしえてください。",r:"Ima no kimochi o oshiete kudasai.",i:"Tolong ceritakan perasaan kamu sekarang."},{sp:"B",jp:"合格できて、とても嬉しい気持ちです。",h:"ごうかくできて、とてもうれしいきもちです。",r:"Gōkaku dekite, totemo ureshii kimochi desu.",i:"Bisa lulus, perasaannya sangat senang."}]},
+{k:"準備",h:"じゅんび",r:"junbi",id:"Persiapan",j:"n",lv:"N4",kw:1,s:{jp:"旅行の準備をしています。",h:"りょこうのじゅんびをしています。",r:"Ryokō no junbi o shite imasu.",i:"Saya sedang mempersiapkan perjalanan."},d:[{sp:"A",jp:"準備はできましたか？",h:"じゅんびはできましたか？",r:"Junbi wa dekimashita ka?",i:"Persiapannya sudah selesai?"},{sp:"B",jp:"はい、準備万端です！",h:"はい、じゅんびばんたんです！",r:"Hai, junbi bantan desu!",i:"Sudah, persiapan sudah sempurna!"}]},
+{k:"経験",h:"けいけん",r:"keiken",id:"Pengalaman",j:"n",lv:"N4",kw:1,s:{jp:"海外旅行の経験がありますか？",h:"かいがいりょこうのけいけんがありますか？",r:"Kaigai ryokō no keiken ga arimasu ka?",i:"Apakah kamu punya pengalaman perjalanan ke luar negeri?"},d:[{sp:"A",jp:"日本語を教えた経験がありますか？",h:"にほんごをおしえたけいけんがありますか？",r:"Nihongo o oshieta keiken ga arimasu ka?",i:"Apakah kamu punya pengalaman mengajar bahasa Jepang?"},{sp:"B",jp:"いいえ、ありませんが、ぜひやってみたいです。",h:"いいえ、ありませんが、ぜひやってみたいです。",r:"Iie, arimasen ga, zehi yatte mitai desu.",i:"Tidak ada, tapi saya sangat ingin mencobanya."}]},
+{k:"約束",h:"やくそく",r:"yakusoku",id:"Janji",j:"n",lv:"N4",kw:1,s:{jp:"友達との約束を守りました。",h:"ともだちとのやくそくをまもりました。",r:"Tomodachi to no yakusoku o mamorimashita.",i:"Saya menepati janji dengan teman."},d:[{sp:"A",jp:"今日、約束がありますか？",h:"きょう、やくそくがありますか？",r:"Kyō, yakusoku ga arimasu ka?",i:"Hari ini apakah ada janji?"},{sp:"B",jp:"はい、三時に友達と約束があります。",h:"はい、さんじにともだちとやくそくがあります。",r:"Hai, sanji ni tomodachi to yakusoku ga arimasu.",i:"Iya, ada janji dengan teman pukul 3."}]},
+{k:"理由",h:"りゆう",r:"riyuu",id:"Alasan",j:"n",lv:"N4",kw:1,s:{jp:"遅刻した理由を説明しました。",h:"ちこくしたりゆうをせつめいしました。",r:"Chikoku shita riyū o setsumei shimashita.",i:"Saya menjelaskan alasan terlambat."},d:[{sp:"A",jp:"なぜ日本語を勉強しているんですか？",h:"なぜにほんごをべんきょうしているんですか？",r:"Naze nihongo o benkyō shite iru n desu ka?",i:"Mengapa kamu belajar bahasa Jepang?"},{sp:"B",jp:"日本のアニメが好きというのが理由の一つです。",h:"にほんのアニメがすきというのがりゆうのひとつです。",r:"Nihon no anime ga suki to iu no ga riyū no hitotsu desu.",i:"Salah satu alasannya adalah saya suka anime Jepang."}]},
+
+// ── KETERANGAN N5 ──
+{k:"とても",h:"とても",r:"totemo",id:"Sangat",j:"adv",lv:"N5",kw:1,s:{jp:"この映画はとても面白かったです。",h:"このえいがはとてもおもしろかったです。",r:"Kono eiga wa totemo omoshirokatta desu.",i:"Film ini sangat menarik."},d:[{sp:"A",jp:"旅行はどうでしたか？",h:"りょこうはどうでしたか？",r:"Ryokō wa dō deshita ka?",i:"Bagaimana perjalanannya?"},{sp:"B",jp:"とても楽しかったです！",h:"とてもたのしかったです！",r:"Totemo tanoshikatta desu!",i:"Sangat menyenangkan!"}]},
+{k:"もう",h:"もう",r:"mou",id:"Sudah/Lagi",j:"adv",lv:"N5",kw:1,s:{jp:"もう宿題が終わりました。",h:"もうしゅくだいがおわりました。",r:"Mō shukudai ga owarimashita.",i:"PR sudah selesai."},d:[{sp:"A",jp:"もう食べましたか？",h:"もうたべましたか？",r:"Mō tabemashita ka?",i:"Sudah makan?"},{sp:"B",jp:"はい、もう食べました。",h:"はい、もうたべました。",r:"Hai, mō tabemashita.",i:"Sudah, sudah makan."}]},
+{k:"まだ",h:"まだ",r:"mada",id:"Masih/Belum",j:"adv",lv:"N5",kw:1,s:{jp:"まだ日本語を勉強しています。",h:"まだにほんごをべんきょうしています。",r:"Mada nihongo o benkyō shite imasu.",i:"Saya masih belajar bahasa Jepang."},d:[{sp:"A",jp:"宿題は終わりましたか？",h:"しゅくだいはおわりましたか？",r:"Shukudai wa owarimashita ka?",i:"PR sudah selesai?"},{sp:"B",jp:"いいえ、まだです。",h:"いいえ、まだです。",r:"Iie, mada desu.",i:"Belum, masih belum."}]},
+{k:"少し",h:"すこし",r:"sukoshi",id:"Sedikit",j:"adv",lv:"N5",kw:1,s:{jp:"日本語が少し話せます。",h:"にほんごがすこしはなせます。",r:"Nihongo ga sukoshi hanasemasu.",i:"Saya bisa berbicara bahasa Jepang sedikit."},d:[{sp:"A",jp:"日本語が分かりますか？",h:"にほんごがわかりますか？",r:"Nihongo ga wakarimasu ka?",i:"Apakah kamu mengerti bahasa Jepang?"},{sp:"B",jp:"少しだけ分かります。",h:"すこしだけわかります。",r:"Sukoshi dake wakarimasu.",i:"Saya hanya mengerti sedikit."}]},
+{k:"たくさん",h:"たくさん",r:"takusan",id:"Banyak",j:"adv",lv:"N5",kw:1,s:{jp:"昨日、たくさん食べました。",h:"きのう、たくさんたべました。",r:"Kinō, takusan tabemashita.",i:"Kemarin saya makan banyak."},d:[{sp:"A",jp:"野菜をたくさん食べますか？",h:"やさいをたくさんたべますか？",r:"Yasai o takusan tabemasu ka?",i:"Apakah kamu makan banyak sayuran?"},{sp:"B",jp:"はい、健康のためにたくさん食べます。",h:"はい、けんこうのためにたくさんたべます。",r:"Hai, kenkō no tame ni takusan tabemasu.",i:"Iya, untuk kesehatan saya makan banyak."}]},
+
+// ── EKSPRESI N5 ──
+{k:"すみません",h:"すみません",r:"sumimasen",id:"Permisi/Maaf",j:"expr",lv:"N5",kw:1,s:{jp:"すみません、駅はどこですか？",h:"すみません、えきはどこですか？",r:"Sumimasen, eki wa doko desu ka?",i:"Permisi, di mana stasiunnya?"},d:[{sp:"A",jp:"すみません、少し聞いてもいいですか？",h:"すみません、すこしきいてもいいですか？",r:"Sumimasen, sukoshi kiite mo ii desu ka?",i:"Permisi, boleh saya tanya sebentar?"},{sp:"B",jp:"はい、どうぞ。",h:"はい、どうぞ。",r:"Hai, dōzo.",i:"Iya, silakan."}]},
+{k:"ありがとうございます",h:"ありがとうございます",r:"arigatou gozaimasu",id:"Terima kasih",j:"expr",lv:"N5",kw:1,s:{jp:"手伝ってくれてありがとうございます。",h:"てつだってくれてありがとうございます。",r:"Tetsudatte kurete arigatō gozaimasu.",i:"Terima kasih sudah membantu."},d:[{sp:"A",jp:"どうぞ、お先に。",h:"どうぞ、おさきに。",r:"Dōzo, osaki ni.",i:"Silakan, duluan saja."},{sp:"B",jp:"ありがとうございます。助かります。",h:"ありがとうございます。たすかります。",r:"Arigatō gozaimasu. Tasukarimasu.",i:"Terima kasih. Sangat membantu."}]},
+{k:"大丈夫",h:"だいじょうぶ",r:"daijoubu",id:"Tidak apa-apa/Oke",j:"expr",lv:"N5",kw:1,s:{jp:"少し遅れますが、大丈夫ですか？",h:"すこしおくれますが、だいじょうぶですか？",r:"Sukoshi okuremasu ga, daijōbu desu ka?",i:"Saya akan sedikit terlambat, apakah tidak apa-apa?"},d:[{sp:"A",jp:"大丈夫ですか？",h:"だいじょうぶですか？",r:"Daijōbu desu ka?",i:"Apakah kamu baik-baik saja?"},{sp:"B",jp:"大丈夫です。少し疲れているだけです。",h:"だいじょうぶです。すこしつかれているだけです。",r:"Daijōbu desu. Sukoshi tsukarete iru dake desu.",i:"Tidak apa-apa. Hanya sedikit lelah saja."}]},
+{k:"よろしくお願いします",h:"よろしくおねがいします",r:"yoroshiku onegai shimasu",id:"Mohon bantuannya",j:"expr",lv:"N5",kw:1,s:{jp:"はじめまして。よろしくお願いします。",h:"はじめまして。よろしくおねがいします。",r:"Hajimemashite. Yoroshiku onegai shimasu.",i:"Salam kenal. Mohon bantuannya."},d:[{sp:"A",jp:"はじめまして！アリです。よろしくお願いします。",h:"はじめまして！アリです。よろしくおねがいします。",r:"Hajimemashite! Ari desu. Yoroshiku onegai shimasu.",i:"Salam kenal! Saya Ali. Mohon bantuannya."},{sp:"B",jp:"こちらこそ、よろしくお願いします！",h:"こちらこそ、よろしくおねがいします！",r:"Kochira koso, yoroshiku onegai shimasu!",i:"Sama-sama, mohon bantuannya juga!"}]},
 ];
 
-// ===== STATE =====
-let hafalSet = new Set(JSON.parse(localStorage.getItem('hafal') || '[]'));
-let filters = { level: 'semua', jenis: 'semua', kaiwa: '0' };
-let currentTab = 'browse';
-let openCards = new Set();
-let quizState = { questions: [], current: 0, correct: 0, answered: false, type: 'jp-id' };
-let deferredPrompt = null;
+// ========== PARTICLE QUIZ DATA ==========
+const PARTICLE_Q=[
+{s:"私は学校__行きます。",blank:"へ/に",opts:["へ","で","が","を"],ans:"へ",exp:"「へ」は方向を表します。学校へ行く = pergi ke sekolah (arah)"},
+{s:"机の上__本があります。",blank:"に",opts:["に","で","を","が"],ans:"に",exp:"「に」は場所の存在を表します。〜にあります/います"},
+{s:"友達__映画を見ました。",blank:"と",opts:["と","に","で","が"],ans:"と",exp:"「と」は「bersama」を表します。友達と = bersama teman"},
+{s:"バス__学校に行きます。",blank:"で",opts:["で","に","を","と"],ans:"で",exp:"「で」は手段・方法を表します。バスで = naik bus"},
+{s:"私__日本語を勉強しています。",blank:"は",opts:["は","が","を","に"],ans:"は",exp:"「は」は主題を表します。私は = topik kalimat: saya"},
+{s:"りんご__食べました。",blank:"を",opts:["を","は","が","に"],ans:"を",exp:"「を」は動作の対象を表します。りんごを食べる = makan apel"},
+{s:"図書館__本を読みます。",blank:"で",opts:["で","に","を","が"],ans:"で",exp:"「で」は動作の場所を表します。図書館で = di perpustakaan"},
+{s:"東京__大阪__行きます。",blank:"から〜へ",opts:["から","まで","より","ほど"],ans:"から",exp:"「から」は出発点を表します。東京から = dari Tokyo"},
+{s:"六時__起きます。",blank:"に",opts:["に","で","を","は"],ans:"に",exp:"「に」は時間の基準点を表します。六時に = pada pukul 6"},
+{s:"田中さん__プレゼントをあげました。",blank:"に",opts:["に","へ","と","が"],ans:"に",exp:"「に」は授受の相手を表します。〜にあげる = memberi kepada ~"},
+{s:"日本語__勉強しています。",blank:"を",opts:["を","が","は","で"],ans:"を",exp:"「を」は動作の対象。日本語を勉強する = belajar bahasa Jepang"},
+{s:"コーヒー__砂糖を入れません。",blank:"に",opts:["に","で","を","へ"],ans:"に",exp:"「に」は対象・方向。コーヒーに入れる = memasukkan ke dalam kopi"},
+{s:"友達__手紙を書きました。",blank:"に",opts:["に","へ","と","で"],ans:"に",exp:"「に」は手紙・メールなどの宛先。〜に書く = menulis kepada ~"},
+{s:"電車__乗って来ました。",blank:"に",opts:["に","で","を","へ"],ans:"に",exp:"「に」は乗り物の乗車。電車に乗る = naik kereta"},
+{s:"何時__帰りますか？",blank:"に",opts:["に","で","は","が"],ans:"に",exp:"「に」は時間の基準点。何時に = jam berapa"},
+];
 
-// ===== PWA =====
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
-  document.getElementById('install-banner').style.display = 'flex';
+// ========== BUILD SENTENCE DATA ==========
+const BUILD_Q=[
+{target:"Saya pergi ke sekolah setiap hari.",words:["毎日","学校へ","行きます","私は","。"],correct:["私は","毎日","学校へ","行きます","。"]},
+{target:"Ada buku di atas meja.",words:["あります","本が","机の上に","。"],correct:["机の上に","本が","あります","。"]},
+{target:"Saya minum kopi setiap pagi.",words:["コーヒーを","毎朝","飲みます","私は","。"],correct:["私は","毎朝","コーヒーを","飲みます","。"]},
+{target:"Tolong tunggu sebentar.",words:["ください","少し","待って","。"],correct:["少し","待って","ください","。"]},
+{target:"Saya tidak mengerti bahasa Jepang.",words:["分かりません","日本語が","私は","。"],correct:["私は","日本語が","分かりません","。"]},
+{target:"Saya membeli sayuran di supermarket.",words:["野菜を","スーパーで","買いました","私は","。"],correct:["私は","スーパーで","野菜を","買いました","。"]},
+{target:"Dia tinggal di Tokyo.",words:["住んでいます","東京に","彼は","。"],correct:["彼は","東京に","住んでいます","。"]},
+{target:"Boleh saya masuk?",words:["ですか","もいい","入って","。"],correct:["入って","もいい","ですか","。"]},
+{target:"Kapan film dimulai?",words:["始まりますか","映画は","何時に","？"],correct:["映画は","何時に","始まりますか","？"]},
+{target:"Saya lupa PR di rumah.",words:["忘れてしまいました","宿題を","家に","私は","。"],correct:["私は","家に","宿題を","忘れてしまいました","。"]},
+];
+
+// ========== STATE ==========
+let hafalSet=new Set(JSON.parse(localStorage.getItem('hfl')||'[]'));
+let filt={level:'semua',jenis:'semua',kaiwa:false};
+let curTab='browse';
+let openCards=new Set();
+let deferredPrompt=null;
+// quiz state
+let qzState={q:[],cur:0,correct:0,answered:false,type:'jp-id'};
+// flashcard state
+let fcState={deck:[],cur:0,correct:0,answered:false,type:'jp-id'};
+// particle state
+let ptState={q:[],cur:0,correct:0,answered:false};
+// build state
+let bdState={q:[],cur:0,correct:0,answer:[],pool:[]};
+
+// ========== PWA ==========
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();deferredPrompt=e;
+  document.getElementById('inst-banner').style.display='flex';
 });
-function installApp() {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(() => {
-      deferredPrompt = null;
-      document.getElementById('install-banner').style.display = 'none';
-    });
-  }
+function installApp(){
+  if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>{deferredPrompt=null;document.getElementById('inst-banner').style.display='none';});}
 }
 
-// ===== FILTER & SEARCH =====
-function getFiltered() {
-  const q = document.getElementById('search').value.toLowerCase();
-  return vocab.filter(d => {
-    if (filters.level !== 'semua' && d.level !== filters.level) return false;
-    if (filters.jenis !== 'semua' && d.jenis !== filters.jenis) return false;
-    if (filters.kaiwa === '1' && !d.kaiwa) return false;
-    if (currentTab === 'hafal' && !hafalSet.has(d.k)) return false;
-    if (!q) return true;
-    return d.k.includes(q) || d.h.includes(q) || d.r.toLowerCase().includes(q) || d.id.toLowerCase().includes(q);
+// ========== TTS ==========
+function speak(text){
+  if(!window.speechSynthesis)return;
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='ja-JP';u.rate=0.85;
+  speechSynthesis.cancel();speechSynthesis.speak(u);
+}
+
+// ========== FILTER ==========
+function getFiltered(){
+  const q=document.getElementById('search').value.toLowerCase();
+  return V.filter(d=>{
+    if(filt.level!=='semua'&&d.lv!==filt.level)return false;
+    if(filt.jenis!=='semua'&&d.j!==filt.jenis)return false;
+    if(filt.kaiwa&&!d.kw)return false;
+    if(curTab==='hafal'&&!hafalSet.has(d.k))return false;
+    if(!q)return true;
+    return d.k.includes(q)||d.h.includes(q)||d.r.toLowerCase().includes(q)||d.id.toLowerCase().includes(q);
   });
 }
 
-function setFilter(type, val) {
-  if (type === 'kaiwa') {
-    filters.kaiwa = filters.kaiwa === '1' ? '0' : '1';
-  } else {
-    filters[type] = val;
-  }
-  updateFilterChips();
-  renderList();
+function setF(type,val){
+  if(type==='kaiwa'){filt.kaiwa=!filt.kaiwa;}
+  else{filt[type]=val;}
+  updChips();renderList();
 }
 
-function updateFilterChips() {
-  const chips = document.querySelectorAll('.chip');
-  chips.forEach(c => {
-    const onclick = c.getAttribute('onclick') || '';
-    if (onclick.includes("'level'")) {
-      const v = onclick.match(/'([^']+)'\)/)?.[1];
-      c.classList.toggle('active', v === filters.level);
-    } else if (onclick.includes("'jenis'")) {
-      const v = onclick.match(/'([^']+)'\)/)?.[1];
-      c.classList.toggle('active', v === filters.jenis);
-    } else if (onclick.includes("'kaiwa'")) {
-      c.classList.toggle('active', filters.kaiwa === '1');
-    }
+function updChips(){
+  document.querySelectorAll('.chip').forEach(c=>{
+    const oc=c.getAttribute('onclick')||'';
+    if(oc.includes("'level'")){const v=oc.match(/'([^']+)'\)/)?.[1];c.classList.toggle('active',v===filt.level);}
+    else if(oc.includes("'jenis'")){const v=oc.match(/'([^']+)'\)/)?.[1];c.classList.toggle('active',v===filt.jenis);}
+    else if(oc.includes("'kaiwa'")){c.classList.toggle('active',filt.kaiwa);}
   });
 }
 
-function onSearch() {
-  const val = document.getElementById('search').value;
-  document.getElementById('search-clear').style.display = val ? 'flex' : 'none';
+function onSearch(){
+  const v=document.getElementById('search').value;
+  document.getElementById('sc').style.display=v?'flex':'none';
   renderList();
 }
-function clearSearch() {
-  document.getElementById('search').value = '';
-  document.getElementById('search-clear').style.display = 'none';
-  renderList();
+function clearSearch(){document.getElementById('search').value='';document.getElementById('sc').style.display='none';renderList();}
+
+// ========== TABS ==========
+function setTab(tab){
+  curTab=tab;
+  const names=['browse','flash','quiz','particle','build','hafal'];
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',names[i]===tab));
+  names.forEach(n=>document.getElementById(n+'-tab').style.display=n===tab?'':'none');
+  document.getElementById('filters').style.display=(tab==='quiz'||tab==='particle'||tab==='build')?'none':'';
+  if(tab==='browse')renderList();
+  if(tab==='flash')renderFlash();
+  if(tab==='quiz')startQuiz();
+  if(tab==='particle')startParticle();
+  if(tab==='build')startBuild();
+  if(tab==='hafal')renderHafal();
 }
 
-// ===== TABS =====
-function setTab(tab) {
-  currentTab = tab;
-  document.querySelectorAll('.tab').forEach((t, i) => {
-    t.classList.toggle('active', ['browse','quiz','hafal'][i] === tab);
-  });
-  document.getElementById('browse-tab').style.display = tab === 'browse' ? '' : 'none';
-  document.getElementById('quiz-tab').style.display = tab === 'quiz' ? '' : 'none';
-  document.getElementById('hafal-tab').style.display = tab === 'hafal' ? '' : 'none';
-  document.getElementById('filters').style.display = tab === 'quiz' ? 'none' : '';
-  if (tab === 'browse') renderList();
-  if (tab === 'hafal') renderHafal();
-  if (tab === 'quiz') startQuiz();
+// ========== BADGE HELPERS ==========
+function bjenis(j){
+  const m={v:'Kata Kerja',n:'Kata Benda',adj:'Kata Sifat',adv:'Keterangan',expr:'Ekspresi'};
+  const c={v:'bv',n:'bn',adj:'badj',adv:'badv',expr:'bex'};
+  return`<span class="bdg ${c[j]}">${m[j]||j}</span>`;
 }
+function blv(l){return`<span class="bdg b${l.toLowerCase()}">${l}</span>`;}
 
-// ===== BADGE HELPER =====
-function badgeJenis(j) {
-  const map = { v:'Kata Kerja', n:'Kata Benda', adj:'Kata Sifat', adv:'Keterangan', expr:'Ekspresi' };
-  const cls = { v:'badge-v', n:'badge-n', adj:'badge-adj', adv:'badge-adv', expr:'badge-expr' };
-  return `<span class="badge ${cls[j]}">${map[j]||j}</span>`;
-}
-function badgeLevel(l) {
-  return `<span class="badge badge-${l.toLowerCase()}">${l}</span>`;
-}
-
-// ===== RENDER LIST =====
-function renderList() {
-  const list = getFiltered();
-  document.getElementById('stats-pill').textContent = list.length + ' kata';
-  const el = document.getElementById('list');
-  if (!list.length) {
-    el.innerHTML = '<div class="empty"><div class="empty-icon">🔍</div>Tidak ada hasil ditemukan.</div>';
-    return;
-  }
-  el.innerHTML = list.map(d => {
-    const idx = vocab.indexOf(d);
-    const isOpen = openCards.has(idx);
-    const isHafal = hafalSet.has(d.k);
-    return `<div class="card${isOpen?' open':''}${isHafal?' hafal-done':''}" id="vc${idx}">
-      <div class="card-head" onclick="toggleCard(${idx})">
-        <div class="card-kanji">${d.k}</div>
-        <div class="card-meta">
-          <div class="card-meaning">${d.id}</div>
-          <div class="card-sub">${d.h} · ${d.r}</div>
-        </div>
-        <div class="card-badges">
-          ${badgeLevel(d.level)}
-          ${badgeJenis(d.jenis)}
-          ${d.kaiwa ? '<span class="badge badge-kaiwa">🗣</span>' : ''}
-        </div>
-        <button class="hafal-btn${isHafal?' done':''}" onclick="toggleHafal(event,'${d.k}')">${isHafal?'✓':'○'}</button>
-        <span class="expand-icon">▾</span>
+// ========== RENDER LIST ==========
+function renderList(){
+  const list=getFiltered();
+  document.getElementById('stats-pill').textContent=list.length+' kata';
+  const el=document.getElementById('list');
+  if(!list.length){el.innerHTML='<div class="empty"><div class="empty-icon">🔍</div>Tidak ada hasil.</div>';return;}
+  el.innerHTML=list.map(d=>{
+    const idx=V.indexOf(d);const isOpen=openCards.has(idx);const isH=hafalSet.has(d.k);
+    return`<div class="card${isOpen?' open':''}${isH?' hd':''}" id="vc${idx}">
+      <div class="card-head" onclick="togCard(${idx})">
+        <div class="ck">${d.k}</div>
+        <div class="cm"><div class="cmn">${d.id}</div><div class="cms">${d.h} · ${d.r}</div></div>
+        <div class="cbdg">${blv(d.lv)}${bjenis(d.j)}${d.kw?'<span class="bdg bkw">🗣</span>':''}</div>
+        <button class="spk-btn" onclick="event.stopPropagation();speak('${d.k.replace(/'/g,"\\'")}')">🔊</button>
+        <button class="hbtn${isH?' on':''}" onclick="togH(event,'${d.k.replace(/'/g,"\\'")}')">
+          ${isH?'✓':'○'}
+        </button>
+        <span class="xi">▾</span>
       </div>
       <div class="card-body">
-        <div class="section">
-          <div class="section-label">Kalimat contoh</div>
-          <div class="sentence-jp">${d.s.jp}</div>
-          <div class="sentence-hira">${d.s.h}</div>
-          <div class="sentence-romaji">${d.s.r}</div>
-          <div class="sentence-id">${d.s.i}</div>
+        <div class="sec">
+          <div class="slbl">Kalimat contoh</div>
+          <div style="display:flex;align-items:flex-start;gap:8px">
+            <div style="flex:1">
+              <div class="sjp">${d.s.jp}</div>
+              <div class="sh">${d.s.h}</div><div class="sr">${d.s.r}</div>
+              <div class="si2">${d.s.i}</div>
+            </div>
+            <button class="spk-btn" style="flex-shrink:0;margin-top:2px" onclick="speak('${d.s.jp.replace(/'/g,"\\'")}')">🔊</button>
+          </div>
         </div>
-        <div class="section">
-          <div class="section-label">Kaiwa (会話)</div>
-          <div class="kaiwa-box">${d.kw.map(kw=>`
-            <div class="kaiwa-line">
-              <div class="kaiwa-speaker">${kw.sp}</div>
-              <div class="kaiwa-jp">${kw.jp}</div>
-              <div class="kaiwa-hira">${kw.h}</div>
-              <div class="kaiwa-romaji">${kw.r}</div>
-              <div class="kaiwa-id">${kw.i}</div>
-            </div>`).join('')}</div>
+        <div class="sec">
+          <div class="slbl">Kaiwa (会話)</div>
+          <div class="kwbox">${d.d.map(k=>`<div class="kwl">
+            <div class="kwsp">${k.sp}</div>
+            <div style="display:flex;align-items:flex-start;gap:6px">
+              <div style="flex:1"><div class="kwjp">${k.jp}</div><div class="kwh">${k.h}</div><div class="kwr">${k.r}</div><div class="kwid">${k.i}</div></div>
+              <button class="spk-btn" onclick="speak('${k.jp.replace(/'/g,"\\'")}')">🔊</button>
+            </div>
+          </div>`).join('')}</div>
         </div>
       </div>
     </div>`;
   }).join('');
-  updateHafalCount();
+  updHC();
 }
 
-function renderHafal() {
-  const list = vocab.filter(d => hafalSet.has(d.k));
-  const el = document.getElementById('hafal-list');
-  if (!list.length) {
-    el.innerHTML = '<div class="empty"><div class="empty-icon">✅</div>Belum ada kata yang ditandai hafal.<br>Tekan tombol ○ pada kartu untuk menandai hafal.</div>';
-    return;
-  }
-  document.getElementById('stats-pill').textContent = list.length + ' hafal';
-  el.innerHTML = list.map(d => {
-    const idx = vocab.indexOf(d);
-    return `<div class="card hafal-done" id="hc${idx}">
-      <div class="card-head" onclick="toggleCardH(${idx})">
-        <div class="card-kanji">${d.k}</div>
-        <div class="card-meta">
-          <div class="card-meaning">${d.id}</div>
-          <div class="card-sub">${d.h} · ${d.r}</div>
-        </div>
-        <div class="card-badges">${badgeLevel(d.level)}${badgeJenis(d.jenis)}</div>
-        <button class="hafal-btn done" onclick="toggleHafal(event,'${d.k}');renderHafal()">✓</button>
-        <span class="expand-icon">▾</span>
-      </div>
-      <div class="card-body">
-        <div class="section">
-          <div class="section-label">Kalimat contoh</div>
-          <div class="sentence-jp">${d.s.jp}</div>
-          <div class="sentence-hira">${d.s.h}</div>
-          <div class="sentence-romaji">${d.s.r}</div>
-          <div class="sentence-id">${d.s.i}</div>
-        </div>
-      </div>
-    </div>`;
-  }).join('');
+function togCard(idx){
+  if(openCards.has(idx))openCards.delete(idx);else openCards.add(idx);
+  const c=document.getElementById('vc'+idx);if(c)c.classList.toggle('open');
 }
-
-let openHafal = new Set();
-function toggleCardH(idx) {
-  const card = document.getElementById('hc'+idx);
-  if (card) card.classList.toggle('open');
-}
-
-function toggleCard(idx) {
-  if (openCards.has(idx)) openCards.delete(idx); else openCards.add(idx);
-  const card = document.getElementById('vc'+idx);
-  if (card) card.classList.toggle('open');
-}
-
-function toggleHafal(e, key) {
+function togH(e,key){
   e.stopPropagation();
-  if (hafalSet.has(key)) hafalSet.delete(key);
-  else hafalSet.add(key);
-  localStorage.setItem('hafal', JSON.stringify([...hafalSet]));
-  updateHafalCount();
-  renderList();
+  if(hafalSet.has(key))hafalSet.delete(key);else hafalSet.add(key);
+  localStorage.setItem('hfl',JSON.stringify([...hafalSet]));
+  updHC();renderList();
+}
+function updHC(){document.getElementById('hc').textContent=hafalSet.size;}
+
+// ========== RENDER HAFAL ==========
+function renderHafal(){
+  const list=V.filter(d=>hafalSet.has(d.k));
+  const el=document.getElementById('hafal-list');
+  document.getElementById('stats-pill').textContent=list.length+' hafal';
+  if(!list.length){el.innerHTML='<div class="empty"><div class="empty-icon">✅</div>Belum ada kata yang ditandai hafal.<br>Tekan ○ pada kartu untuk menandai hafal.</div>';return;}
+  el.innerHTML=list.map(d=>`<div class="card hd">
+    <div class="card-head">
+      <div class="ck">${d.k}</div>
+      <div class="cm"><div class="cmn">${d.id}</div><div class="cms">${d.h} · ${d.r}</div></div>
+      <div class="cbdg">${blv(d.lv)}${bjenis(d.j)}</div>
+      <button class="spk-btn" onclick="speak('${d.k.replace(/'/g,"\\'")}')">🔊</button>
+      <button class="hbtn on" onclick="togH(event,'${d.k.replace(/'/g,"\\'")}');renderHafal()">✓</button>
+    </div>
+  </div>`).join('');
 }
 
-function updateHafalCount() {
-  document.getElementById('hafal-count').textContent = hafalSet.size;
+// ========== FLASHCARD ==========
+function renderFlash(){
+  const pool=getFiltered().length>3?getFiltered():V;
+  fcState.deck=[...pool].sort(()=>Math.random()-.5).slice(0,20);
+  fcState.cur=0;fcState.correct=0;fcState.answered=false;
+  const el=document.getElementById('flash-tab');
+  const typeOpts=['jp-id','id-jp','romaji'];
+  const typeLbl=['JP → ID','ID → JP','Romaji?'];
+  el.innerHTML=`<div class="fc-wrap">
+    <div class="fc-ctrl">
+      <select onchange="setFCType(this.value)">${typeOpts.map((t,i)=>`<option value="${t}">${typeLbl[i]}</option>`).join('')}</select>
+      <button onclick="renderFlash()">🔀 Acak</button>
+    </div>
+    <div class="fc-prog">
+      <div class="fc-prog-top"><span id="fc-prog-txt">0 / ${fcState.deck.length}</span><span id="fc-score-txt">✅ 0</span></div>
+      <div class="pbg"><div class="pf" id="fc-bar" style="width:0%"></div></div>
+    </div>
+    <div id="fc-main"></div>
+  </div>`;
+  renderFCCard();
 }
 
-// ===== QUIZ =====
-function setQuizType(t) {
-  quizState.type = t;
-  document.querySelectorAll('.quiz-type-btn').forEach((b,i) => {
-    b.classList.toggle('active', ['jp-id','id-jp','romaji'][i] === t);
-  });
+function setFCType(t){fcState.type=t;fcState.cur=0;fcState.correct=0;fcState.answered=false;renderFCCard();}
+
+function renderFCCard(){
+  const {deck,cur,correct,type}=fcState;
+  const el=document.getElementById('fc-main');
+  if(!el)return;
+  document.getElementById('fc-prog-txt').textContent=`${cur} / ${deck.length}`;
+  document.getElementById('fc-score-txt').textContent=`✅ ${correct}`;
+  document.getElementById('fc-bar').style.width=Math.round(cur/deck.length*100)+'%';
+  if(cur>=deck.length){
+    el.innerHTML=`<div class="fc-done"><div class="fc-score">${correct}/${deck.length}</div><div class="fc-score-lbl">${correct>=deck.length*.8?'🎉 Hebat!':correct>=deck.length*.5?'👍 Bagus!':'💪 Terus berlatih!'} (${Math.round(correct/deck.length*100)}%)</div><button class="restart-btn" onclick="renderFlash()">Mulai Lagi</button></div>`;
+    return;
+  }
+  const d=deck[cur];
+  let front,back1,back2,back3;
+  if(type==='jp-id'){front=d.k;back1=d.id;back2=d.h;back3=d.r;}
+  else if(type==='id-jp'){front=d.id;back1=d.k;back2=d.h;back3=d.r;}
+  else{front=d.k;back1=d.r;back2=d.h;back3=d.id;}
+  el.innerHTML=`
+    <div class="fc-scene" id="fc-scene" onclick="flipFC()">
+      <div class="fc-inner">
+        <div class="fc-front">
+          <div class="fc-word">${front}</div>
+          <div class="fc-hint">${type==='jp-id'?d.lv+' · '+{v:'Kata Kerja',n:'Kata Benda',adj:'Kata Sifat',adv:'Keterangan',expr:'Ekspresi'}[d.j]:''}</div>
+          <div class="fc-tap">Tap untuk lihat jawaban 👆</div>
+        </div>
+        <div class="fc-back">
+          <div class="fc-ans">${back1}</div>
+          <div class="fc-ans2">${back2}</div>
+          <div class="fc-ans3">${back3}</div>
+          <button style="margin-top:10px;background:none;border:none;font-size:20px;cursor:pointer" onclick="event.stopPropagation();speak('${d.k.replace(/'/g,"\\'")}')">🔊</button>
+        </div>
+      </div>
+    </div>
+    <div class="fc-btns" id="fc-btns" style="display:none">
+      <button class="fc-btn wrong" onclick="fcAnswer(false)">✗ Belum hafal</button>
+      <button class="fc-btn correct" onclick="fcAnswer(true)">✓ Hafal!</button>
+    </div>`;
+}
+
+function flipFC(){
+  const s=document.getElementById('fc-scene');
+  if(s){s.classList.toggle('flipped');document.getElementById('fc-btns').style.display='flex';}
+}
+function fcAnswer(ok){
+  if(ok)fcState.correct++;fcState.cur++;fcState.answered=false;renderFCCard();
+}
+
+// ========== QUIZ ==========
+function startQuiz(){
+  const pool=getFiltered().length>4?getFiltered():V;
+  qzState.q=[...pool].sort(()=>Math.random()-.5).slice(0,20);
+  qzState.cur=0;qzState.correct=0;qzState.answered=false;
+  renderQuizQ();
+}
+function setQZType(t){
+  qzState.type=t;
+  document.querySelectorAll('.qz-type-btn').forEach((b,i)=>b.classList.toggle('active',['jp-id','id-jp','romaji'][i]===t));
   startQuiz();
 }
-
-function startQuiz() {
-  const pool = getFiltered().length > 4 ? getFiltered() : vocab;
-  const shuffled = [...pool].sort(() => Math.random() - 0.5).slice(0, 20);
-  quizState.questions = shuffled;
-  quizState.current = 0;
-  quizState.correct = 0;
-  quizState.answered = false;
-  renderQuizQuestion();
-}
-
-function renderQuizQuestion() {
-  const { questions, current, correct, type } = quizState;
-  const el = document.getElementById('quiz-content');
-  document.getElementById('quiz-score-top').textContent = `Benar: ${correct} / ${current}`;
-  const bar = Math.round((current / questions.length) * 100);
-  document.getElementById('quiz-bar').style.width = bar + '%';
-
-  if (current >= questions.length) {
-    el.innerHTML = `<div class="quiz-result">
-      <div class="quiz-score">${correct}/${questions.length}</div>
-      <div class="quiz-score-label">${correct >= questions.length*0.8 ? '🎉 Hebat!' : correct >= questions.length*0.5 ? '👍 Bagus!' : '💪 Terus berlatih!'}</div>
-      <p style="font-size:14px;color:var(--text2);margin-bottom:20px">Skor: ${Math.round(correct/questions.length*100)}%</p>
-      <button class="quiz-restart" onclick="startQuiz()">Mulai Lagi</button>
-    </div>`;
+function renderQuizQ(){
+  const {q,cur,correct,type}=qzState;
+  const el=document.getElementById('quiz-tab');
+  const bar=Math.round(cur/q.length*100);
+  let head=`<div class="qz-wrap"><div class="qz-ctrl">
+    <div class="qz-type-row">
+      ${['jp-id','id-jp','romaji'].map((t,i)=>`<button class="qz-type-btn${t===type?' active':''}" onclick="setQZType('${t}')">${['JP→ID','ID→JP','Romaji?'][i]}</button>`).join('')}
+    </div>
+    <div class="qz-prog-top"><span>Soal ${cur+1}/${q.length}</span><span>✅ ${correct}</span></div>
+    <div class="pbg"><div class="pf" style="width:${bar}%"></div></div>
+  </div>`;
+  if(cur>=q.length){
+    el.innerHTML=head+`<div class="qz-result"><div class="qz-score">${correct}/${q.length}</div><div class="qz-score-lbl">${correct>=q.length*.8?'🎉 Hebat!':correct>=q.length*.5?'👍 Bagus!':'💪 Terus berlatih!'}</div><p style="font-size:13px;color:var(--t2);margin-bottom:16px">Skor: ${Math.round(correct/q.length*100)}%</p><button class="restart-btn" onclick="startQuiz()">Mulai Lagi</button></div></div>`;
     return;
   }
-
-  const q = questions[current];
-  const allWords = vocab;
-  const wrong = allWords.filter(w => w.k !== q.k).sort(() => Math.random() - 0.5).slice(0, 3);
-  const choices = [...wrong, q].sort(() => Math.random() - 0.5);
-
-  let question, getAnswer;
-  if (type === 'jp-id') {
-    question = q.k;
-    getAnswer = (c) => c.id;
-  } else if (type === 'id-jp') {
-    question = q.id;
-    getAnswer = (c) => c.k;
-  } else {
-    question = q.k;
-    getAnswer = (c) => c.r;
-  }
-
-  el.innerHTML = `<div class="quiz-card">
-    <div class="quiz-word">${question}</div>
-    <div class="quiz-hint">${type === 'jp-id' ? 'Apa artinya?' : type === 'id-jp' ? 'Kanji mana yang benar?' : 'Apa romanjinya?'}</div>
-    <div class="quiz-choices">${choices.map(c => `
-      <button class="quiz-choice" onclick="answerQuiz(this, '${c.k}', '${q.k}')">${getAnswer(c)}</button>
-    `).join('')}</div>
-    <button class="quiz-next" id="quiz-next-btn" onclick="nextQuestion()">Lanjut →</button>
-  </div>`;
+  const d=q[cur];
+  const wrong=V.filter(w=>w.k!==d.k).sort(()=>Math.random()-.5).slice(0,3);
+  const choices=[...wrong,d].sort(()=>Math.random()-.5);
+  let question,getAns;
+  if(type==='jp-id'){question=d.k;getAns=c=>c.id;}
+  else if(type==='id-jp'){question=d.id;getAns=c=>c.k;}
+  else{question=d.k;getAns=c=>c.r;}
+  el.innerHTML=head+`<div class="qz-card">
+    <div class="qz-word">${question}</div>
+    <div style="display:flex;justify-content:center;margin-bottom:4px"><button style="background:none;border:none;font-size:22px;cursor:pointer" onclick="speak('${d.k.replace(/'/g,"\\'")}')">🔊</button></div>
+    <div class="qz-hint">${type==='jp-id'?'Apa artinya?':type==='id-jp'?'Kanji mana yang benar?':'Apa romanjinya?'}</div>
+    <div class="qz-choices">${choices.map(c=>`<button class="qz-ch" onclick="ansQuiz(this,'${c.k.replace(/'/g,"\\'")}','${d.k.replace(/'/g,"\\'")}',${JSON.stringify(getAns(c)).replace(/'/g,"\\'")})">${getAns(c)}</button>`).join('')}</div>
+    <button class="qz-next" id="qz-next" onclick="nextQ()">Lanjut →</button>
+  </div></div>`;
 }
-
-function answerQuiz(btn, chosen, correct) {
-  if (quizState.answered) return;
-  quizState.answered = true;
-  const choices = document.querySelectorAll('.quiz-choice');
-  choices.forEach(c => {
-    c.disabled = true;
-    if (c === btn) {
-      c.classList.add(chosen === correct ? 'correct' : 'wrong');
-    }
-    if (chosen !== correct) {
-      const q = quizState.questions[quizState.current];
-      const type = quizState.type;
-      let correctAnswer = type === 'jp-id' ? q.id : type === 'id-jp' ? q.k : q.r;
-      if (c.textContent.trim() === correctAnswer) c.classList.add('correct');
-    }
+function ansQuiz(btn,chosen,correct,chosenLabel){
+  if(qzState.answered)return;qzState.answered=true;
+  const isOk=chosen===correct;
+  if(isOk)qzState.correct++;
+  document.querySelectorAll('.qz-ch').forEach(b=>{
+    b.disabled=true;
+    const d=qzState.q[qzState.cur];
+    const type=qzState.type;
+    let correctLabel=type==='jp-id'?d.id:type==='id-jp'?d.k:d.r;
+    if(b===btn)b.classList.add(isOk?'ok':'ng');
+    if(b.textContent.trim()===correctLabel&&!isOk)b.classList.add('ok');
   });
-  if (chosen === correct) quizState.correct++;
-  document.getElementById('quiz-next-btn').style.display = 'block';
+  document.getElementById('qz-next').style.display='block';
+}
+function nextQ(){qzState.cur++;qzState.answered=false;renderQuizQ();}
+
+// ========== PARTICLE ==========
+function startParticle(){
+  ptState.q=[...PARTICLE_Q].sort(()=>Math.random()-.5);
+  ptState.cur=0;ptState.correct=0;ptState.answered=false;
+  renderParticle();
+}
+function renderParticle(){
+  const {q,cur,correct}=ptState;
+  const el=document.getElementById('particle-tab');
+  const bar=Math.round(cur/q.length*100);
+  let head=`<div class="qz-wrap"><div class="qz-ctrl">
+    <div class="qz-prog-top"><span>Soal ${cur+1}/${q.length}</span><span>✅ ${correct}</span></div>
+    <div class="pbg"><div class="pf" style="width:${bar}%"></div></div>
+  </div>`;
+  if(cur>=q.length){
+    el.innerHTML=head+`<div class="qz-result"><div class="qz-score">${correct}/${q.length}</div><div class="qz-score-lbl">${correct>=q.length*.8?'🎉 Kamu menguasai partikel!':correct>=q.length*.5?'👍 Terus berlatih!':'💪 Pelajari partikel lebih lanjut!'}</div><p style="font-size:13px;color:var(--t2);margin-bottom:16px">Skor: ${Math.round(correct/q.length*100)}%</p><button class="restart-btn" onclick="startParticle()">Mulai Lagi</button></div></div>`;
+    return;
+  }
+  const qq=q[cur];
+  const sent=qq.s.replace('__',`<span class="fill-blank">＿＿</span>`);
+  el.innerHTML=head+`<div class="fill-card">
+    <div class="slbl">Pilih partikel yang benar</div>
+    <div class="fill-sent" style="margin:10px 0 14px">${sent}</div>
+    <div class="fill-opts">${qq.opts.map(o=>`<button class="fill-opt" onclick="ansPT(this,'${o}','${qq.ans}')">${o}</button>`).join('')}</div>
+    <div class="fill-exp" id="pt-exp">${qq.exp}</div>
+    <button class="qz-next" id="pt-next" onclick="nextPT()">Lanjut →</button>
+  </div></div>`;
+}
+function ansPT(btn,chosen,ans){
+  if(ptState.answered)return;ptState.answered=true;
+  const isOk=chosen===ans;
+  if(isOk)ptState.correct++;
+  document.querySelectorAll('.fill-opt').forEach(b=>{
+    b.disabled=true;
+    if(b===btn)b.classList.add(isOk?'ok':'ng');
+    if(b.textContent.trim()===ans&&!isOk)b.classList.add('ok');
+  });
+  document.getElementById('pt-exp').style.display='block';
+  document.getElementById('pt-next').style.display='block';
+}
+function nextPT(){ptState.cur++;ptState.answered=false;renderParticle();}
+
+// ========== BUILD SENTENCE ==========
+function startBuild(){
+  bdState.q=[...BUILD_Q].sort(()=>Math.random()-.5);
+  bdState.cur=0;bdState.correct=0;
+  renderBuild();
+}
+function renderBuild(){
+  const {q,cur,correct}=bdState;
+  const el=document.getElementById('build-tab');
+  const bar=Math.round(cur/q.length*100);
+  let head=`<div class="qz-wrap"><div class="qz-ctrl">
+    <div class="qz-prog-top"><span>Soal ${cur+1}/${q.length}</span><span>✅ ${correct}</span></div>
+    <div class="pbg"><div class="pf" style="width:${bar}%"></div></div>
+  </div>`;
+  if(cur>=q.length){
+    el.innerHTML=head+`<div class="qz-result"><div class="qz-score">${correct}/${q.length}</div><div class="qz-score-lbl">${correct>=q.length*.8?'🎉 Hebat sekali!':correct>=q.length*.5?'👍 Lumayan bagus!':'💪 Terus latihan!'}</div><p style="font-size:13px;color:var(--t2);margin-bottom:16px">Skor: ${Math.round(correct/q.length*100)}%</p><button class="restart-btn" onclick="startBuild()">Mulai Lagi</button></div></div>`;
+    return;
+  }
+  const qq=q[cur];
+  bdState.answer=[];
+  bdState.pool=[...qq.words].sort(()=>Math.random()-.5);
+  el.innerHTML=head+`<div class="build-card">
+    <div class="slbl">Susun kata menjadi kalimat</div>
+    <div class="build-target">"${qq.target}"</div>
+    <div class="build-answer" id="bd-ans"></div>
+    <div class="build-pool" id="bd-pool">${bdState.pool.map((w,i)=>`<button class="pool-word" id="pw${i}" onclick="pickWord(${i},'${w.replace(/'/g,"\\'")}','pw${i}')">${w}</button>`).join('')}</div>
+    <div class="build-btns">
+      <button class="build-btn" onclick="resetBuild()">↺ Reset</button>
+      <button class="build-btn check" onclick="checkBuild()">✓ Cek</button>
+    </div>
+    <div id="bd-exp" class="fill-exp" style="margin-top:8px"></div>
+    <button class="qz-next" id="bd-next" onclick="nextBuild()">Lanjut →</button>
+  </div></div>`;
 }
 
-function nextQuestion() {
-  quizState.current++;
-  quizState.answered = false;
-  renderQuizQuestion();
+function pickWord(idx,word,btnId){
+  const btn=document.getElementById(btnId);
+  if(!btn||btn.classList.contains('used'))return;
+  btn.classList.add('used');
+  bdState.answer.push({idx,word,btnId});
+  updBuildAns();
 }
+function updBuildAns(){
+  const el=document.getElementById('bd-ans');
+  if(!el)return;
+  el.innerHTML=bdState.answer.map((item,i)=>`<span class="build-word" onclick="removeWord(${i})">${item.word}</span>`).join(' ');
+}
+function removeWord(i){
+  const item=bdState.answer[i];
+  const btn=document.getElementById(item.btnId);
+  if(btn)btn.classList.remove('used');
+  bdState.answer.splice(i,1);updBuildAns();
+}
+function resetBuild(){
+  bdState.answer=[];
+  document.querySelectorAll('.pool-word').forEach(b=>b.classList.remove('used'));
+  updBuildAns();
+}
+function checkBuild(){
+  const qq=BUILD_Q[bdState.cur>=BUILD_Q.length?0:bdState.cur];
+  const userAns=bdState.answer.map(a=>a.word);
+  const isOk=JSON.stringify(userAns)===JSON.stringify(qq.correct);
+  if(isOk)bdState.correct++;
+  const ansEl=document.getElementById('bd-ans');
+  if(ansEl){ansEl.classList.add(isOk?'ok':'ng');}
+  const exp=document.getElementById('bd-exp');
+  if(exp){exp.style.display='block';exp.textContent=isOk?'✅ Benar!':'❌ Salah. Jawaban benar: '+qq.correct.join(' ');}
+  document.getElementById('bd-next').style.display='block';
+  document.querySelectorAll('.pool-word').forEach(b=>b.style.pointerEvents='none');
+}
+function nextBuild(){bdState.cur++;renderBuild();}
 
-// ===== INIT =====
-renderList();
-updateHafalCount();
+// ========== INIT ==========
+renderList();updHC();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
 </script>
-<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js")}</script>
 </body>
 </html>
