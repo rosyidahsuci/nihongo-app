@@ -1,0 +1,24 @@
+{
+  "name": "日本語 Kosakata N5",
+  "short_name": "日本語 N5",
+  "description": "Kosakata Bahasa Jepang N5 lengkap dengan kalimat dan kaiwa",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#f8f7ff",
+  "theme_color": "#6C63FF",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
